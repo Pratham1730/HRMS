@@ -9,7 +9,15 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hrms.DepartmentModel
 import com.example.hrms.databinding.ActivitySignUpBinding
+import com.example.practiceappapicall2.RetrofitClient
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -21,6 +29,7 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
+    val baseUrl = "https://192.168.4.140/HMRS/"
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -28,6 +37,8 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        callDepartmentApi()
 
         listeners()
         genderSpinner()
@@ -108,7 +119,11 @@ class SignUpActivity : AppCompatActivity() {
                 position = positionList[p2]
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            //override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
 
@@ -143,6 +158,33 @@ class SignUpActivity : AppCompatActivity() {
             this, dateSetListener,
             c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    private fun callDepartmentApi(){
+        val apiService = RetrofitClient.getInstance(baseUrl)
+
+        apiService.getDepartment()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<DepartmentModel> {
+                override fun onSubscribe(d: Disposable) {
+                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(e: Throwable) {
+                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onComplete() {
+                    Toast.makeText(this@SignUpActivity, "Complete", Toast.LENGTH_SHORT).show()
+                }
+                override fun onNext(t: DepartmentModel) {
+
+                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
+                }
+
+
+            })
     }
 }
 

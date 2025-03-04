@@ -52,4 +52,13 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation (libs.ssp.android)
     implementation (libs.sdp.android)
+
+    implementation (libs.gson)
+    implementation (libs.okhttp )
+    implementation (libs.logging.interceptor)
+    implementation (libs.rxjava)
+    implementation (libs.rxjava3.rxandroid)
+    implementation (libs.retrofit.v290)
+    implementation (libs.converter.gson.v290)
+    implementation (libs.retrofit2.adapter.rxjava3)
 }

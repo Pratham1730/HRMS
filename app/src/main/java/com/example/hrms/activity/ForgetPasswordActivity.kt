@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -12,6 +13,11 @@ class ForgetPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
        binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.forgotPasswordBack.setOnClickListener{
+            val intent = Intent(this,SignInActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.btnForgotPasswordVerify.setOnClickListener {
             val email = binding.edtForgotPasswordEmail.text.toString().trim()

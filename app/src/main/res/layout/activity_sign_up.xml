@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        android:background="@drawable/theme"
         android:paddingStart="@dimen/_16sdp"
         android:paddingTop="@dimen/_28sdp"
         android:paddingEnd="@dimen/_16sdp"

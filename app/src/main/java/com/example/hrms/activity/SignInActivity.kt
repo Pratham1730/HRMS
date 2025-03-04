@@ -2,6 +2,7 @@ package com.example.hrms.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,19 +22,20 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.txtForgotpswd.setOnClickListener {
-        val intent = Intent(this,ForgetPasswordActivity::class.java)
+        binding.txtForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgetPasswordActivity::class.java)
             startActivity(intent)
         }
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.emailLoginET.text.toString().trim()
-            val password = binding.passwordLoginET.text.toString().trim()
+            val email = binding.edtSignInEmail.text.toString().trim()
+            val password = binding.edtSignInPassword.text.toString().trim()
 
-            if (email.isEmpty() || password.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
                 Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-            }  else {
-                            Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
             }
         }
 

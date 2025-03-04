@@ -12,9 +12,9 @@ class ForgetPasswordActivity : AppCompatActivity() {
        binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnVerifyPswd.setOnClickListener {
-            val email = binding.forgotMailET.text.toString().trim()
-            val number = binding.forgotMobileET.text.toString().trim()
+        binding.btnForgotPasswordVerify.setOnClickListener {
+            val email = binding.edtForgotPasswordEmail.text.toString().trim()
+            val number = binding.edtForgotPasswordMobile.text.toString().trim()
 
             if (email.isEmpty() || number.isEmpty()) {
                 Toast.makeText(this, "Please enter Email and Number", Toast.LENGTH_SHORT).show()

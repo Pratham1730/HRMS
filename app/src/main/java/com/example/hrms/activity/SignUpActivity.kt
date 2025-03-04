@@ -58,7 +58,10 @@ class SignUpActivity : AppCompatActivity() {
             finish()
         }
         binding.edtSignUpDOB.setOnClickListener {
-            onClickDate()
+            onClickDateDOB()
+        }
+        binding.edtSignUpJoiningDate.setOnClickListener {
+            onClickDateJoining()
         }
     }
 
@@ -130,6 +133,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    // agar ye error de na toh fir niche wala departmentSpinner comment nikal ke run karna
     private fun departmentSpinner() {
         val departmentList = arrayOf("Department", "Android", "PHP", "iOS")
         val adapter = CustomSpinnerAdapter(this, departmentList)
@@ -145,7 +149,35 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClickDate(){
+//    private fun departmentSpinner() {
+//        if (departmentList.isNullOrEmpty()) {
+//            return
+//        }
+//
+//        // Convert the list of DepartmentsItem into an array of department names
+//        val departmentArray = Array(departmentList!!.size + 1) { "" }
+//        departmentArray[0] = "Department"  // Default value
+//
+//        for (i in departmentList!!.indices) {
+//            departmentArray[i + 1] = departmentList!![i]?.deptId ?: "Unknown"
+//        }
+//
+//        val adapter = CustomSpinnerAdapter(this, departmentArray)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        binding.departmentSpinner.adapter = adapter
+//
+//        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                department = departmentArray[p2]
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {}
+//        }
+//    }
+
+
+
+    private fun onClickDateDOB(){
         val c = Calendar.getInstance()
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -163,33 +195,51 @@ class SignUpActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun callDepartmentApi(){
-        val apiService = RetrofitClient.getInstance(baseUrl)
+    private fun onClickDateJoining(){
+        val c = Calendar.getInstance()
 
-        apiService.getDepartment()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<DepartmentModel> {
-                override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-                }
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            selectedCalendarJoiningDate.set(Calendar.YEAR, year)
+            selectedCalendarJoiningDate.set(Calendar.MONTH, month)
+            selectedCalendarJoiningDate.set(Calendar.DAY_OF_MONTH, day)
 
-                override fun onError(e: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-                }
+            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarJoiningDate.time)
+            binding.edtSignUpJoiningDate.setText(tDate)
+        }
 
-                override fun onComplete() {
-                    Toast.makeText(this@SignUpActivity, "Complete", Toast.LENGTH_SHORT).show()
-                }
-                override fun onNext(t: DepartmentModel) {
-                    departmentList = t.departments
-                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
-                }
-
-
-            })
+        DatePickerDialog(
+            this, dateSetListener,
+            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
+
+//    private fun callDepartmentApi(){
+//        val apiService = RetrofitClient.getInstance(baseUrl)
+//
+//        apiService.getDepartment()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<DepartmentModel> {
+//                override fun onSubscribe(d: Disposable) {
+//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onComplete() {
+//                    Toast.makeText(this@SignUpActivity, "Complete", Toast.LENGTH_SHORT).show()
+//                }
+//                override fun onNext(t: DepartmentModel) {
+//                    departmentList = t.departments
+//                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
+//                }
+//
+//
+//            })
+//    }
 
     private fun callDept(){
         val apiService = RetrofitClient.getInstance(baseUrl)
@@ -212,7 +262,7 @@ class SignUpActivity : AppCompatActivity() {
 
                 override fun onNext(t: DepartmentModel) {
                     departmentList = t.departments
-                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()                }
             })
     }

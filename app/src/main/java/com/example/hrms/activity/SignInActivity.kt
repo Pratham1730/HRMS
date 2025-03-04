@@ -22,6 +22,11 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        listeners()
+
+    }
+
+    private fun listeners(){
         binding.txtForgotPassword.setOnClickListener {
             val intent = Intent(this, ForgetPasswordActivity::class.java)
             startActivity(intent)
@@ -36,16 +41,19 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.edtSignInEmail.text.toString().trim()
-            val password = binding.edtSignInPassword.text.toString().trim()
-
-            if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
-            }
+            validations()
         }
+    }
 
+    private fun validations(){
+        val email = binding.edtSignInEmail.text.toString().trim()
+        val password = binding.edtSignInPassword.text.toString().trim()
+
+        if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
+            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
+        }
     }
 }

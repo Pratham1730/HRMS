@@ -123,9 +123,10 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtSignUpDOB"
+                        android:clickable="true"
+                        android:focusable="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:hint="Enter Date Of Birth"
                         android:padding="@dimen/_12sdp"
                         android:textColor="@color/black" />
@@ -140,7 +141,6 @@
                     android:orientation="horizontal">
 
                     <Spinner
-
                         android:id="@+id/genderSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"

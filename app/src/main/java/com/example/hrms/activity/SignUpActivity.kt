@@ -1,19 +1,27 @@
 package com.example.hrms.activity
 
-import CustomSpinnerAdapter
+import android.app.DatePickerDialog
+import com.example.hrms.adapter.CustomSpinnerAdapter
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.databinding.ActivitySignUpBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
 
     private var department: String = "Department"
     private var position: String = "Position"
     private var gender: String = "Gender"
+    private var selectedCalendarDOB: Calendar = Calendar.getInstance()
+    private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
+
+
     private lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,28 +43,41 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
             finish()
         }
+        binding.edtSignUpDOB.setOnClickListener {
+            onClickDate()
+        }
     }
 
     private fun validations() {
         if (binding.edtSignUpName.text.toString().isEmpty()) {
             binding.edtSignUpName.error = "Name Not Entered"
             binding.edtSignUpName.requestFocus()
-        } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
+        }
+        else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
             binding.edtSignUpEmail.error = "Email Not Entered"
             binding.edtSignUpEmail.requestFocus()
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString()).matches()) {
+        }
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString()).matches()) {
             binding.edtSignUpEmail.error = "Please Enter Valid Email"
             binding.edtSignUpEmail.requestFocus()
-        } else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
+        }
+        else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
             binding.edtSignUpPassword.error = "Password Not Entered"
             binding.edtSignUpPassword.requestFocus()
-        } else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
+        }
+        else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
             binding.edtSignUpConfirmPassword.error = "Confirm Password Not Entered"
             binding.edtSignUpConfirmPassword.requestFocus()
-        } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
+        }
+        else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
             binding.edtSignUpPhoneNumber.error = "Phone Number Not Entered"
             binding.edtSignUpPhoneNumber.requestFocus()
-        } else {
+        }
+        else if (binding.edtSignUpDOB.text.toString().isEmpty()){
+            binding.edtSignUpDOB.error = "DOB Not Entered"
+            binding.edtSignUpDOB.requestFocus()
+        }
+        else {
             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
         }
     }
@@ -104,6 +125,24 @@ class SignUpActivity : AppCompatActivity() {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+    }
+
+    private fun onClickDate(){
+        val c = Calendar.getInstance()
+
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            selectedCalendarDOB.set(Calendar.YEAR, year)
+            selectedCalendarDOB.set(Calendar.MONTH, month)
+            selectedCalendarDOB.set(Calendar.DAY_OF_MONTH, day)
+
+            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarDOB.time)
+            binding.edtSignUpDOB.setText(tDate)
+        }
+
+        DatePickerDialog(
+            this, dateSetListener,
+            c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 }
 

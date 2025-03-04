@@ -1,0 +1,31 @@
+package com.example.hrms.activity
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.hrms.R
+import com.example.hrms.databinding.ActivityForgetPasswordBinding
+
+class ForgetPasswordActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityForgetPasswordBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+       binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnVerifyPswd.setOnClickListener {
+            val email = binding.forgotMailET.text.toString().trim()
+            val number = binding.forgotMobileET.text.toString().trim()
+
+            if (email.isEmpty() || number.isEmpty()) {
+                Toast.makeText(this, "Please enter Email and Number", Toast.LENGTH_SHORT).show()
+            }  else {
+                Toast.makeText(this@ForgetPasswordActivity, "Invalid Email or Number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+}

@@ -26,6 +26,14 @@ class SignInActivity : AppCompatActivity() {
             val intent = Intent(this, ForgetPasswordActivity::class.java)
             startActivity(intent)
         }
+        binding.txtMoveToSignUp.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.btnLogin.setOnClickListener {
             val email = binding.edtSignInEmail.text.toString().trim()

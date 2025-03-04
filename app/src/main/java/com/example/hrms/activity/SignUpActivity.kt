@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -27,6 +28,10 @@ class SignUpActivity : AppCompatActivity() {
     private fun listeners(){
         binding.btnSignUp.setOnClickListener {
             validations()
+        }
+        binding.txtMoveToSignInPage.setOnClickListener{
+            startActivity(Intent(this@SignUpActivity , SignInActivity::class.java))
+            finish()
         }
     }
 

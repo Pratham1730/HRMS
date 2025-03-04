@@ -15,7 +15,7 @@
         android:paddingStart="@dimen/_18sdp"
         android:paddingTop="@dimen/_35sdp"
         android:paddingEnd="@dimen/_18sdp"
-        android:paddingBottom="@dimen/_20sdp">
+        android:paddingBottom="@dimen/_35sdp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -218,7 +218,7 @@
                         android:id="@+id/edtSignUpConfirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter password"
+                        android:hint="Confirm password"
                         android:inputType="textPassword"
                         android:padding="@dimen/_12sdp"
                         android:textColor="@color/black" />

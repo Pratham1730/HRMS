@@ -10,14 +10,14 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.DepartmentModel
+import com.example.hrms.DepartmentsItem
 import com.example.hrms.databinding.ActivitySignUpBinding
-import com.example.practiceappapicall2.RetrofitClient
+import com.example.hrms.RetrofitClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.Request
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -29,7 +29,8 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
-    val baseUrl = "https://192.168.4.140/HMRS/"
+    val baseUrl = "http://192.168.4.140/"
+    private  var departmentList : List<DepartmentsItem?> ?=  emptyList()
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -38,7 +39,9 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        callDepartmentApi()
+        //callDepartmentApi()
+
+        callDept()
 
         listeners()
         genderSpinner()
@@ -172,18 +175,45 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
                     Toast.makeText(this@SignUpActivity, "Complete", Toast.LENGTH_SHORT).show()
                 }
                 override fun onNext(t: DepartmentModel) {
-
+                    departmentList = t.departments
+                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
                 }
 
 
+            })
+    }
+
+    private fun callDept(){
+        val apiService = RetrofitClient.getInstance(baseUrl)
+
+        apiService.setDept("select_dept")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<DepartmentModel>{
+                override fun onSubscribe(d: Disposable) {
+                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(e: Throwable) {
+                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onComplete() {
+                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNext(t: DepartmentModel) {
+                    departmentList = t.departments
+                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()                }
             })
     }
 }

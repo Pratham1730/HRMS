@@ -1,9 +1,6 @@
-package com.example.practiceappapicall2
+package com.example.hrms
 
-import com.example.hrms.ApiService
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory

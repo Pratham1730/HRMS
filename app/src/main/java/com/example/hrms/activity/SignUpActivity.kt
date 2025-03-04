@@ -1,6 +1,7 @@
 package com.example.hrms.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -17,11 +18,9 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
-
         listeners()
+
+        // test commit
 
     }
 

@@ -264,7 +264,7 @@ class SignUpActivity : AppCompatActivity() {
 
                 override fun onNext(t: DepartmentModel) {
                     departmentList = t.departments
-                    Toast.makeText(this@SignUpActivity, departmentList?.get(0).toString() ,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, departmentList?.get(0)?.deptName.toString() ,Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
                     departmentSpinner()
                 }

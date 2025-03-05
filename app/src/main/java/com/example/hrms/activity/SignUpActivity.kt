@@ -159,7 +159,7 @@ class SignUpActivity : AppCompatActivity() {
         departmentArray[0] = "Department"  // Default value
 
         for (i in departmentList!!.indices) {
-            departmentArray[i + 1] = departmentList!![i]?.deptId ?: "Unknown"
+            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
         }
 
         val adapter = CustomSpinnerAdapter(this, departmentArray)

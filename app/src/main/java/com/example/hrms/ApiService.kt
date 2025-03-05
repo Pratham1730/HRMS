@@ -22,25 +22,6 @@ interface ApiService {
     fun setDept(@Field("method") method: String): Observable<DepartmentModel>
 //    fun setDept(@Body dept : String) : Observable<DepartmentModel>
 
-//    @POST("localhost/HMRS/insert_api.php?insert=insert")
-//    fun registerUser(
-//        @field:("u_name") name :RequestBody,
-//    )
-@Multipart
-@POST("your_api_endpoint.php") // Replace with your actual endpoint
-fun signUpUser(
-    @Part("insert") insert: RequestBody,
-    @Part("u_name") name: RequestBody,
-    @Part("u_email") email: RequestBody,
-    @Part("u_pass") password: RequestBody,
-    @Part("u_phone") phone: RequestBody,
-    @Part("u_gender") gender: RequestBody,
-    @Part("dept_id") deptId: RequestBody,
-    @Part("position_id") positionId: RequestBody,
-    @Part("u_salary") salary: RequestBody,
-    @Part("u_joining_date") joiningDate: RequestBody,
-    @Part("u_dob") dob: RequestBody
-): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("HMRS/login_check_api.php")
@@ -51,5 +32,20 @@ fun signUpUser(
     ): Observable<LoginResponse>
 
 
+    @FormUrlEncoded
+    @POST("HMRS/insert_api.php?insert=insert")
+    fun signUpUser(
+        @Field("insert") insert : String,
+        @Field("u_name") u_name : String,
+        @Field("u_email") u_email : String,
+        @Field("u_pass") u_pass : String,
+        @Field("u_phone") u_phone : String,
+        @Field("u_gender") u_gender : String,
+        @Field("dept_id") dept_id : String,
+        @Field("position_id") position_id: String,
+        @Field("u_salary") u_salary: String,
+        @Field("u_joining_date") u_joining_date: String,
+        @Field("u_dob") u_dob: String
+    ) : Observable<ApiResponse>
 
 }

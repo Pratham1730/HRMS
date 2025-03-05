@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
         //callDepartmentApi()
 
         callDept()
-        //signUpUser()
+//        signUpUser()
 
 
         listeners()
@@ -57,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun listeners() {
         binding.btnSignUp.setOnClickListener {
-            validations()
+//            validations()
         }
         binding.txtMoveToSignInPage.setOnClickListener {
             startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
@@ -71,34 +71,34 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun validations() {
-        if (binding.edtSignUpName.text.toString().isEmpty()) {
-            binding.edtSignUpName.error = "Name Not Entered"
-            binding.edtSignUpName.requestFocus()
-        } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
-            binding.edtSignUpEmail.error = "Email Not Entered"
-            binding.edtSignUpEmail.requestFocus()
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString())
-                .matches()
-        ) {
-            binding.edtSignUpEmail.error = "Please Enter Valid Email"
-            binding.edtSignUpEmail.requestFocus()
-        } else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
-            binding.edtSignUpPassword.error = "Password Not Entered"
-            binding.edtSignUpPassword.requestFocus()
-        } else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
-            binding.edtSignUpConfirmPassword.error = "Confirm Password Not Entered"
-            binding.edtSignUpConfirmPassword.requestFocus()
-        } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
-            binding.edtSignUpPhoneNumber.error = "Phone Number Not Entered"
-            binding.edtSignUpPhoneNumber.requestFocus()
-        } else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
-            binding.edtSignUpDOB.error = "DOB Not Entered"
-            binding.edtSignUpDOB.requestFocus()
-        } else {
-            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    private fun validations() {
+//        if (binding.edtSignUpName.text.toString().isEmpty()) {
+//            binding.edtSignUpName.error = "Name Not Entered"
+//            binding.edtSignUpName.requestFocus()
+//        } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
+//            binding.edtSignUpEmail.error = "Email Not Entered"
+//            binding.edtSignUpEmail.requestFocus()
+//        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString())
+//                .matches()
+//        ) {
+//            binding.edtSignUpEmail.error = "Please Enter Valid Email"
+//            binding.edtSignUpEmail.requestFocus()
+//        } else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
+//            binding.edtSignUpPassword.error = "Password Not Entered"
+//            binding.edtSignUpPassword.requestFocus()
+//        } else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
+//            binding.edtSignUpConfirmPassword.error = "Confirm Password Not Entered"
+//            binding.edtSignUpConfirmPassword.requestFocus()
+//        } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
+//            binding.edtSignUpPhoneNumber.error = "Phone Number Not Entered"
+//            binding.edtSignUpPhoneNumber.requestFocus()
+//        } else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
+//            binding.edtSignUpDOB.error = "DOB Not Entered"
+//            binding.edtSignUpDOB.requestFocus()
+//        } else {
+//            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     private fun genderSpinner() {
         val genderList = arrayOf("Gender", "Male", "Female")
@@ -279,59 +279,59 @@ class SignUpActivity : AppCompatActivity() {
             })
     }
 
-    private fun signUpUser() {
-        val insert = RequestBody.create(MultipartBody.FORM, "insert")
-        val name =
-            RequestBody.create(MultipartBody.FORM, binding.edtSignUpName.text.toString().trim())
-        val email =
-            RequestBody.create(MultipartBody.FORM, binding.edtSignUpEmail.text.toString().trim())
-        val password =
-            RequestBody.create(MultipartBody.FORM, binding.edtSignUpPassword.text.toString().trim())
-        val phone = RequestBody.create(
-            MultipartBody.FORM,
-            binding.edtSignUpPhoneNumber.text.toString().trim()
-        )
-        val genderBody = RequestBody.create(MultipartBody.FORM, if (gender == "Male") "1" else "2")
-        val deptId = RequestBody.create(MultipartBody.FORM, "1")
-        val positionId = RequestBody.create(MultipartBody.FORM, "2")
-        val salary = RequestBody.create(MultipartBody.FORM, "12345")
-        val joiningDate = RequestBody.create(
-            MultipartBody.FORM,
-            binding.edtSignUpJoiningDate.text.toString().trim()
-        )
-        val dob =
-            RequestBody.create(MultipartBody.FORM, binding.edtSignUpDOB.text.toString().trim())
-
-        val apiService = RetrofitClient.getInstance(baseUrl)
-
-        apiService.signUpUser(
-            insert, name, email, password, phone, genderBody, deptId, positionId, salary, joiningDate, dob
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<ApiResponse> {
-                override fun onSubscribe(d: Disposable) {}
-
-                override fun onNext(response: ApiResponse) {
-                    Toast.makeText(this@SignUpActivity, response.message, Toast.LENGTH_SHORT).show()
-                    if (response.success) {
-                        Log.d("success", "onNext: ${response.message}")
-                        startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
-                        finish()
-                    }
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d("fail", "onNext: ${e.message}")
-
-                    Toast.makeText(this@SignUpActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-
-                override fun onComplete() {}
-            })
-    }
+//    private fun signUpUser() {
+//        val insert = RequestBody.create(MultipartBody.FORM, "insert")
+//        val name =
+//            RequestBody.create(MultipartBody.FORM, binding.edtSignUpName.text.toString().trim())
+//        val email =
+//            RequestBody.create(MultipartBody.FORM, binding.edtSignUpEmail.text.toString().trim())
+//        val password =
+//            RequestBody.create(MultipartBody.FORM, binding.edtSignUpPassword.text.toString().trim())
+//        val phone = RequestBody.create(
+//            MultipartBody.FORM,
+//            binding.edtSignUpPhoneNumber.text.toString().trim()
+//        )
+//        val genderBody = RequestBody.create(MultipartBody.FORM, if (gender == "Male") "1" else "2")
+//        val deptId = RequestBody.create(MultipartBody.FORM, "1")
+//        val positionId = RequestBody.create(MultipartBody.FORM, "2")
+//        val salary = RequestBody.create(MultipartBody.FORM, "12345")
+//        val joiningDate = RequestBody.create(
+//            MultipartBody.FORM,
+//            binding.edtSignUpJoiningDate.text.toString().trim()
+//        )
+//        val dob =
+//            RequestBody.create(MultipartBody.FORM, binding.edtSignUpDOB.text.toString().trim())
+//
+//        val apiService = RetrofitClient.getInstance(baseUrl)
+//
+//        apiService.signUpUser(
+//            insert, name, email, password, phone, genderBody, deptId, positionId, salary, joiningDate, dob
+//        )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<ApiResponse> {
+//                override fun onSubscribe(d: Disposable) {}
+//
+//                override fun onNext(response: ApiResponse) {
+//                    Toast.makeText(this@SignUpActivity, response.message, Toast.LENGTH_SHORT).show()
+//                    if (response.success) {
+//                        Log.d("success", "onNext: ${response.message}")
+//                        startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
+//                        finish()
+//                    }
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                    Log.d("fail", "onNext: ${e.message}")
+//
+//                    Toast.makeText(this@SignUpActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//
+//
+//                override fun onComplete() {}
+//            })
+//    }
 
 }
 

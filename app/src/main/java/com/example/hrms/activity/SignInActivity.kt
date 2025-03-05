@@ -37,6 +37,7 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.txtMoveToSignUp.setOnClickListener {
+
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }

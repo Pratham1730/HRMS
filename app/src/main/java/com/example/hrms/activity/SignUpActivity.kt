@@ -34,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
     val baseUrl = "http://192.168.4.140/"
-    private var departmentList: List<DepartmentsItem?>? = emptyList()
+    private lateinit var departmentList: List<DepartmentsItem?>
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -46,13 +46,13 @@ class SignUpActivity : AppCompatActivity() {
         //callDepartmentApi()
 
         callDept()
-        signUpUser()
+        //signUpUser()
 
 
         listeners()
         genderSpinner()
         positionSpinner()
-        departmentSpinner()
+        //departmentSpinner()
     }
 
     private fun listeners() {
@@ -136,47 +136,47 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     // agar ye error de na toh fir niche wala departmentSpinner comment nikal ke run karna
-    private fun departmentSpinner() {
-        val departmentList = arrayOf("Department", "Android", "PHP", "iOS")
-        val adapter = CustomSpinnerAdapter(this, departmentList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.departmentSpinner.adapter = adapter
-
-        binding.departmentSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    department = departmentList[p2]
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
-    }
-
 //    private fun departmentSpinner() {
-//        if (departmentList.isNullOrEmpty()) {
-//            return
-//        }
-//
-//        // Convert the list of DepartmentsItem into an array of department names
-//        val departmentArray = Array(departmentList!!.size + 1) { "" }
-//        departmentArray[0] = "Department"  // Default value
-//
-//        for (i in departmentList!!.indices) {
-//            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
-//        }
-//
-//        val adapter = CustomSpinnerAdapter(this, departmentArray)
+//        val departmentList = arrayOf("Department", "Android", "PHP", "iOS")
+//        val adapter = CustomSpinnerAdapter(this, departmentList)
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //        binding.departmentSpinner.adapter = adapter
 //
-//        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                department = departmentArray[p2]
-//            }
+//        binding.departmentSpinner.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                    department = departmentList[p2]
+//                }
 //
-//            override fun onNothingSelected(p0: AdapterView<*>?) {}
-//        }
+//                override fun onNothingSelected(p0: AdapterView<*>?) {}
+//            }
 //    }
+
+    private fun departmentSpinner() {
+        if (departmentList.isNullOrEmpty()) {
+            return
+        }
+
+        // Convert the list of DepartmentsItem into an array of department names
+        val departmentArray = Array(departmentList!!.size + 1) { "" }
+        departmentArray[0] = "Department"  // Default value
+
+        for (i in departmentList!!.indices) {
+            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
+        }
+
+        val adapter = CustomSpinnerAdapter(this, departmentArray)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.departmentSpinner.adapter = adapter
+
+        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                department = departmentArray[p2]
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+    }
 
 
     private fun onClickDateDOB() {
@@ -267,14 +267,14 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: DepartmentModel) {
-                    departmentList = t.departments
+                    departmentList = t.departments!!
                     Toast.makeText(
                         this@SignUpActivity,
-                        departmentList?.get(0)?.deptName.toString(),
+                        departmentList.get(0)?.deptName.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                     Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
-//                    departmentSpinner()
+                    departmentSpinner()
                 }
             })
     }

@@ -26,11 +26,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SignUpActivity"
-            android:exported="false"
-            tools:ignore="MissingClass"></activity>
-        <activity
             android:name=".activity.SignInActivity"
+            android:exported="false"
+            tools:ignore="MissingClass"/>
+        <activity
+            android:name=".activity.SignUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

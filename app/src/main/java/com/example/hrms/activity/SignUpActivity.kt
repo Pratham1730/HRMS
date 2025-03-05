@@ -305,17 +305,7 @@ class SignUpActivity : AppCompatActivity() {
         val apiService = RetrofitClient.getInstance(baseUrl)
 
         apiService.signUpUser(
-            insert,
-            name,
-            email,
-            password,
-            phone,
-            genderBody,
-            deptId,
-            positionId,
-            salary,
-            joiningDate,
-            dob
+            insert, name, email, password, phone, genderBody, deptId, positionId, salary, joiningDate, dob
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

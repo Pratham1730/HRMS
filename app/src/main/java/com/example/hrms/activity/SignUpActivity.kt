@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.ApiResponse
 import com.example.hrms.DepartmentModel
@@ -42,11 +43,9 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        callDept()
-        signUpUser()
-
-
         listeners()
+
+        callDept()
         genderSpinner()
 
     }
@@ -54,6 +53,13 @@ class SignUpActivity : AppCompatActivity() {
     private fun listeners() {
         binding.btnSignUp.setOnClickListener {
 //            validations()
+            if (binding.edtSignUpPassword.text.toString() == binding.edtSignUpConfirmPassword.text.toString()){
+                signUpUser()
+            }
+            else{
+                Toast.makeText(this@SignUpActivity, "Password Doesn't Match", Toast.LENGTH_SHORT).show()
+            }
+
         }
         binding.txtMoveToSignInPage.setOnClickListener {
             startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
@@ -241,7 +247,6 @@ private fun callPosition(departmentId: Int) {
         })
 }
 
-//    }
 
 
 
@@ -250,41 +255,40 @@ private fun callPosition(departmentId: Int) {
         val name = binding.edtSignUpName.text.toString().trim()
         val email = binding.edtSignUpEmail.text.toString().trim()
         val password = binding.edtSignUpPassword.text.toString().trim()
-        val phone = binding.edtSignUpPhoneNumber.text.toString().trim()
-        val gender = if (gender == "Male") "1" else "2"
-        val deptId = "1"
-        val positionId = "2"
-        val salary = "12345"
+        val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
+        val gender = 1
+        val deptId = 1
+        val positionId = 2
+        val salary = 20000
         val joiningDate = binding.edtSignUpJoiningDate.text.toString().trim()
         val dob = binding.edtSignUpDOB.text.toString().trim()
+        val companyId = 1
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.signUpUser(
-            insert, name, email, password, phone, gender, deptId, positionId, salary, joiningDate, dob
-        )
+        apiService.signUpUser(insert , name , email , password , phone , gender , deptId , positionId , salary , joiningDate , dob , companyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<ApiResponse> {
-                override fun onSubscribe(d: Disposable) {}
-
-                override fun onNext(response: ApiResponse) {
-//                    Toast.makeText(this@SignUpActivity, response.message, Toast.LENGTH_SHORT).show()
-                    if (response.success) {
-                        Log.d("success", "onNext: ${response.message}")
-                        startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
-                        finish()
-                    }
+            .subscribe(object : Observer<ApiResponse>{
+                override fun onSubscribe(d: Disposable) {
+                    Toast.makeText(this@SignUpActivity, "Sub", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("fail", "onNext: ${e.message}")
-//                    Toast.makeText(this@SignUpActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onComplete() {}
+                override fun onComplete() {
+                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNext(t: ApiResponse) {
+                    //Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
             })
     }
+
 
 }
 

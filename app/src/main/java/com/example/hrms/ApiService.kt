@@ -11,6 +11,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import java.math.BigInteger
 
 interface ApiService {
 
@@ -42,13 +43,14 @@ interface ApiService {
         @Field("u_name") u_name: String,
         @Field("u_email") u_email: String,
         @Field("u_pass") u_pass: String,
-        @Field("u_phone") u_phone: String,
-        @Field("u_gender") u_gender: String,
-        @Field("dept_id") dept_id: String,
-        @Field("position_id") position_id: String,
-        @Field("u_salary") u_salary: String,
+        @Field("u_phone") u_phone: BigInteger,
+        @Field("u_gender") u_gender: Int,
+        @Field("dept_id") dept_id: Int,
+        @Field("position_id") position_id: Int,
+        @Field("u_salary") u_salary: Int,
         @Field("u_joining_date") u_joining_date: String,
-        @Field("u_dob") u_dob: String
+        @Field("u_dob") u_dob: String,
+        @Field("company_id") company_id : Int
     ): Observable<ApiResponse>
 
 }

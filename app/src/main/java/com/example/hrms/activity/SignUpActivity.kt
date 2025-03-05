@@ -339,7 +339,6 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
 
-
                 override fun onComplete() {}
             })
     }

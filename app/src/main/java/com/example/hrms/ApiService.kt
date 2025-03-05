@@ -1,6 +1,7 @@
 package com.example.hrms
 
 import android.view.Display.Mode
+import com.example.hrms.Models.LoginResponse
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.RequestBody
@@ -40,6 +41,15 @@ fun signUpUser(
     @Part("u_joining_date") joiningDate: RequestBody,
     @Part("u_dob") dob: RequestBody
 ): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/login_check_api.php")
+    fun setLogin(
+        @Field("method") method: String,
+        @Field("u_email") u_email: String,
+        @Field("u_pass") u_pass : String
+    ): Observable<LoginResponse>
+
 
 
 }

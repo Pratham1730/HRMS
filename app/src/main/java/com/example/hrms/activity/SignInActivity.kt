@@ -8,11 +8,19 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.hrms.DepartmentModel
+import com.example.hrms.Models.LoginResponse
+import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivitySignInBinding
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
+    val baseUrl = "http://192.168.4.140/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
@@ -22,6 +30,7 @@ class SignInActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         listeners()
+
 
     }
 
@@ -41,19 +50,50 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            validations()
+            //validations()
+            callSignIn()
         }
     }
 
-    private fun validations(){
-        val email = binding.edtSignInEmail.text.toString().trim()
-        val password = binding.edtSignInPassword.text.toString().trim()
+//    private fun validations(){
+//        val email = binding.edtSignInEmail.text.toString().trim()
+//        val password = binding.edtSignInPassword.text.toString().trim()
+//
+//        if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
+//            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+//        }
+//        else {
+//            Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
-        if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
-            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
-        }
+    private fun callSignIn() {
+        val apiService = RetrofitClient.getInstance(baseUrl)
+
+        val email = binding.edtSignInEmail.text?.trim().toString()
+        val password = binding.edtSignInPassword.text?.trim().toString()
+        val method = "method"
+
+        apiService.setLogin(method , email , password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object  : Observer<LoginResponse>{
+                override fun onSubscribe(d: Disposable) {
+                    Toast.makeText(this@SignInActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(e: Throwable) {
+
+                }
+
+                override fun onComplete() {
+
+                }
+
+                override fun onNext(t: LoginResponse) {
+                    Toast.makeText(this@SignInActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+
+            })
     }
 }

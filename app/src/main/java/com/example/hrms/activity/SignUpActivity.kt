@@ -34,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
     val baseUrl = "http://192.168.4.140/"
-    private  var departmentList : List<DepartmentsItem?> ?=  emptyList()
+    private var departmentList: List<DepartmentsItem?>? = emptyList()
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -75,32 +75,27 @@ class SignUpActivity : AppCompatActivity() {
         if (binding.edtSignUpName.text.toString().isEmpty()) {
             binding.edtSignUpName.error = "Name Not Entered"
             binding.edtSignUpName.requestFocus()
-        }
-        else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
+        } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
             binding.edtSignUpEmail.error = "Email Not Entered"
             binding.edtSignUpEmail.requestFocus()
-        }
-        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString()).matches()) {
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString())
+                .matches()
+        ) {
             binding.edtSignUpEmail.error = "Please Enter Valid Email"
             binding.edtSignUpEmail.requestFocus()
-        }
-        else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
+        } else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
             binding.edtSignUpPassword.error = "Password Not Entered"
             binding.edtSignUpPassword.requestFocus()
-        }
-        else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
+        } else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
             binding.edtSignUpConfirmPassword.error = "Confirm Password Not Entered"
             binding.edtSignUpConfirmPassword.requestFocus()
-        }
-        else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
+        } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
             binding.edtSignUpPhoneNumber.error = "Phone Number Not Entered"
             binding.edtSignUpPhoneNumber.requestFocus()
-        }
-        else if (binding.edtSignUpDOB.text.toString().isEmpty()){
+        } else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
             binding.edtSignUpDOB.error = "DOB Not Entered"
             binding.edtSignUpDOB.requestFocus()
-        }
-        else {
+        } else {
             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
         }
     }
@@ -126,17 +121,18 @@ class SignUpActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.positionSpinner.adapter = adapter
 
-        binding.positionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                position = positionList[p2]
+        binding.positionSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    position = positionList[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+                //override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-            //override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
     }
 
     // agar ye error de na toh fir niche wala departmentSpinner comment nikal ke run karna
@@ -146,13 +142,14 @@ class SignUpActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = adapter
 
-        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                department = departmentList[p2]
-            }
+        binding.departmentSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    department = departmentList[p2]
+                }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
-        }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
     }
 
 //    private fun departmentSpinner() {
@@ -182,8 +179,7 @@ class SignUpActivity : AppCompatActivity() {
 //    }
 
 
-
-    private fun onClickDateDOB(){
+    private fun onClickDateDOB() {
         val c = Calendar.getInstance()
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -191,7 +187,8 @@ class SignUpActivity : AppCompatActivity() {
             selectedCalendarDOB.set(Calendar.MONTH, month)
             selectedCalendarDOB.set(Calendar.DAY_OF_MONTH, day)
 
-            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarDOB.time)
+            val tDate =
+                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarDOB.time)
             binding.edtSignUpDOB.setText(tDate)
         }
 
@@ -201,7 +198,7 @@ class SignUpActivity : AppCompatActivity() {
         ).show()
     }
 
-    private fun onClickDateJoining(){
+    private fun onClickDateJoining() {
         val c = Calendar.getInstance()
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -209,7 +206,9 @@ class SignUpActivity : AppCompatActivity() {
             selectedCalendarJoiningDate.set(Calendar.MONTH, month)
             selectedCalendarJoiningDate.set(Calendar.DAY_OF_MONTH, day)
 
-            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarJoiningDate.time)
+            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                selectedCalendarJoiningDate.time
+            )
             binding.edtSignUpJoiningDate.setText(tDate)
         }
 
@@ -248,14 +247,13 @@ class SignUpActivity : AppCompatActivity() {
 //    }
 
 
-
-    private fun callDept(){
+    private fun callDept() {
         val apiService = RetrofitClient.getInstance(baseUrl)
 
         apiService.setDept("select_dept")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<DepartmentModel>{
+            .subscribe(object : Observer<DepartmentModel> {
                 override fun onSubscribe(d: Disposable) {
                     Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
@@ -270,7 +268,11 @@ class SignUpActivity : AppCompatActivity() {
 
                 override fun onNext(t: DepartmentModel) {
                     departmentList = t.departments
-                    Toast.makeText(this@SignUpActivity, departmentList?.get(0)?.deptName.toString() ,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SignUpActivity,
+                        departmentList?.get(0)?.deptName.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
 //                    departmentSpinner()
                 }
@@ -279,20 +281,42 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun signUpUser() {
         val insert = RequestBody.create(MultipartBody.FORM, "insert")
-        val name = RequestBody.create(MultipartBody.FORM, binding.edtSignUpName.text.toString().trim())
-        val email = RequestBody.create(MultipartBody.FORM, binding.edtSignUpEmail.text.toString().trim())
-        val password = RequestBody.create(MultipartBody.FORM, binding.edtSignUpPassword.text.toString().trim())
-        val phone = RequestBody.create(MultipartBody.FORM, binding.edtSignUpPhoneNumber.text.toString().trim())
+        val name =
+            RequestBody.create(MultipartBody.FORM, binding.edtSignUpName.text.toString().trim())
+        val email =
+            RequestBody.create(MultipartBody.FORM, binding.edtSignUpEmail.text.toString().trim())
+        val password =
+            RequestBody.create(MultipartBody.FORM, binding.edtSignUpPassword.text.toString().trim())
+        val phone = RequestBody.create(
+            MultipartBody.FORM,
+            binding.edtSignUpPhoneNumber.text.toString().trim()
+        )
         val genderBody = RequestBody.create(MultipartBody.FORM, if (gender == "Male") "1" else "2")
-        val deptId = RequestBody.create(MultipartBody.FORM, "1")  // Replace with selected department ID
-        val positionId = RequestBody.create(MultipartBody.FORM, "2")  // Replace with selected position ID
-        val salary = RequestBody.create(MultipartBody.FORM, "12345") // Example Salary
-        val joiningDate = RequestBody.create(MultipartBody.FORM, binding.edtSignUpJoiningDate.text.toString().trim())
-        val dob = RequestBody.create(MultipartBody.FORM, binding.edtSignUpDOB.text.toString().trim())
+        val deptId = RequestBody.create(MultipartBody.FORM, "1")
+        val positionId = RequestBody.create(MultipartBody.FORM, "2")
+        val salary = RequestBody.create(MultipartBody.FORM, "12345")
+        val joiningDate = RequestBody.create(
+            MultipartBody.FORM,
+            binding.edtSignUpJoiningDate.text.toString().trim()
+        )
+        val dob =
+            RequestBody.create(MultipartBody.FORM, binding.edtSignUpDOB.text.toString().trim())
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.signUpUser(insert, name, email, password, phone, genderBody, deptId, positionId, salary, joiningDate, dob)
+        apiService.signUpUser(
+            insert,
+            name,
+            email,
+            password,
+            phone,
+            genderBody,
+            deptId,
+            positionId,
+            salary,
+            joiningDate,
+            dob
+        )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<ApiResponse> {
@@ -310,7 +334,8 @@ class SignUpActivity : AppCompatActivity() {
                 override fun onError(e: Throwable) {
                     Log.d("fail", "onNext: ${e.message}")
 
-                    Toast.makeText(this@SignUpActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 override fun onComplete() {}

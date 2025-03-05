@@ -67,34 +67,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-//    private fun validations() {
-//        if (binding.edtSignUpName.text.toString().isEmpty()) {
-//            binding.edtSignUpName.error = "Name Not Entered"
-//            binding.edtSignUpName.requestFocus()
-//        } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
-//            binding.edtSignUpEmail.error = "Email Not Entered"
-//            binding.edtSignUpEmail.requestFocus()
-//        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString())
-//                .matches()
-//        ) {
-//            binding.edtSignUpEmail.error = "Please Enter Valid Email"
-//            binding.edtSignUpEmail.requestFocus()
-//        } else if (binding.edtSignUpPassword.text.toString().isEmpty()) {
-//            binding.edtSignUpPassword.error = "Password Not Entered"
-//            binding.edtSignUpPassword.requestFocus()
-//        } else if (binding.edtSignUpConfirmPassword.text.toString().isEmpty()) {
-//            binding.edtSignUpConfirmPassword.error = "Confirm Password Not Entered"
-//            binding.edtSignUpConfirmPassword.requestFocus()
-//        } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
-//            binding.edtSignUpPhoneNumber.error = "Phone Number Not Entered"
-//            binding.edtSignUpPhoneNumber.requestFocus()
-//        } else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
-//            binding.edtSignUpDOB.error = "DOB Not Entered"
-//            binding.edtSignUpDOB.requestFocus()
-//        } else {
-//            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 
     private fun genderSpinner() {
         val genderList = arrayOf("Gender", "Male", "Female")
@@ -111,30 +83,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-
-//    private fun departmentSpinner() {
-//        if (departmentList.isEmpty()) {
-//            return
-//        }
-//
-//        // Convert the list of DepartmentsItem into an array of department names
-//        val departmentArray = Array(departmentList!!.size + 1) { "" }
-//        departmentArray[0] = "Department"  // Default value
-//
-//        for (i in departmentList.indices) {
-//            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
-//        }
-//        val adapter = CustomSpinnerAdapter(this, departmentArray)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.departmentSpinner.adapter = adapter
-//
-//        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                department = departmentArray[p2]
-//            }
-//            override fun onNothingSelected(p0: AdapterView<*>?) {}
-//        }
-//    }
 
     private fun departmentSpinner() {
         if (departmentList.isEmpty()) return
@@ -269,39 +217,6 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-
-//    private fun callPosition() {
-//        val apiService = RetrofitClient.getInstance(baseUrl)
-//
-//        apiService.getPosition("select", dept_id = 1)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(object : Observer<PositionResponse> {
-//                override fun onSubscribe(d: Disposable) {
-////                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onError(e: Throwable) {
-////                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onComplete() {
-//
-//                }
-//
-//                override fun onNext(t: PositionResponse) {
-//                    positionList = t.positions!!
-////                    Toast.makeText(
-////                        this@SignUpActivity,
-////                        t.positions?.get(0).toString(),
-////                        Toast.LENGTH_SHORT
-////                    ).show()
-////                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
-//                    positionSpinner()
-//                }
-//            })
-//
-//
 private fun callPosition(departmentId: Int) {
     if (departmentId == -1) return  // Prevent API call if no valid department is selected
 

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.ApiResponse
 import com.example.hrms.DepartmentModel
@@ -20,9 +19,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,6 +27,7 @@ class SignUpActivity : AppCompatActivity() {
     private var department: String = "Department"
     private var position: String = "Position"
     private var gender: String = "Gender"
+    private var departmentId = -1
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
@@ -45,17 +42,13 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //callDepartmentApi()
-
         callDept()
         signUpUser()
 
-        callPosition()
 
         listeners()
         genderSpinner()
-//        positionSpinner()
-        //departmentSpinner()
+
     }
 
     private fun listeners() {
@@ -118,70 +111,63 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-//    private fun positionSpinner() {
-//        val positionList = arrayOf("Position", "Intern", "Junior", "Senior")
-//        val adapter = CustomSpinnerAdapter(this, positionList)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.positionSpinner.adapter = adapter
-//
-//        binding.positionSpinner.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                    position = positionList[p2]
-//                }
-//
-//                override fun onNothingSelected(p0: AdapterView<*>?) {
-//
-//                }
-//
-//                //override fun onNothingSelected(p0: AdapterView<*>?) {}
-//            }
-//    }
 
-    // agar ye error de na toh fir niche wala departmentSpinner comment nikal ke run karna
 //    private fun departmentSpinner() {
-//        val departmentList = arrayOf("Department", "Android", "PHP", "iOS")
-//        val adapter = CustomSpinnerAdapter(this, departmentList)
+//        if (departmentList.isEmpty()) {
+//            return
+//        }
+//
+//        // Convert the list of DepartmentsItem into an array of department names
+//        val departmentArray = Array(departmentList!!.size + 1) { "" }
+//        departmentArray[0] = "Department"  // Default value
+//
+//        for (i in departmentList.indices) {
+//            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
+//        }
+//        val adapter = CustomSpinnerAdapter(this, departmentArray)
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //        binding.departmentSpinner.adapter = adapter
 //
-//        binding.departmentSpinner.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                    department = departmentList[p2]
-//                }
-//
-//                override fun onNothingSelected(p0: AdapterView<*>?) {}
+//        binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                department = departmentArray[p2]
 //            }
+//            override fun onNothingSelected(p0: AdapterView<*>?) {}
+//        }
 //    }
 
     private fun departmentSpinner() {
-        if (departmentList.isNullOrEmpty()) {
-            return
-        }
+        if (departmentList.isEmpty()) return
 
-        // Convert the list of DepartmentsItem into an array of department names
-        val departmentArray = Array(departmentList!!.size + 1) { "" }
+        val departmentArray = Array(departmentList.size + 1) { "" }
         departmentArray[0] = "Department"  // Default value
 
-        for (i in departmentList!!.indices) {
-            departmentArray[i + 1] = departmentList!![i]?.deptName ?: "Unknown"
+        for (i in departmentList.indices) {
+            departmentArray[i + 1] = departmentList[i]?.deptName ?: "Unknown"
         }
+
         val adapter = CustomSpinnerAdapter(this, departmentArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = adapter
 
         binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                department = departmentArray[p2]
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position > 0) {  // Ensure a department is selected
+                    department = departmentArray[position]
+                    departmentId =
+                        departmentList[position - 1]?.deptId.toString().toInt()  // Store department ID
+                    callPosition(departmentId)  // Fetch positions based on selected department
+                }
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
 
 
-    private fun positonSpinner() {
+
+    private fun positionSpinner() {
         if (positionList.isEmpty()) {
             return
         }
@@ -247,34 +233,6 @@ class SignUpActivity : AppCompatActivity() {
         ).show()
     }
 
-//    private fun callDepartmentApi(){
-//        val apiService = RetrofitClient.getInstance(baseUrl)
-//
-//        apiService.getDepartment()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(object : Observer<DepartmentModel> {
-//                override fun onSubscribe(d: Disposable) {
-//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onError(e: Throwable) {
-//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onComplete() {
-//                    Toast.makeText(this@SignUpActivity, "Complete", Toast.LENGTH_SHORT).show()
-//                }
-//                override fun onNext(t: DepartmentModel) {
-//                    departmentList = t.departments
-//                    Toast.makeText(this@SignUpActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
-//                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
-//                }
-//
-//
-//            })
-//    }
-
 
     private fun callDept() {
         val apiService = RetrofitClient.getInstance(baseUrl)
@@ -312,39 +270,64 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-    private fun callPosition() {
-        val apiService = RetrofitClient.getInstance(baseUrl)
+//    private fun callPosition() {
+//        val apiService = RetrofitClient.getInstance(baseUrl)
+//
+//        apiService.getPosition("select", dept_id = 1)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<PositionResponse> {
+//                override fun onSubscribe(d: Disposable) {
+////                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onError(e: Throwable) {
+////                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onComplete() {
+//
+//                }
+//
+//                override fun onNext(t: PositionResponse) {
+//                    positionList = t.positions!!
+////                    Toast.makeText(
+////                        this@SignUpActivity,
+////                        t.positions?.get(0).toString(),
+////                        Toast.LENGTH_SHORT
+////                    ).show()
+////                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
+//                    positionSpinner()
+//                }
+//            })
+//
+//
+private fun callPosition(departmentId: Int) {
+    if (departmentId == -1) return  // Prevent API call if no valid department is selected
 
-        apiService.getPosition("select", dept_id = 1)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<PositionResponse> {
-                override fun onSubscribe(d: Disposable) {
-//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
-                }
+    val apiService = RetrofitClient.getInstance(baseUrl)
 
-                override fun onError(e: Throwable) {
-//                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
-                }
+    apiService.getPosition("select", dept_id = departmentId)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(object : Observer<PositionResponse> {
+            override fun onSubscribe(d: Disposable) {}
 
-                override fun onComplete() {
+            override fun onError(e: Throwable) {
+                Log.e("API Error", "Error fetching positions: ${e.message}")
+            }
 
-                }
+            override fun onComplete() {}
 
-                override fun onNext(t: PositionResponse) {
-                    positionList = t.positions!!
-//                    Toast.makeText(
-//                        this@SignUpActivity,
-//                        t.positions?.get(0).toString(),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
-                    positonSpinner()
-                }
-            })
+            override fun onNext(response: PositionResponse) {
+                positionList = response.positions ?: emptyList()
+                positionSpinner()  // Refresh position dropdown after fetching data
+            }
+        })
+}
 
+//    }
 
-    }
 
 
     private fun signUpUser() {

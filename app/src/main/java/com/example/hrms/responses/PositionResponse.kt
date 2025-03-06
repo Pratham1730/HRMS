@@ -1,7 +1,6 @@
-package com.example.hrms.Models
+package com.example.hrms.responses
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class PositionResponse(
 	@SerializedName("positions") val positions: List<PositionsItem> = emptyList(),

@@ -1,18 +1,14 @@
 package com.example.hrms.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.hrms.Models.UserDataResponse
-import com.example.hrms.R
+import com.example.hrms.responses.UserDataResponse
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityProfileBinding
 import com.example.hrms.preferences.PreferenceManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -35,8 +31,14 @@ class ProfileActivity : AppCompatActivity() {
 
         setUserData()
 
+        listener()
 
+    }
 
+    private fun listener(){
+        binding.btnProfileUpdate.setOnClickListener {
+            startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
+        }
     }
 
     private fun setUserData(){
@@ -69,6 +71,10 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
                     binding.txtProfileGender.text = t.user?.u_gender.toString()
                     binding.txtProfileSalary.text = t.user?.u_salary.toString()
+
+                    preferenceManager.saveUserName(t.user?.u_name.toString())
+                    preferenceManager.saveUserPhone(t.user?.u_phone.toString())
+                    preferenceManager.saveUserDOB(t.user?.u_dob.toString())
                 }
             })
 

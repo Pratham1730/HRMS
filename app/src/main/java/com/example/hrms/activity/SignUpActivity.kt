@@ -9,11 +9,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hrms.Models.ApiResponse
-import com.example.hrms.Models.DepartmentModel
-import com.example.hrms.Models.DepartmentsItem
-import com.example.hrms.Models.PositionResponse
-import com.example.hrms.Models.PositionsItem
+import com.example.hrms.responses.ApiResponse
+import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.DepartmentsItem
+import com.example.hrms.responses.PositionResponse
+import com.example.hrms.responses.PositionsItem
 import com.example.hrms.databinding.ActivitySignUpBinding
 import com.example.hrms.RetrofitClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

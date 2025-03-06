@@ -1,4 +1,4 @@
-package com.example.hrms.Models
+package com.example.hrms.responses
 
 import java.io.Serializable
 

@@ -1,4 +1,4 @@
-package com.example.hrms.Models
+package com.example.hrms.responses
 
 data class ApiResponse(
     val success: Boolean,

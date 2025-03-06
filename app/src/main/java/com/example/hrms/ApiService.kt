@@ -1,11 +1,14 @@
 package com.example.hrms
 
-import com.example.hrms.Models.ApiResponse
-import com.example.hrms.Models.DepartmentModel
-import com.example.hrms.Models.LoginResponse
-import com.example.hrms.Models.PositionResponse
-import com.example.hrms.Models.UserDataResponse
+import com.example.hrms.models.UpdateDataModel
+import com.example.hrms.responses.ApiResponse
+import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.LoginResponse
+import com.example.hrms.responses.PositionResponse
+import com.example.hrms.responses.UpdateDataResponse
+import com.example.hrms.responses.UserDataResponse
 import io.reactivex.rxjava3.core.Observable
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -58,5 +61,8 @@ interface ApiService {
         @Field("method") method: String,
         @Field("u_email") u_email : String
     ) : Observable<UserDataResponse>
+
+    @POST("HMRS/update_user.php")
+    fun updateUser(@Body model : UpdateDataModel) : Observable<UpdateDataResponse>
 
 }

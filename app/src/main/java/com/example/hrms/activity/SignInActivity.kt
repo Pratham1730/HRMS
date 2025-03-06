@@ -2,12 +2,11 @@ package com.example.hrms.activity
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.media.tv.StreamEventResponse
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.hrms.Models.LoginResponse
+import com.example.hrms.responses.LoginResponse
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivitySignInBinding
 import com.example.hrms.preferences.PreferenceManager
@@ -24,6 +23,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var preferenceManager: PreferenceManager
     private var message: String = ""
     private var email: String = ""
+    private var userId: Int = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +99,7 @@ class SignInActivity : AppCompatActivity() {
                         .show()
                     if (message == "Login successful") {
                         moveToMainPage()
+                        userId = t.user?.u_id!!.toInt()
                     }
                 }
 
@@ -106,8 +107,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     fun moveToMainPage() {
-        preferenceManager.saveUserEmail( email)
-        startActivity(Intent(this@SignInActivity, ProfileActivity::class.java))
-
+        preferenceManager.saveUserEmail(email)
+        preferenceManager.saveUserId(userId)
+        startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
     }
 }

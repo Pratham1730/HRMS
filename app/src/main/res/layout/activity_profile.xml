@@ -45,7 +45,6 @@
             android:text="Email"
             android:textSize="@dimen/_12ssp" />
 
-        <!-- Last Name Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,22 +64,6 @@
                 android:textSize="@dimen/_14ssp" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Phone Number Card -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            app:cardCornerRadius="@dimen/_8sdp"
-            app:cardElevation="@dimen/_4sdp">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/tvPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_16sdp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp" />
-        </androidx.cardview.widget.CardView>
 
         <!-- Date of Birth Card -->
         <androidx.cardview.widget.CardView

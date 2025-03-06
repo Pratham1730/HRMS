@@ -118,7 +118,7 @@
                             android:text="Punch In"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_10sdp" />
+                            app:cornerRadius="@dimen/_20sdp" />
 
                         <Button
                             android:id="@+id/btnMyTimecard"
@@ -129,7 +129,7 @@
                             android:text="Timecard"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_10sdp" />
+                            app:cornerRadius="@dimen/_20sdp" />
                     </LinearLayout>
 
                 </LinearLayout>

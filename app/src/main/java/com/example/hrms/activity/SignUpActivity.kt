@@ -48,6 +48,11 @@ class SignUpActivity : AppCompatActivity() {
         callDept()
         genderSpinner()
 
+        binding.btnSignUp.setOnClickListener {
+            val intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun listeners() {

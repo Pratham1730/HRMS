@@ -7,6 +7,7 @@ class PreferenceManager(context: Context) {
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("UserDataPreferences", Context.MODE_PRIVATE)
+         private val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
     fun saveUserEmail(userEmail : String){
         sharedPreferences.edit().putString("USER_EMAIL" , userEmail).apply()
@@ -14,5 +15,10 @@ class PreferenceManager(context: Context) {
 
     fun getUserEmail(): String? {
         return sharedPreferences.getString("USER_EMAIL", "")
+    }
+
+    fun logout() {
+        editor.clear()
+        editor.apply()
     }
 }

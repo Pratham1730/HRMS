@@ -69,6 +69,8 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/_16sdp">
 
+
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -83,6 +85,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:trackColor="#D6E4FF"
                             app:trackThickness="@dimen/_8sdp" />
+
 
                         <TextView
                             android:id="@+id/tvTimer"
@@ -108,28 +111,43 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/tvDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="DD/MM/YYYY"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            app:layout_constraintBottom_toTopOf="@id/tvTimer"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+
                         <Button
                             android:id="@+id/btnPunch"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_16sdp"
-                            android:backgroundTint="#6066"
+                            android:backgroundTint="#94bbe9"
                             android:padding="@dimen/_8sdp"
                             android:text="Punch In"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_20sdp" />
+                            app:cornerRadius="@dimen/_30sdp" />
 
                         <Button
                             android:id="@+id/btnMyTimecard"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="#6066"
                             android:padding="@dimen/_8sdp"
                             android:text="Timecard"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_20sdp" />
+                            android:backgroundTint="#94bbe9"
+                            app:cornerRadius="@dimen/_30sdp" />
                     </LinearLayout>
 
                 </LinearLayout>

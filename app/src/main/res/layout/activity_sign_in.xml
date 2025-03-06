@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text=" Sign Up"
-                    android:textColor="#c90000"
+                    android:textColor="#eeaeca"
                     android:textSize="@dimen/_12ssp" />
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:text="Forget Password?"
-                android:textColor="#c90000" />
+                android:textColor="#eeaeca" />
 
 
             <com.google.android.material.button.MaterialButton

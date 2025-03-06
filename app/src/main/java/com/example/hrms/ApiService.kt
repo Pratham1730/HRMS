@@ -4,6 +4,7 @@ import com.example.hrms.Models.ApiResponse
 import com.example.hrms.Models.DepartmentModel
 import com.example.hrms.Models.LoginResponse
 import com.example.hrms.Models.PositionResponse
+import com.example.hrms.Models.UserDataResponse
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -22,7 +23,8 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("HMRS/select_api_position.php")
-    fun getPosition(@Field("method") method: String, @Field("dept_id") dept_id: Int) : Observable<PositionResponse>
+    fun getPosition(@Field("method") method: String,
+                    @Field("dept_id") dept_id: Int) : Observable<PositionResponse>
 
     @FormUrlEncoded
     @POST("HMRS/login_check_api.php")
@@ -49,5 +51,12 @@ interface ApiService {
         @Field("u_dob") u_dob: String,
         @Field("company_id") company_id : Int
     ): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/fetch_all_data.php")
+    fun getUserData(
+        @Field("method") method: String,
+        @Field("u_email") u_email : String
+    ) : Observable<UserDataResponse>
 
 }

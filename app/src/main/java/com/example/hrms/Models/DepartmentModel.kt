@@ -1,6 +1,5 @@
 package com.example.hrms.Models
 
-
 import com.google.gson.annotations.SerializedName
 
 data class DepartmentModel(

@@ -13,6 +13,7 @@ import com.example.hrms.Models.ApiResponse
 import com.example.hrms.Models.DepartmentModel
 import com.example.hrms.Models.DepartmentsItem
 import com.example.hrms.Models.PositionResponse
+import com.example.hrms.Models.PositionsItem
 import com.example.hrms.databinding.ActivitySignUpBinding
 import com.example.hrms.RetrofitClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,12 +30,13 @@ class SignUpActivity : AppCompatActivity() {
     private var gender: String = "Gender"
     private var departmentId = -1
     private var genderId = -1
+    private var positionId = -1
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
-    val baseUrl = "http://192.168.4.140/"
+    private val baseUrl = "http://192.168.4.140/"
     private lateinit var departmentList: List<DepartmentsItem?>
-    private lateinit var positionList: List<String?>
+    private lateinit var positionList: List<PositionsItem?>
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -114,6 +116,7 @@ class SignUpActivity : AppCompatActivity() {
             departmentArray[i + 1] = departmentList[i]?.deptName ?: "Unknown"
         }
 
+        val a = departmentArray
         val adapter = CustomSpinnerAdapter(this, departmentArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = adapter
@@ -123,8 +126,8 @@ class SignUpActivity : AppCompatActivity() {
                 if (position > 0) {  // Ensure a department is selected
                     department = departmentArray[position]
                     departmentId =
-                        departmentList[position - 1]?.deptId.toString().toInt()  // Store department ID
-                    callPosition(departmentId)  // Fetch positions based on selected department
+                        departmentList[position - 1]?.deptId.toString().toInt()
+                    callPosition()  // Fetch positions based on selected department
                 }
             }
 
@@ -140,20 +143,24 @@ class SignUpActivity : AppCompatActivity() {
             return
         }
 
-        // Convert the list of DepartmentsItem into an array of department names
         val positionArray = Array(positionList.size + 1) { "" }
         positionArray[0] = "Position"  // Default value
 
         for (i in positionList.indices) {
-            positionArray[i + 1] = (positionList[i] ?: "Unknown").toString()
+            positionArray[i + 1] = positionList[i]?.positionName ?: "Unknown"
         }
+        val a = positionArray
         val adapter = CustomSpinnerAdapter(this, positionArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.positionSpinner.adapter = adapter
 
         binding.positionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                position = positionArray[p2]
+                if (p2 > 0){
+                    position = positionArray[p2]
+                    positionId =
+                        positionList[p2-1]?.positionId.toString().toInt()
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -237,12 +244,13 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-private fun callPosition(departmentId: Int) {
+private fun callPosition() {
     if (departmentId == -1) return  // Prevent API call if no valid department is selected
 
     val apiService = RetrofitClient.getInstance(baseUrl)
 
-    apiService.getPosition("select", dept_id = departmentId)
+    val a = departmentId
+    apiService.getPosition("select", departmentId)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(object : Observer<PositionResponse> {
@@ -255,7 +263,7 @@ private fun callPosition(departmentId: Int) {
             override fun onComplete() {}
 
             override fun onNext(response: PositionResponse) {
-                positionList = response.positions ?: emptyList()
+                positionList = response.positions!!
                 positionSpinner()  // Refresh position dropdown after fetching data
             }
         })
@@ -271,7 +279,7 @@ private fun callPosition(departmentId: Int) {
         val password = binding.edtSignUpPassword.text.toString().trim()
         val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
         val deptId = departmentId
-        val positionId = 2
+        val positionId = positionId
         val salary = 20000
         val joiningDate = binding.edtSignUpJoiningDate.text.toString().trim()
         val dob = binding.edtSignUpDOB.text.toString().trim()

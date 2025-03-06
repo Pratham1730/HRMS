@@ -13,8 +13,13 @@
         android:orientation="vertical"
         android:padding="@dimen/_16sdp">
 
-        <!-- Profile Image -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfileBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_arrow_back_24_bing"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
@@ -22,8 +27,7 @@
             android:background="@color/black"
             android:scaleType="centerCrop" />
 
-        <!-- Name -->
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +37,7 @@
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtProfileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +55,7 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtProfilePhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +92,7 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtProfileDB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,7 +112,7 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtProfileJoiningDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,26 +132,7 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">
 
-            <TextView
-                android:id="@+id/txtProfileGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_16sdp"
-                android:text="Gender"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_2sdp"
-            app:cardCornerRadius="@dimen/_8sdp"
-            app:cardElevation="@dimen/_4sdp">
-
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtProfileDepartment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,12 +151,51 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtProfilePosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_16sdp"
                 android:text="Position"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="@dimen/_4sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtProfileGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16sdp"
+                android:text="Gender"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp" />
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="@dimen/_4sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtProfileSalary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16sdp"
+                android:text="Salary"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp" />
         </androidx.cardview.widget.CardView>
@@ -186,10 +210,10 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:layout_weight="1"
                 android:text="Update"
                 android:textColor="@color/white"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/_4sdp"
                 android:textSize="@dimen/_14ssp" />
 
             <com.google.android.material.button.MaterialButton
@@ -197,8 +221,8 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:text="Log Out"
                 android:layout_weight="1"
+                android:text="Log Out"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14ssp" />
 

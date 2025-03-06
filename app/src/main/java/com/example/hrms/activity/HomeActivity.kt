@@ -1,21 +1,67 @@
 package com.example.hrms.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.hrms.R
+import com.example.hrms.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeBinding
+
+    private var isPunchIn = false
+    private var secondsElapsed = 0
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val updateTimerRunnable = object : Runnable {
+        override fun run() {
+            secondsElapsed++
+            updateTimerText()
+            updateProgress()
+            handler.postDelayed(this, 1000) // Update every second
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnPunch.setOnClickListener {
+            togglePunchStatus()
         }
+    }
+
+    private fun togglePunchStatus() {
+        isPunchIn = !isPunchIn
+
+        if (isPunchIn) {
+            binding.btnPunch.text = "Punch Out"
+            secondsElapsed = 0
+            handler.post(updateTimerRunnable)
+        } else {
+            binding.btnPunch.text = "Punch In"
+            handler.removeCallbacks(updateTimerRunnable)
+            resetTimer()
+        }
+    }
+
+    private fun resetTimer() {
+        secondsElapsed = 0
+        updateTimerText()
+        updateProgress()
+    }
+
+    private fun updateTimerText() {
+        val hours = secondsElapsed / 3600
+        val minutes = (secondsElapsed % 3600) / 60
+        val seconds = secondsElapsed % 60
+        binding.tvTimer.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    private fun updateProgress() {
+        val maxTime = 8 * 3600
+        val progress = (secondsElapsed.toFloat() / maxTime) * 100
+        binding.progressCircular.progress = progress.toInt()
     }
 }

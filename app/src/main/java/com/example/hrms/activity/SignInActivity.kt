@@ -89,13 +89,9 @@ class SignInActivity : AppCompatActivity() {
                     Toast.makeText(this@SignInActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onError(e: Throwable) {
+                override fun onError(e: Throwable) {}
 
-                }
-
-                override fun onComplete() {
-
-                }
+                override fun onComplete() {}
 
                 override fun onNext(t: LoginResponse) {
                     message = t.message.toString()

@@ -13,6 +13,7 @@ class PreferenceManager(context: Context) {
         sharedPreferences.edit().putInt("USER_ID" , userId).apply()
     }
 
+
     fun getUserId() : Int {
         return sharedPreferences.getInt("USER_ID" , -1)
     }

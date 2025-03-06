@@ -3,12 +3,9 @@ package com.example.hrms.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.hrms.DepartmentModel
 import com.example.hrms.Models.LoginResponse
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivitySignInBinding

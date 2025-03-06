@@ -1,16 +1,13 @@
 package com.example.hrms
 
-import android.view.Display.Mode
+import com.example.hrms.Models.ApiResponse
+import com.example.hrms.Models.DepartmentModel
 import com.example.hrms.Models.LoginResponse
+import com.example.hrms.Models.PositionResponse
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
-import okhttp3.RequestBody
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.Part
 import java.math.BigInteger
 
 interface ApiService {

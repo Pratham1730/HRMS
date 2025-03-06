@@ -5,15 +5,14 @@ import com.example.hrms.adapter.CustomSpinnerAdapter
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hrms.ApiResponse
-import com.example.hrms.DepartmentModel
-import com.example.hrms.DepartmentsItem
-import com.example.hrms.PositionResponse
+import com.example.hrms.Models.ApiResponse
+import com.example.hrms.Models.DepartmentModel
+import com.example.hrms.Models.DepartmentsItem
+import com.example.hrms.Models.PositionResponse
 import com.example.hrms.databinding.ActivitySignUpBinding
 import com.example.hrms.RetrofitClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
     private var position: String = "Position"
     private var gender: String = "Gender"
     private var departmentId = -1
+    private var genderId = -1
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
@@ -52,9 +52,17 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun listeners() {
         binding.btnSignUp.setOnClickListener {
-//            validations()
             if (binding.edtSignUpPassword.text.toString() == binding.edtSignUpConfirmPassword.text.toString()){
-                signUpUser()
+                if (genderId == -1){
+                    Toast.makeText(this@SignUpActivity, "Enter Correct Gender", Toast.LENGTH_SHORT).show()
+                }
+                else if(departmentId == -1){
+                    Toast.makeText(this@SignUpActivity, "Enter Correct Department", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    signUpUser()
+                }
+
             }
             else{
                 Toast.makeText(this@SignUpActivity, "Password Doesn't Match", Toast.LENGTH_SHORT).show()
@@ -83,6 +91,12 @@ class SignUpActivity : AppCompatActivity() {
         binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 gender = genderList[p2]
+                if (gender == "Male"){
+                    genderId = 1
+                }
+                else if (gender == "Female"){
+                    genderId = 2
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -127,19 +141,19 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         // Convert the list of DepartmentsItem into an array of department names
-        val PositionArray = Array(positionList!!.size + 1) { "" }
-        PositionArray[0] = "Position"  // Default value
+        val positionArray = Array(positionList.size + 1) { "" }
+        positionArray[0] = "Position"  // Default value
 
-        for (i in positionList!!.indices) {
-            PositionArray[i + 1] = (positionList!![i] ?: "Unknown").toString()
+        for (i in positionList.indices) {
+            positionArray[i + 1] = (positionList[i] ?: "Unknown").toString()
         }
-        val adapter = CustomSpinnerAdapter(this, PositionArray)
+        val adapter = CustomSpinnerAdapter(this, positionArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.positionSpinner.adapter = adapter
 
         binding.positionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                position = PositionArray[p2]
+                position = positionArray[p2]
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -235,7 +249,7 @@ private fun callPosition(departmentId: Int) {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onError(e: Throwable) {
-                Log.e("API Error", "Error fetching positions: ${e.message}")
+                Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
             }
 
             override fun onComplete() {}
@@ -256,8 +270,7 @@ private fun callPosition(departmentId: Int) {
         val email = binding.edtSignUpEmail.text.toString().trim()
         val password = binding.edtSignUpPassword.text.toString().trim()
         val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
-        val gender = 1
-        val deptId = 1
+        val deptId = departmentId
         val positionId = 2
         val salary = 20000
         val joiningDate = binding.edtSignUpJoiningDate.text.toString().trim()
@@ -266,7 +279,7 @@ private fun callPosition(departmentId: Int) {
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.signUpUser(insert , name , email , password , phone , gender , deptId , positionId , salary , joiningDate , dob , companyId)
+        apiService.signUpUser(insert , name , email , password , phone , genderId , deptId , positionId , salary , joiningDate , dob , companyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<ApiResponse>{

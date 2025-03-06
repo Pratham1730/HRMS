@@ -4,13 +4,22 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.hrms.ApiService
 import com.example.hrms.R
+import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityUpdateDetailsBinding
+import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.preferences.PreferenceManager
+import com.example.hrms.responses.UpdateDataResponse
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -38,6 +47,9 @@ class UpdateDetailsActivity : AppCompatActivity() {
         binding.edtUpdateProfileDOB.setOnClickListener {
             onClickDateDOB()
         }
+        binding.btnUpdatePageUpdate.setOnClickListener {
+            updatedData()
+        }
     }
 
     private fun setData(){
@@ -52,7 +64,33 @@ class UpdateDetailsActivity : AppCompatActivity() {
         val name = binding.edtUpdateProfileName.text.toString()
         val phone = binding.edtUpdateProfilePhone.text.toString()
         val dob = binding.edtUpdateProfileDOB.text.toString()
+
+        val model = UpdateDataModel(method , userId , name , phone.toBigInteger() , dob)
+
+        val apiService = RetrofitClient.getInstance(baseUrl)
+
+        apiService.updateUser(model)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<UpdateDataResponse>{
+                override fun onSubscribe(d: Disposable) {
+                    Toast.makeText(this@UpdateDetailsActivity, "sub", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(e: Throwable) {
+                    Toast.makeText(this@UpdateDetailsActivity, "error", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onComplete() {
+                    Toast.makeText(this@UpdateDetailsActivity, "complete", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNext(t: UpdateDataResponse) {
+                    Toast.makeText(this@UpdateDetailsActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+            })
     }
+
 
     private fun onClickDateDOB() {
         val c = Calendar.getInstance()

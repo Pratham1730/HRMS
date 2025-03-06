@@ -98,8 +98,8 @@ class SignInActivity : AppCompatActivity() {
                     Toast.makeText(this@SignInActivity, t.message.toString(), Toast.LENGTH_SHORT)
                         .show()
                     if (message == "Login successful") {
-                        moveToMainPage()
                         userId = t.user?.u_id!!.toInt()
+                        moveToMainPage()
                     }
                 }
 

@@ -4,6 +4,7 @@ import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.LeaveRequestResponse
+import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
@@ -19,18 +20,17 @@ import java.text.SimpleDateFormat
 
 interface ApiService {
 
-    @POST("HMRS/select_api_position.php")
-    fun getDepartment(): Observable<DepartmentModel>
 
     @FormUrlEncoded
     @POST("HMRS/select_api_dept.php")
     fun setDept(@Field("method") method: String): Observable<DepartmentModel>
-//    fun setDept(@Body dept : String) : Observable<DepartmentModel>
 
     @FormUrlEncoded
     @POST("HMRS/select_api_position.php")
-    fun getPosition(@Field("method") method: String,
-                    @Field("dept_id") dept_id: Int) : Observable<PositionResponse>
+    fun getPosition(
+        @Field("method") method: String,
+        @Field("dept_id") dept_id: Int
+    ): Observable<PositionResponse>
 
     @FormUrlEncoded
     @POST("HMRS/login_check_api.php")
@@ -62,15 +62,22 @@ interface ApiService {
     @POST("HMRS/fetch_all_data.php")
     fun getUserData(
         @Field("method") method: String,
-        @Field("u_email") u_email : String
-    ) : Observable<UserDataResponse>
+        @Field("u_email") u_email: String
+    ): Observable<UserDataResponse>
 
+    @FormUrlEncoded
     @POST("HMRS/update_user.php")
-    fun updateUser(@Body model : UpdateDataModel) : Observable<UpdateDataResponse>
+    fun updateUser(@Body model: UpdateDataModel): Observable<UpdateDataResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/select_leave_type.php")
+    fun leaveType(
+        @Field("method") method: String
+    ): Observable<LeaveTypeResponse>
 
+    @FormUrlEncoded
     @POST("HMRS/leave_request.php")
-    fun ApplyLeave(
+    fun applyLeave(
         @Field("insert") insert: String,
         @Field("company_id") company_id: Int,
         @Field("u_id") u_id: Int,

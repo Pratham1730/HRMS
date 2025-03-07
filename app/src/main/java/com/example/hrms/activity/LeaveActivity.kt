@@ -38,7 +38,6 @@ class LeaveActivity : AppCompatActivity() {
     private var weekend = false
     private lateinit var leaveList : List<LeaveTypesItem?>
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

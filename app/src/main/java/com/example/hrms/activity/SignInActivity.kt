@@ -37,6 +37,10 @@ class SignInActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this@SignInActivity)
 
+        if (preferenceManager.getIsPrevSignIn() == true){
+            startActivity(Intent(this@SignInActivity , HomeActivity::class.java))
+        }
+
         listeners()
 
 
@@ -85,6 +89,7 @@ class SignInActivity : AppCompatActivity() {
                         .show()
                     if (message == "Login successful") {
                         userId = t.user?.u_id!!.toInt()
+                        preferenceManager.isPrevSignIn(true)
                         moveToMainPage()
                     }
                 }

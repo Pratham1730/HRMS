@@ -14,7 +14,6 @@ class PreferenceManager(context: Context) {
         sharedPreferences.edit().putInt("USER_ID" , userId).apply()
     }
 
-
     fun getUserId() : Int {
         return sharedPreferences.getInt("USER_ID" , -1)
     }
@@ -49,6 +48,14 @@ class PreferenceManager(context: Context) {
 
     fun getUserDOB() : String? {
         return sharedPreferences.getString("USER_DOB" , "")
+    }
+
+    fun isPrevSignIn(isPrevSignIn : Boolean) {
+        sharedPreferences.edit().putBoolean("IS_PREV_SIGN_IN" , isPrevSignIn).apply()
+    }
+
+    fun getIsPrevSignIn() : Boolean{
+        return sharedPreferences.getBoolean("IS_PREV_SIGN_IN" , false)
     }
 
     fun logout() {

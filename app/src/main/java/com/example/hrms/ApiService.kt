@@ -3,6 +3,7 @@ package com.example.hrms
 import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
@@ -66,5 +67,17 @@ interface ApiService {
 
     @POST("HMRS/update_user.php")
     fun updateUser(@Body model : UpdateDataModel) : Observable<UpdateDataResponse>
+
+
+    @POST("HMRS/leave_request.php")
+    fun ApplyLeave(
+        @Field("insert") insert: String,
+        @Field("company_id") company_id: Int,
+        @Field("u_id") u_id: Int,
+        @Field("leave_type_id") leave_type_id: Int,
+        @Field("l_reason") l_reason: String,
+        @Field("l_start_date") l_start_date: String
+
+    ): Observable<LeaveRequestResponse>
 
 }

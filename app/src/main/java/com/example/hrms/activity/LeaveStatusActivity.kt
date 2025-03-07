@@ -47,7 +47,6 @@ class LeaveStatusActivity : AppCompatActivity() {
         binding.recyclerLeaveTracker.adapter = adapter
 
         callLeaveType()
-
         listeners()
 
     }

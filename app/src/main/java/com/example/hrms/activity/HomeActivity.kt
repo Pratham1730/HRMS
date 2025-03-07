@@ -77,8 +77,8 @@ class HomeActivity : AppCompatActivity() {
         binding.progressCircular.progress = progress.toInt()
     }
 
-    private fun updateDate(){
-        val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    private fun updateDate() {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
         binding.tvDate.text = currentDate
     }

@@ -275,16 +275,22 @@ private fun callPosition() {
         val deptId = departmentId
         val positionId = positionId
         val salary = 20000
-        val joiningDate = binding.edtSignUpJoiningDate.text.toString().trim()
+
+        val joiningString = binding.edtSignUpJoiningDate.text.toString().trim()
+        val joiningFormat = SimpleDateFormat("yyyy-MM-dd" , Locale.getDefault())
+        val joiningDateF = joiningFormat.parse(joiningString)
+        val formatedJoining = if (joiningDateF != null) joiningFormat.format(joiningDateF) else ""
+
         val dobString  = binding.edtSignUpDOB.text.toString().trim()
         val dobFormat = SimpleDateFormat("yyyy-MM-dd" , Locale.getDefault())
         val dobDate = dobFormat.parse(dobString)
         val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
+
         val companyId = 1
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.signUpUser(insert , name , email , password , phone , genderId , deptId , positionId , salary , joiningDate , formatedDob , companyId)
+        apiService.signUpUser(insert , name , email , password , phone , genderId , deptId , positionId , salary , formatedJoining , formatedDob , companyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<ApiResponse>{

@@ -4,44 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".activity.HomeActivity"
-    android:background="@drawable/theme">
+    android:background="@color/primary"
+    tools:context=".activity.HomeActivity">
 
-    <LinearLayout
-        android:id="@+id/welcomeSection"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/homePageToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#eeaeca"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txtWelcome"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/welcomeSection"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Welcome Back,\nHRMS"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/_4sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profileimage"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/accountprofile" />
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtWelcome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Welcome Back"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileimage"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/accountprofile" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <ScrollView
-        app:layout_constraintTop_toBottomOf="@id/welcomeSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@id/homePageToolBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,65 +83,71 @@
                     android:padding="@dimen/_16sdp">
 
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center">
 
-                        <com.google.android.material.progressindicator.CircularProgressIndicator
-                            android:id="@+id/progressCircular"
-                            android:layout_width="@dimen/_170sdp"
-                            android:layout_height="match_parent"
-                            app:indicatorSize="@dimen/_150sdp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:trackColor="#D6E4FF"
-                            app:trackThickness="@dimen/_8sdp" />
-
-
-                        <TextView
-                            android:id="@+id/tvTimer"
+                        <FrameLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="center"
-                            android:text="00:00:00"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_18ssp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.progressindicator.CircularProgressIndicator
+                                android:id="@+id/progressCircular"
+                                android:layout_width="@dimen/_170sdp"
+                                android:layout_height="match_parent"
+                                app:indicatorSize="@dimen/_150sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:trackColor="#D6E4FF"
+                                app:trackThickness="@dimen/_8sdp" />
+
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tvTimer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="00:00:00"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_18ssp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.3"
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tvDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:text="DD/MM/YYYY"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp"
                             android:textStyle="bold"
-                            android:layout_marginBottom="@dimen/_10sdp"
                             app:layout_constraintBottom_toTopOf="@id/tvTimer"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"/>
+                            app:layout_constraintStart_toStartOf="parent" />
 
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnPunch"
-                            android:layout_width="@dimen/_100sdp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_16sdp"
                             android:backgroundTint="#94bbe9"
@@ -138,15 +157,15 @@
                             android:textStyle="bold"
                             app:cornerRadius="@dimen/_30sdp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnMyTimecard"
-                            android:layout_width="@dimen/_100sdp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:backgroundTint="#94bbe9"
                             android:padding="@dimen/_8sdp"
                             android:text="Timecard"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            android:backgroundTint="#94bbe9"
                             app:cornerRadius="@dimen/_30sdp" />
                     </LinearLayout>
 
@@ -170,7 +189,6 @@
                     android:orientation="horizontal">
 
 
-
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_130sdp"
@@ -180,7 +198,7 @@
                         app:cardCornerRadius="@dimen/_16sdp"
                         app:cardElevation="@dimen/_5sdp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
@@ -205,7 +223,7 @@
                         app:cardCornerRadius="@dimen/_16sdp"
                         app:cardElevation="@dimen/_8sdp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
@@ -238,7 +256,7 @@
                         app:cardCornerRadius="@dimen/_16sdp"
                         app:cardElevation="@dimen/_8sdp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
@@ -251,6 +269,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:src="@drawable/holidays" />
+
                     </androidx.cardview.widget.CardView>
 
 
@@ -263,7 +282,7 @@
                         app:cardCornerRadius="@dimen/_16sdp"
                         app:cardElevation="@dimen/_8sdp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
@@ -287,7 +306,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

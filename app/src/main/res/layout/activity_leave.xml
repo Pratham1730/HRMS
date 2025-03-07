@@ -43,7 +43,7 @@
                     android:src="@drawable/baseline_arrow_back_24" />
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select Leave Type"
@@ -56,10 +56,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/spinner_background" />
 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select Date"
@@ -67,48 +68,28 @@
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etFromDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select date"
                     android:focusable="false"
                     android:clickable="true"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:drawableEnd="@drawable/ic_calender"
                     android:background="@drawable/input_background"
                     android:padding="@dimen/_10sdp"/>
 
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Leave Duration"-->
-<!--                    android:textSize="@dimen/_16ssp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:layout_marginTop="@dimen/_10sdp" />-->
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Reason"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
 
-<!--                <RadioGroup-->
-<!--                    android:id="@+id/radioGroupDuration"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/rbFullDay"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Full Day" />-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/rbAM"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Half Day" />-->
-<!--                </RadioGroup>-->
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etReason"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -119,37 +100,7 @@
                     android:layout_marginTop="@dimen/_10sdp"/>
 
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Is it a Comp Off?"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textSize="@dimen/_16ssp"-->
-<!--                    android:layout_marginTop="@dimen/_10sdp" />-->
-
-<!--                <RadioGroup-->
-<!--                    android:id="@+id/radioGroupCompOff"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/rbNo"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="No" />-->
-
-<!--                    <RadioButton-->
-<!--                        android:id="@+id/rbYes"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Yes" />-->
-<!--                </RadioGroup>-->
-
-
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSubmit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

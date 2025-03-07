@@ -120,7 +120,6 @@ class SignUpActivity : AppCompatActivity() {
             departmentArray[i + 1] = departmentList[i]?.deptName ?: "Unknown"
         }
 
-        val a = departmentArray
         val adapter = CustomSpinnerAdapter(this, departmentArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = adapter

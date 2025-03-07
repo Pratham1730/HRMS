@@ -6,7 +6,5 @@
         <item>Select Leave Type</item> <!-- Added default item -->
         <item>Casual Leave</item>
         <item>Sick Leave</item>
-        <item>Annual Leave</item>
-        <item>Emergency Leave</item>
     </string-array>
 </resources>

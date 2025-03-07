@@ -50,8 +50,8 @@ class SignUpActivity : AppCompatActivity() {
         callDept()
         genderSpinner()
 //
-//        binding.btnSignUp.setOnClickListener {
-//            val intent = Intent(this,HomeActivity::class.java)
+//        binding.imgSignUpBack.setOnClickListener {
+//            val intent = Intent(this,SignInActivity::class.java)
 //            startActivity(intent)
 //        }
 

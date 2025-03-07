@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrms.databinding.ItemLeaveBinding
 import com.example.hrms.responses.LeaveDataItem
-import com.example.hrms.responses.LeaveListResponse
 
 class LeaveStatusRvAdapter(private var context : Context, private var list : List<LeaveDataItem?>)  : RecyclerView.Adapter<LeaveStatusRvAdapter.ViewHolder>() {
+
+    fun updateList(updatedList : List<LeaveDataItem?>){
+        this.list = updatedList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemLeaveBinding.inflate(LayoutInflater.from(context) , parent , false)
@@ -17,7 +21,6 @@ class LeaveStatusRvAdapter(private var context : Context, private var list : Lis
 
     override fun getItemCount(): Int {
         return list.size
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

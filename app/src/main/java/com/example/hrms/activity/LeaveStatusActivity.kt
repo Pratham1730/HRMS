@@ -28,7 +28,7 @@ class LeaveStatusActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLeaveStatusBinding
     private  var baseUrl = "http://192.168.4.140/"
     private lateinit var preferenceManager: PreferenceManager
-    private lateinit var leaveList : List<LeaveDataItem?>
+    private var leaveList : List<LeaveDataItem?> = emptyList()
     private lateinit var adapter: LeaveStatusRvAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +37,11 @@ class LeaveStatusActivity : AppCompatActivity() {
         setContentView(binding.root)
         preferenceManager = PreferenceManager(this@LeaveStatusActivity)
 
-        callLeaveType()
         binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
         adapter = LeaveStatusRvAdapter(this, leaveList)
         binding.recyclerLeaveTracker.adapter = adapter
 
+        callLeaveType()
 
         binding.fabAddLeave.setOnClickListener{
             val intent = Intent(this,LeaveActivity::class.java)
@@ -71,8 +71,7 @@ class LeaveStatusActivity : AppCompatActivity() {
                     if(t.leave_data!!.isNotEmpty()){
                         leaveList = t.leave_data
                         Toast.makeText(this@LeaveStatusActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
-
-
+                        adapter.updateList(leaveList)
                     }
 
                 }

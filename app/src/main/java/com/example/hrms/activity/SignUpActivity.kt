@@ -55,6 +55,7 @@ class SignUpActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
+
     }
 
     private fun listeners() {

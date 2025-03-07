@@ -1,6 +1,7 @@
 package com.example.hrms.activity
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.TextView
@@ -44,6 +45,11 @@ class UpdateDetailsActivity : AppCompatActivity() {
         }
         binding.btnUpdatePageUpdate.setOnClickListener {
             updatedData()
+            startActivity(Intent(this@UpdateDetailsActivity , ProfileActivity::class.java))
+            finish()
+        }
+        binding.imgUpdateProfileBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -69,18 +75,18 @@ class UpdateDetailsActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<UpdateDataResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@UpdateDetailsActivity, "sub", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@UpdateDetailsActivity, "error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
-                    Toast.makeText(this@UpdateDetailsActivity, "complete", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onNext(t: UpdateDataResponse) {
+                    preferenceManager.saveUserEmail(name)
+                    preferenceManager.saveUserPhone(phone)
+                    preferenceManager.saveUserDOB(dob)
                     Toast.makeText(this@UpdateDetailsActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             })
@@ -96,7 +102,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
             selectedCalendarDOB.set(Calendar.DAY_OF_MONTH, day)
 
             val tDate =
-                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarDOB.time)
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendarDOB.time)
             binding.edtUpdateProfileDOB.setText(tDate)
         }
 

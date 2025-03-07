@@ -13,6 +13,8 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import java.math.BigInteger
+import java.sql.Date
+import java.text.SimpleDateFormat
 
 interface ApiService {
 
@@ -52,7 +54,7 @@ interface ApiService {
         @Field("u_salary") u_salary: Int,
         @Field("u_joining_date") u_joining_date: String,
         @Field("u_dob") u_dob: String,
-        @Field("company_id") company_id : Int
+        @Field("company_id") company_id: Int
     ): Observable<ApiResponse>
 
     @FormUrlEncoded

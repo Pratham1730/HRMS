@@ -52,6 +52,16 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelectCompanyNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:padding="@dimen/_4sdp"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/_8sdp"/>
+
 
         </LinearLayout>
 

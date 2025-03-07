@@ -5,12 +5,7 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.hrms.ApiService
-import com.example.hrms.R
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityUpdateDetailsBinding
 import com.example.hrms.models.UpdateDataModel
@@ -65,7 +60,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
         val phone = binding.edtUpdateProfilePhone.text.toString()
         val dob = binding.edtUpdateProfileDOB.text.toString()
 
-        val model = UpdateDataModel(method , userId , name , phone.toBigInteger() , dob)
+        val model = UpdateDataModel(method , userId , name , phone.toBigInteger() , dob )
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 

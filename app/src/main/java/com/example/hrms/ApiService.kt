@@ -95,4 +95,10 @@ interface ApiService {
         @Field("u_id") u_id :Int
     ):Observable<LeaveListResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/select_company.php")
+    fun selectCompany(
+        @Field("method") method: String
+    ): Observable<CompanyResponse>
+
 }

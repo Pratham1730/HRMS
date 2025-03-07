@@ -37,6 +37,11 @@ class HomeActivity : AppCompatActivity() {
             togglePunchStatus()
         }
 
+        binding.leaveCard.setOnClickListener {
+            val intent = Intent(this,LeaveActivity::class.java)
+            startActivity(intent)
+        }
+
 
         binding.profileimage.setOnClickListener {
             val intent = Intent(this@HomeActivity, ProfileActivity::class.java)

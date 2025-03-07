@@ -59,7 +59,7 @@ class LeaveActivity : AppCompatActivity() {
             { _, year, month, dayOfMonth ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, dayOfMonth)
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 binding.etFromDate.setText(dateFormat.format(selectedDate.time))
             },
             calendar.get(Calendar.YEAR),

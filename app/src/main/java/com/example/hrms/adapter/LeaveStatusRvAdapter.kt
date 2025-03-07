@@ -8,7 +8,7 @@ import com.example.hrms.databinding.ItemLeaveBinding
 import com.example.hrms.responses.LeaveDataItem
 import com.example.hrms.responses.LeaveListResponse
 
-class LeaveStatusRvAdapter(private var context : Context, private var list : List<LeaveDataItem>)  : RecyclerView.Adapter<LeaveStatusRvAdapter.ViewHolder>() {
+class LeaveStatusRvAdapter(private var context : Context, private var list : List<LeaveDataItem?>)  : RecyclerView.Adapter<LeaveStatusRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemLeaveBinding.inflate(LayoutInflater.from(context) , parent , false)
@@ -21,10 +21,10 @@ class LeaveStatusRvAdapter(private var context : Context, private var list : Lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item : LeaveDataItem = list[position]
-        holder.b.txtLeaveDate.text = (item.l_start_date)
-        holder.b.txtLeaveType.text = (item.leave_type)
-        holder.b.txtLeaveStatus.text = (item.leave_status)
+        val item : LeaveDataItem? = list[position]
+        holder.b.txtLeaveDate.text = (item?.l_start_date)
+        holder.b.txtLeaveType.text = (item?.leave_type)
+        holder.b.txtLeaveStatus.text = (item?.leave_status)
     }
 
     class ViewHolder(var b : ItemLeaveBinding) : RecyclerView.ViewHolder(b.root)

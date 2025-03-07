@@ -7,10 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hrms.R
 import com.example.hrms.RetrofitClient
+import com.example.hrms.adapter.LeaveStatusRvAdapter
 import com.example.hrms.databinding.ActivityLeaveStatusBinding
 import com.example.hrms.preferences.PreferenceManager
+import com.example.hrms.responses.LeaveDataItem
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
@@ -24,11 +28,19 @@ class LeaveStatusActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLeaveStatusBinding
     private  var baseUrl = "http://192.168.4.140/"
     private lateinit var preferenceManager: PreferenceManager
-    private lateinit var leavelist : List<LeaveListResponse?>
+    private lateinit var leaveList : List<LeaveDataItem?>
+    private lateinit var adapter: LeaveStatusRvAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLeaveStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        callLeaveType()
+        binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+
+        adapter = LeaveStatusRvAdapter(this, leaveList)
+        binding.recyclerLeaveTracker.adapter = adapter
 
         preferenceManager = PreferenceManager(this@LeaveStatusActivity)
         binding.fabAddLeave.setOnClickListener{
@@ -53,12 +65,10 @@ class LeaveStatusActivity : AppCompatActivity() {
 
                 override fun onError(e: Throwable) {}
 
-                override fun onComplete() {
-
-                }
+                override fun onComplete() {}
 
                 override fun onNext(t: LeaveListResponse) {
-//                 leavelist = t.leaveData!!
+                 leaveList = t.leave_data!!
                     Toast.makeText(this@LeaveStatusActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
 
                 }

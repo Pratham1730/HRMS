@@ -5,73 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LeaveStatusActivity"
-    android:background="@drawable/theme">
+    android:background="@color/primary">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Leave Tracker"
+        android:background="#eeaeca"
         app:titleTextColor="@android:color/white"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
 
-
-    <LinearLayout
-        android:id="@+id/leaveBalanceSection"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/primary"
-        android:padding="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="My Leave Balance"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgLeaveStatusBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/baseline_arrow_back_24_bing" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leave Status"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:textSize="@dimen/_20ssp"/>
 
-    <LinearLayout
-        android:id="@+id/leavespinnerYear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@id/leaveBalanceSection">
+        </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerYear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_spinner"
-            android:padding="8dp" />
-
-        <Spinner
-            android:id="@+id/spinnerLeaveType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_spinner"
-            android:padding="8dp"
-            android:layout_marginStart="10dp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerLeaveTracker"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/leavespinnerYear"
-        android:padding="10dp"
-        tools:ignore="NotSibling" />
+        android:padding="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="NotSibling"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_leave" />
 
 
 

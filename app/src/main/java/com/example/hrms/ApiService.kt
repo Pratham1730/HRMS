@@ -3,6 +3,7 @@ package com.example.hrms
 import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
@@ -86,5 +87,12 @@ interface ApiService {
         @Field("l_start_date") l_start_date: String
 
     ): Observable<LeaveRequestResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/select_leave_master.php")
+    fun selectLeave(
+        @Field("method") method: String,
+        @Field("u_id") u_id :Int
+    ):Observable<LeaveListResponse>
 
 }

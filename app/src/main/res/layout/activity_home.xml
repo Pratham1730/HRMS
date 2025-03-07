@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@drawable/theme"
     tools:context=".activity.HomeActivity"
     android:paddingBottom="@dimen/_10sdp">
 
@@ -12,7 +12,6 @@
         android:id="@+id/homePageToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eeaeca"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

@@ -38,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.leaveCard.setOnClickListener {
-            val intent = Intent(this,LeaveActivity::class.java)
+            val intent = Intent(this,LeaveStatusActivity::class.java)
             startActivity(intent)
         }
 

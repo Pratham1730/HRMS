@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LeaveStatusActivity"
-    android:background="@color/primary">
+    android:background="@drawable/theme">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eeaeca"
         app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent" >
 
@@ -50,6 +49,16 @@
         tools:ignore="NotSibling"
         tools:itemCount="1"
         tools:listitem="@layout/item_leave" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_add"
+        android:tint="@android:color/white" />
 
 
 

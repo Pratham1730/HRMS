@@ -17,6 +17,7 @@ class LeaveStatusRvAdapter(private var context : Context, private var list : Lis
 
     override fun getItemCount(): Int {
         return list.size
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

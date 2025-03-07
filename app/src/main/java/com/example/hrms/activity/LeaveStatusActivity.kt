@@ -35,14 +35,14 @@ class LeaveStatusActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLeaveStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        preferenceManager = PreferenceManager(this@LeaveStatusActivity)
 
         callLeaveType()
         binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
-
         adapter = LeaveStatusRvAdapter(this, leaveList)
         binding.recyclerLeaveTracker.adapter = adapter
 
-        preferenceManager = PreferenceManager(this@LeaveStatusActivity)
+
         binding.fabAddLeave.setOnClickListener{
             val intent = Intent(this,LeaveActivity::class.java)
             startActivity(intent)
@@ -68,8 +68,12 @@ class LeaveStatusActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: LeaveListResponse) {
-                 leaveList = t.leave_data!!
-                    Toast.makeText(this@LeaveStatusActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                    if(t.leave_data!!.isNotEmpty()){
+                        leaveList = t.leave_data
+                        Toast.makeText(this@LeaveStatusActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+
+
+                    }
 
                 }
 

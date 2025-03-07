@@ -32,6 +32,7 @@ class SignUpActivity : AppCompatActivity() {
     private var departmentId = -1
     private var genderId = -1
     private var positionId = -1
+    private var companyId = 0
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
@@ -111,6 +112,7 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun departmentSpinner() {
+        companyId = intent.getIntExtra("COMPANY_ID" , 0)
         if (departmentList.isEmpty()) return
 
         val departmentArray = Array(departmentList.size + 1) { "" }

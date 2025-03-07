@@ -2,6 +2,7 @@ package com.example.hrms
 
 import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
+import com.example.hrms.responses.CompanyResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse

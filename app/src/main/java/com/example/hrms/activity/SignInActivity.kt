@@ -55,7 +55,7 @@ class SignInActivity : AppCompatActivity() {
         binding.txtMoveToSignUp.setOnClickListener {
             binding.edtSignInEmail.text?.clear()
             binding.edtSignInPassword.text?.clear()
-            val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
+            val intent = Intent(this@SignInActivity, SelectCompanyActivity::class.java)
             startActivity(intent)
         }
         binding.btnLogin.setOnClickListener {

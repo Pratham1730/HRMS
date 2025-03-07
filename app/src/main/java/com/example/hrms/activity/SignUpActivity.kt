@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -49,12 +50,6 @@ class SignUpActivity : AppCompatActivity() {
 
         callDept()
         genderSpinner()
-//
-//        binding.btnSignUp.setOnClickListener {
-//            val intent = Intent(this,HomeActivity::class.java)
-//            startActivity(intent)
-//        }
-
 
     }
 
@@ -86,6 +81,9 @@ class SignUpActivity : AppCompatActivity() {
         }
         binding.edtSignUpJoiningDate.setOnClickListener {
             onClickDateJoining()
+        }
+        binding.imgSignUpBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -184,7 +182,7 @@ class SignUpActivity : AppCompatActivity() {
             selectedCalendarDOB.set(Calendar.DAY_OF_MONTH, day)
 
             val tDate =
-                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendarDOB.time)
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedCalendarDOB.time)
             binding.edtSignUpDOB.setText(tDate)
         }
 
@@ -202,7 +200,7 @@ class SignUpActivity : AppCompatActivity() {
             selectedCalendarJoiningDate.set(Calendar.MONTH, month)
             selectedCalendarJoiningDate.set(Calendar.DAY_OF_MONTH, day)
 
-            val tDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+            val tDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
                 selectedCalendarJoiningDate.time
             )
             binding.edtSignUpJoiningDate.setText(tDate)
@@ -223,25 +221,16 @@ class SignUpActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<DepartmentModel> {
                 override fun onSubscribe(d: Disposable) {
-//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-//                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
-//                    Toast.makeText(this@SignUpActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onNext(t: DepartmentModel) {
                     departmentList = t.departments!!
-//                    Toast.makeText(
-//                        this@SignUpActivity,
-//                        departmentList.get(0)?.deptName.toString(),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
                     departmentSpinner()
                 }
             })
@@ -251,8 +240,7 @@ class SignUpActivity : AppCompatActivity() {
 
 
 private fun callPosition() {
-    if (departmentId == -1) return  // Prevent API call if no valid department is selected
-
+    if (departmentId == -1) return
     val apiService = RetrofitClient.getInstance(baseUrl)
 
     val a = departmentId
@@ -269,8 +257,8 @@ private fun callPosition() {
             override fun onComplete() {}
 
             override fun onNext(response: PositionResponse) {
-                positionList = response.positions!!
-                positionSpinner()  // Refresh position dropdown after fetching data
+                positionList = response.positions
+                positionSpinner()
             }
         })
 }
@@ -288,30 +276,30 @@ private fun callPosition() {
         val positionId = positionId
         val salary = 20000
         val joiningDate = binding.edtSignUpJoiningDate.text.toString().trim()
-        val dob = binding.edtSignUpDOB.text.toString().trim()
+        val dobString  = binding.edtSignUpDOB.text.toString().trim()
+        val dobFormat = SimpleDateFormat("yyyy-MM-dd" , Locale.getDefault())
+        val dobDate = dobFormat.parse(dobString)
+        val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
         val companyId = 1
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.signUpUser(insert , name , email , password , phone , genderId , deptId , positionId , salary , joiningDate , dob , companyId)
+        apiService.signUpUser(insert , name , email , password , phone , genderId , deptId , positionId , salary , joiningDate , formatedDob , companyId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<ApiResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@SignUpActivity, "Sub", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
-                    Toast.makeText(this@SignUpActivity, "error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onNext(t: ApiResponse) {
-                    //Toast.makeText(this@SignUpActivity, "Success", Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@SignUpActivity, t.message, Toast.LENGTH_SHORT).show()
+                    finish()
                 }
             })
     }

@@ -39,6 +39,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnProfileUpdate.setOnClickListener {
             startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
         }
+        binding.imgProfile.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setUserData(){
@@ -64,6 +67,7 @@ class ProfileActivity : AppCompatActivity() {
                 override fun onNext(t: UserDataResponse) {
                     Toast.makeText(this@ProfileActivity, "Success", Toast.LENGTH_SHORT).show()
                     binding.txtProfileName.text = t.user?.u_name.toString()
+                    binding.txtProfilePhone.text = t.user?.u_phone.toString()
                     binding.txtProfileEmail.text = t.user?.u_email.toString()
                     binding.txtProfileDB.text = t.user?.u_dob.toString()
                     binding.txtProfileJoiningDate.text = t.user?.u_joining_Date.toString()

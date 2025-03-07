@@ -47,32 +47,16 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.txtMoveToSignUp.setOnClickListener {
-
+            binding.edtSignInEmail.text?.clear()
+            binding.edtSignInPassword.text?.clear()
             val intent = Intent(this@SignInActivity, SignUpActivity::class.java)
             startActivity(intent)
         }
         binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnLogin.setOnClickListener {
-            //validations()
             callSignIn()
         }
     }
 
-//    private fun validations(){
-//        val email = binding.edtSignInEmail.text.toString().trim()
-//        val password = binding.edtSignInPassword.text.toString().trim()
-//
-//        if (email.isEmpty() || password.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(binding.edtSignInEmail.text.toString()).matches()) {
-//            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-//        }
-//        else {
-//            Toast.makeText(this@SignInActivity, "Invalid Email or Password", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 
     private fun callSignIn() {
         val apiService = RetrofitClient.getInstance(baseUrl)
@@ -109,6 +93,8 @@ class SignInActivity : AppCompatActivity() {
     fun moveToMainPage() {
         preferenceManager.saveUserEmail(email)
         preferenceManager.saveUserId(userId)
+        binding.edtSignInEmail.text?.clear()
+        binding.edtSignInPassword.text?.clear()
         startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
     }
 }

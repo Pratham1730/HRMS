@@ -79,6 +79,7 @@ class ProfileActivity : AppCompatActivity() {
                     preferenceManager.saveUserName(t.user?.u_name.toString())
                     preferenceManager.saveUserPhone(t.user?.u_phone.toString())
                     preferenceManager.saveUserDOB(t.user?.u_dob.toString())
+
                 }
             })
 

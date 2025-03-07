@@ -59,6 +59,9 @@ class LeaveActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun listeners(){
+        binding.imgLeaveBack.setOnClickListener {
+            finish()
+        }
         binding.etFromDate.setOnClickListener {
             showDatePicker()
         }
@@ -69,6 +72,7 @@ class LeaveActivity : AppCompatActivity() {
             else{
                 if (!weekend){
                     callApplyLeave()
+                    finish()
                 }
                 else{
                     Toast.makeText(this@LeaveActivity, "The Date You Are Selecting Is Official Holiday", Toast.LENGTH_SHORT).show()
@@ -118,11 +122,9 @@ class LeaveActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<LeaveTypeResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@LeaveActivity, "Sub", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@LeaveActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
@@ -147,15 +149,12 @@ class LeaveActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<LeaveRequestResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@LeaveActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@LeaveActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
-                    Toast.makeText(this@LeaveActivity, "Complete", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onNext(t: LeaveRequestResponse) {

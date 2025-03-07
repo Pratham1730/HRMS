@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:paddingStart="@dimen/_18sdp"
         android:paddingTop="@dimen/_35sdp"
         android:paddingEnd="@dimen/_18sdp"
@@ -78,34 +79,34 @@
                     android:padding="@dimen/_10sdp"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Leave Duration"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/_10sdp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Leave Duration"-->
+<!--                    android:textSize="@dimen/_16ssp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_marginTop="@dimen/_10sdp" />-->
 
-                <RadioGroup
-                    android:id="@+id/radioGroupDuration"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/radioGroupDuration"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/rbFullDay"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Full Day" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbFullDay"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Full Day" />-->
 
-                    <RadioButton
-                        android:id="@+id/rbAM"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Half Day" />
-                </RadioGroup>
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbAM"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Half Day" />-->
+<!--                </RadioGroup>-->
 
                 <EditText
                     android:id="@+id/etReason"
@@ -118,34 +119,34 @@
                     android:layout_marginTop="@dimen/_10sdp"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Is it a Comp Off?"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_16ssp"
-                    android:layout_marginTop="@dimen/_10sdp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Is it a Comp Off?"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="@dimen/_16ssp"-->
+<!--                    android:layout_marginTop="@dimen/_10sdp" />-->
 
-                <RadioGroup
-                    android:id="@+id/radioGroupCompOff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/radioGroupCompOff"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/rbNo"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="No" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbNo"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="No" />-->
 
-                    <RadioButton
-                        android:id="@+id/rbYes"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Yes" />
-                </RadioGroup>
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbYes"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Yes" />-->
+<!--                </RadioGroup>-->
 
 
                 <Button

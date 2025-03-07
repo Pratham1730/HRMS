@@ -37,12 +37,16 @@ class LeaveStatusActivity : AppCompatActivity() {
         setContentView(binding.root)
         preferenceManager = PreferenceManager(this@LeaveStatusActivity)
 
+        binding.imgLeaveStatusBack.setOnClickListener {
+            val intent = Intent(this@LeaveStatusActivity,HomeActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
         adapter = LeaveStatusRvAdapter(this, leaveList)
         binding.recyclerLeaveTracker.adapter = adapter
 
         callLeaveType()
-
         listeners()
 
     }

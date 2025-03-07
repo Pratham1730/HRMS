@@ -68,10 +68,15 @@ class LeaveStatusActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: LeaveListResponse) {
-                    if(t.leave_data!!.isNotEmpty()){
-                        leaveList = t.leave_data
-                        Toast.makeText(this@LeaveStatusActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+
+                    val newList = t.leave_data ?: emptyList()
+
+                    if(newList.isNotEmpty()){
+                        leaveList = newList
                         adapter.updateList(leaveList)
+                    }
+                    else{
+                        Toast.makeText(this@LeaveStatusActivity, "No Leave Record Found", Toast.LENGTH_SHORT).show()
                     }
 
                 }

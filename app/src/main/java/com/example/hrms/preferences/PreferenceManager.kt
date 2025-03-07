@@ -7,6 +7,7 @@ class PreferenceManager(context: Context) {
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("UserDataPreferences", Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
 
     fun saveUserId(userId : Int){
@@ -48,5 +49,10 @@ class PreferenceManager(context: Context) {
 
     fun getUserDOB() : String? {
         return sharedPreferences.getString("USER_DOB" , "")
+    }
+
+    fun logout() {
+        editor.clear()
+        editor.apply()
     }
 }

@@ -26,6 +26,7 @@ class SignInActivity : AppCompatActivity() {
     private var userId: Int = -1
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
@@ -37,6 +38,7 @@ class SignInActivity : AppCompatActivity() {
         preferenceManager = PreferenceManager(this@SignInActivity)
 
         listeners()
+
 
 
     }

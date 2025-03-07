@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -32,6 +33,26 @@ class ProfileActivity : AppCompatActivity() {
         setUserData()
 
         listener()
+
+        binding.imgProfileBack.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        binding.btnProfileLogOut.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    preferenceManager.logout()
+                    val intent = Intent(this, SignInActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
 
     }
 

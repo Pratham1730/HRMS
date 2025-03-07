@@ -28,6 +28,7 @@ class LeaveStatusRvAdapter(private var context : Context, private var list : Lis
         holder.b.txtLeaveDate.text = (item?.l_start_date)
         holder.b.txtLeaveType.text = (item?.leave_type)
         holder.b.txtLeaveStatus.text = (item?.leave_status)
+        holder.b.txtLeaveReason.text = (item?.l_reason)
     }
 
     class ViewHolder(var b : ItemLeaveBinding) : RecyclerView.ViewHolder(b.root)

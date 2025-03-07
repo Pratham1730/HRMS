@@ -71,6 +71,7 @@ class LeaveActivity : AppCompatActivity() {
             else{
                 if (!weekend){
                     callApplyLeave()
+                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
                     finish()
                 }
                 else{

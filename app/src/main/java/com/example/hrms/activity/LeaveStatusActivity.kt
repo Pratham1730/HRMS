@@ -43,12 +43,18 @@ class LeaveStatusActivity : AppCompatActivity() {
 
         callLeaveType()
 
+        listeners()
+
+    }
+
+    private fun listeners(){
         binding.fabAddLeave.setOnClickListener{
             val intent = Intent(this,LeaveActivity::class.java)
             startActivity(intent)
         }
-
-
+        binding.imgLeaveStatusBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun callLeaveType(){

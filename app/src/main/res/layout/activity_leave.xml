@@ -17,6 +17,7 @@
         android:paddingEnd="@dimen/_18sdp"
         android:paddingBottom="@dimen/_35sdp">
 
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

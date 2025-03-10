@@ -131,10 +131,11 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isValidPassword(password: String): Boolean {
         val passwordPattern = Pattern.compile(
-            "^(?=.[0-9])(?=.[a-z])(?=.[A-Z])(?=.[@#\$%^&+=!])(?=\\S+$).{8,}$"
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=!])(?=\\S+$).{8,}$"
         )
         return passwordPattern.matcher(password).matches()
     }
+
 
     private fun genderSpinner() {
         val genderList = arrayOf("Gender", "Male", "Female")

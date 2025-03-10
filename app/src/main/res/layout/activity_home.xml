@@ -216,6 +216,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/attendanceCard"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_130sdp"
                         android:layout_margin="@dimen/_8sdp"

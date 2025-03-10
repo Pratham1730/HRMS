@@ -33,6 +33,11 @@ class HomeActivity : AppCompatActivity() {
 
         updateDate()
 
+        listeners()
+
+    }
+
+    private fun listeners(){
         binding.btnPunch.setOnClickListener {
             togglePunchStatus()
         }
@@ -42,9 +47,13 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         binding.profileimage.setOnClickListener {
             val intent = Intent(this@HomeActivity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.attendanceCard.setOnClickListener {
+            val intent = Intent(this@HomeActivity , AttendanceActivity::class.java)
             startActivity(intent)
         }
     }

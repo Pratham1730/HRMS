@@ -18,6 +18,14 @@ class PreferenceManager(context: Context) {
         return sharedPreferences.getInt("USER_ID" , -1)
     }
 
+    fun saveCompanyId(companyId : Int){
+        sharedPreferences.edit().putInt("COMPANY_ID" , companyId).apply()
+    }
+
+    fun getCompanyId() : Int {
+        return sharedPreferences.getInt("COMPANY_ID" , -1)
+    }
+
     fun saveUserEmail(userEmail : String){
         sharedPreferences.edit().putString("USER_EMAIL" , userEmail).apply()
     }

@@ -141,9 +141,10 @@ class LeaveActivity : AppCompatActivity() {
         val date = binding.etFromDate.text.toString()
         val reason = binding.etReason.text.toString()
         val userId = preferenceManager.getUserId()
+        val companyId = preferenceManager.getCompanyId()
 
         val apiService = RetrofitClient.getInstance(baseUrl)
-        apiService.applyLeave("true" , 1 , userId , leaveTypeId , reason , date)
+        apiService.applyLeave("true" , companyId , userId , leaveTypeId , reason , date)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<LeaveRequestResponse>{

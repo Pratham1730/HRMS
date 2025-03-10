@@ -54,6 +54,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+
     private fun togglePunchStatus() {
         isPunchIn = !isPunchIn
 

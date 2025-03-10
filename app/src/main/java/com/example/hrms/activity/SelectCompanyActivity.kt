@@ -25,7 +25,7 @@ class SelectCompanyActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySelectCompanyBinding
     private lateinit var companyList: List<CompanyItem?>
-    private var companyId = 0
+    private var companyId = -1
     private val baseUrl = "http://192.168.4.140/"
 
 
@@ -34,7 +34,7 @@ class SelectCompanyActivity : AppCompatActivity() {
         binding = ActivitySelectCompanyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        companySpinner()
+        callCompany()
         listener()
 
     }
@@ -72,7 +72,6 @@ class SelectCompanyActivity : AppCompatActivity() {
                 if (position > 0) {
                     companyId =
                         companyList[position - 1]?.company_id.toString().toInt()
-                    callCompany()
                 }
             }
 
@@ -100,7 +99,7 @@ class SelectCompanyActivity : AppCompatActivity() {
 
                 override fun onNext(t: CompanyResponse) {
                     companyList = t.company!!
-                    Toast.makeText(this@SelectCompanyActivity, t.message, Toast.LENGTH_SHORT).show()
+                    companySpinner()
                 }
             })
     }

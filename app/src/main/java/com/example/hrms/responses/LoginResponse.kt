@@ -11,6 +11,7 @@ data class LoginResponse(
 data class User(
 	val u_name: String? = null,
 	val u_id: Int? = null,
-	val u_email: String? = null
+	val u_email: String? = null,
+	val company_id : Int? = null
 ) : Serializable
 

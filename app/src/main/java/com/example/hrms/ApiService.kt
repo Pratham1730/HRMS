@@ -25,7 +25,10 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("HMRS/select_api_dept.php")
-    fun setDept(@Field("method") method: String): Observable<DepartmentModel>
+    fun setDept(
+        @Field("method") method: String,
+        @Field("company_id") company_id: Int
+    ): Observable<DepartmentModel>
 
     @FormUrlEncoded
     @POST("HMRS/select_api_position.php")

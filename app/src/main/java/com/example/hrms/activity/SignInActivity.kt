@@ -24,6 +24,7 @@ class SignInActivity : AppCompatActivity() {
     private var message: String = ""
     private var email: String = ""
     private var userId: Int = -1
+    private var companyId: Int = 0
 
 
 
@@ -89,7 +90,7 @@ class SignInActivity : AppCompatActivity() {
                         .show()
                     if (message == "Login successful") {
                         userId = t.user?.u_id!!.toInt()
-                        preferenceManager.isPrevSignIn(true)
+                        companyId = t.user.company_id!!.toInt()
                         moveToMainPage()
                     }
                 }
@@ -98,6 +99,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     fun moveToMainPage() {
+        preferenceManager.saveCompanyId(companyId)
+        preferenceManager.isPrevSignIn(true)
         preferenceManager.saveUserEmail(email)
         preferenceManager.saveUserId(userId)
         binding.edtSignInEmail.text?.clear()

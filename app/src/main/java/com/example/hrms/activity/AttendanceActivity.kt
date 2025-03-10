@@ -31,7 +31,7 @@ class AttendanceActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerAttendance.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.recyclerAttendance.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         adapter = MonthRVAdapter(this,monthList)
         binding.recyclerAttendance.adapter = adapter
     }

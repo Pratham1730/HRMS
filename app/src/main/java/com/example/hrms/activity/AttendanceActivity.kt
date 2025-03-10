@@ -15,6 +15,12 @@ class AttendanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAttendanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        listeners()
+    }
 
+    private fun listeners(){
+        binding.forgotPasswordBack.setOnClickListener {
+            finish()
+        }
     }
 }

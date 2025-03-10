@@ -12,6 +12,7 @@ import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
 import com.example.hrms.responses.UserDataResponse
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -104,5 +105,13 @@ interface ApiService {
     fun selectCompany(
         @Field("method") method: String
     ): Observable<CompanyResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/new_generate_otp_api.php")
+    fun getOtp(
+        @Field("method") method: String,
+        @Field("u_email") u_email: String,
+        @Field("u_phone") u_phone: BigInteger
+    ) : Observable<ResponseBody>
 
 }

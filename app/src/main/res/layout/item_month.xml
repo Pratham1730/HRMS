@@ -6,6 +6,7 @@
     android:layout_marginEnd="@dimen/_8sdp">
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMonth"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
         android:text="January"

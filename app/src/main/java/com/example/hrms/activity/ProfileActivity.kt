@@ -60,9 +60,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnProfileUpdate.setOnClickListener {
             startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
         }
-        binding.imgProfile.setOnClickListener {
-            finish()
-        }
+
     }
 
     private fun setUserData(){

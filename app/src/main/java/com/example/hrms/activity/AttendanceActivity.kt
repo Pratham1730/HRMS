@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,11 @@ class AttendanceActivity : AppCompatActivity() {
 
         setupRecyclerView()
         setupListeners()
+
+//
+//        binding.attendanceback.setOnClickListener {
+//            startActivity(Intent(this,HomeActivity::class.java))
+//        }
     }
 
     private fun setupRecyclerView() {
@@ -31,7 +37,7 @@ class AttendanceActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.forgotPasswordBack.setOnClickListener {
+        binding.attendanceback.setOnClickListener {
             finish()
         }
     }

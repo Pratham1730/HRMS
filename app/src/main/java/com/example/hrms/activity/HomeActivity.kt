@@ -48,6 +48,10 @@ class HomeActivity : AppCompatActivity() {
         binding.profileimage.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
+
+        binding.attendanceCard.setOnClickListener {
+            startActivity(Intent(this, AttendanceActivity::class.java))
+        }
     }
 
     private fun togglePunchStatus() {

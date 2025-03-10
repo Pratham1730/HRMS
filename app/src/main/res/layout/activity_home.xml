@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.1"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -155,7 +155,7 @@
                             android:text="Punch In"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_30sdp" />
+                            app:cornerRadius="@dimen/_10sdp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnMyTimecard"
@@ -166,7 +166,7 @@
                             android:text="Timecard"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            app:cornerRadius="@dimen/_30sdp" />
+                            app:cornerRadius="@dimen/_10sdp" />
                     </LinearLayout>
 
                 </LinearLayout>

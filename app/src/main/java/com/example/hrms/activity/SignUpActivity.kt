@@ -86,7 +86,7 @@ class SignUpActivity : AppCompatActivity() {
         } else if (binding.edtSignUpEmail.text.toString().isEmpty()) {
             binding.edtSignUpEmail.requestFocus()
             binding.edtSignUpEmail.error = "Please add email"
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpPhoneNumber.text.toString())
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.edtSignUpEmail.text.toString())
                 .matches()
         ) {
             Toast.makeText(this, "Email not verified", Toast.LENGTH_SHORT).show()

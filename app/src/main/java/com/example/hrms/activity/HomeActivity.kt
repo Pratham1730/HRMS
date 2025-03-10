@@ -81,6 +81,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateTimerText() {
         if (punchInTime == 0L) return
 

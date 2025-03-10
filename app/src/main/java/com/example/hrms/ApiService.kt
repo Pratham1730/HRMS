@@ -11,6 +11,7 @@ import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
 import com.example.hrms.responses.UserDataResponse
+import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -113,5 +114,13 @@ interface ApiService {
         @Field("u_email") u_email: String,
         @Field("u_phone") u_phone: BigInteger
     ) : Observable<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("HMRS/new_verify_otp_api.php")
+    fun verifyOtp(
+        @Field("u_email") u_email : String,
+        @Field("otp_code") otp_code : Int
+    ) : Observable<VerifyOtpResponse>
+
 
 }

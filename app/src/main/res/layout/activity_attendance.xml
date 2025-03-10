@@ -113,7 +113,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ansent Days : "
+                    android:text="Absent Days : "
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />

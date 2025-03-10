@@ -49,7 +49,9 @@ class SelectCompanyActivity : AppCompatActivity() {
                 intent.putExtra("COMPANY_ID" , companyId)
                 startActivity(intent)
             }
-
+        }
+        binding.btnSelectCompanyBack.setOnClickListener {
+            finish()
         }
     }
 

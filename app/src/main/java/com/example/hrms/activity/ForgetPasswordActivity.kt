@@ -209,7 +209,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
 
         val apiService = RetrofitClient.getInstance(baseUrl)
 
-        apiService.(email, password)
+        apiService.updatePassword(email, password)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<UpdatePasswordResponse>{

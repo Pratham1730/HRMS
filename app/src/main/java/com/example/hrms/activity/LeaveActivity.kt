@@ -131,7 +131,6 @@ class LeaveActivity : AppCompatActivity() {
 
                 override fun onNext(t: LeaveTypeResponse) {
                     leaveList = t.leave_types!!
-                    Toast.makeText(this@LeaveActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                     leaveSpinner()
                 }
             })

@@ -63,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
         isPunchIn = !isPunchIn
 
         if (isPunchIn) {
-            // Save Punch-In Time
+
             punchInTime = System.currentTimeMillis()
             sharedPreferences.edit().putLong("PUNCH_IN_TIME", punchInTime).apply()
             sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", true).apply()

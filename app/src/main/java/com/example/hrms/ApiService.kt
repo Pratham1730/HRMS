@@ -4,6 +4,7 @@ import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.CompanyResponse
 import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.LeaveDeteleResponse
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
@@ -122,5 +123,13 @@ interface ApiService {
         @Field("otp_code") otp_code : Int
     ) : Observable<VerifyOtpResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/delete_leave.php")
+    fun deleteLeave(
+        @Field("delete") delete : String,
+        @Field("l_id") l_id: Int,
+        @Field("u_id") u_id: Int,
+        @Field("company_id") company_id: Int
+    ) : Observable<LeaveDeteleResponse>
 
 }

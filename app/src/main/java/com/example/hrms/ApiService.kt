@@ -11,6 +11,7 @@ import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
+import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.UserDataResponse
 import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.core.Observable
@@ -123,13 +124,5 @@ interface ApiService {
         @Field("otp_code") otp_code : Int
     ) : Observable<VerifyOtpResponse>
 
-    @FormUrlEncoded
-    @POST("HMRS/delete_leave.php")
-    fun deleteLeave(
-        @Field("delete") delete : String,
-        @Field("l_id") l_id: Int,
-        @Field("u_id") u_id: Int,
-        @Field("company_id") company_id: Int
-    ) : Observable<LeaveDeteleResponse>
 
 }

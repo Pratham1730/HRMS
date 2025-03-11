@@ -52,6 +52,10 @@ class HomeActivity : AppCompatActivity() {
         binding.attendanceCard.setOnClickListener {
             startActivity(Intent(this, AttendanceActivity::class.java))
         }
+
+        binding.departmentCard.setOnClickListener {
+            startActivity(Intent(this, DepartmentActivity::class.java))
+        }
     }
 
 

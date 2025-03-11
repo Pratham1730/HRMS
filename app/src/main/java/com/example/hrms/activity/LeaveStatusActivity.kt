@@ -3,6 +3,8 @@ package com.example.hrms.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,15 +40,22 @@ class LeaveStatusActivity : AppCompatActivity() {
         }
         binding.recyclerLeaveTracker.adapter = adapter
 
+        //backPressed()
+
+        callLeaveList()
+
+        listeners()
+    }
+
+    private fun listeners(){
         binding.fabAddLeave.setOnClickListener {
             startActivity(Intent(this, LeaveActivity::class.java))
+            finish()
         }
 
         binding.imgLeaveStatusBack.setOnClickListener {
             finish()
         }
-
-        callLeaveList()
     }
 
     private fun callLeaveList() {
@@ -83,7 +92,6 @@ class LeaveStatusActivity : AppCompatActivity() {
         val userId = preferenceManager.getUserId()
 
         leaveItem.l_id?.let {
-            Toast.makeText(this, it.toString() , Toast.LENGTH_SHORT).show()
             apiService.deleteLeave("delete", it, userId, companyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -91,7 +99,6 @@ class LeaveStatusActivity : AppCompatActivity() {
                     override fun onSubscribe(d: Disposable) {}
 
                     override fun onNext(response: LeaveDeteleResponse) {
-                        Toast.makeText(this@LeaveStatusActivity, response.message.toString(), Toast.LENGTH_SHORT).show()
                         leaveList = leaveList.filter { it?.l_id != leaveItem.l_id }
                         adapter.updateList(leaveList)
                         callLeaveList()
@@ -105,4 +112,5 @@ class LeaveStatusActivity : AppCompatActivity() {
                 })
         }
     }
+
 }

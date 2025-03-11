@@ -48,6 +48,7 @@ class SelectCompanyActivity : AppCompatActivity() {
                 val intent = Intent(this@SelectCompanyActivity , SignUpActivity::class.java)
                 intent.putExtra("COMPANY_ID" , companyId)
                 startActivity(intent)
+                finish()
             }
         }
         binding.btnSelectCompanyBack.setOnClickListener {

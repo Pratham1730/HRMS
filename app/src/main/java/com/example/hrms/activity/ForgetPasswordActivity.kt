@@ -10,6 +10,7 @@ import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityForgetPasswordBinding
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.ApiResponseOtp
+import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
@@ -25,8 +26,6 @@ class ForgetPasswordActivity : AppCompatActivity() {
     private var baseUrl = "http://192.168.4.140/"
     private var otpMessage = ""
     private var otpVerifyMessage = ""
-
-    //Email sent successfully!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,26 +63,31 @@ class ForgetPasswordActivity : AppCompatActivity() {
         }
 
         binding.btnSetPassword.setOnClickListener {
-            if (binding.edtEnterNewPassword.text.toString().isEmpty()) {
-                binding.edtEnterNewPassword.requestFocus()
-                binding.edtEnterNewPassword.error = "Please add password"
-            } else if (!isValidPassword(password = binding.edtEnterNewPassword.text.toString())) {
-                binding.edtEnterNewPassword.requestFocus()
-                binding.edtEnterNewPassword.error =
-                    "Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character"
-            } else if (binding.edtConfirmNewPassword.text.toString().isEmpty()) {
-                binding.edtConfirmNewPassword.requestFocus()
-                binding.edtConfirmNewPassword.error = "Confirm your password"
-            } else if (binding.edtEnterNewPassword.text.toString() != binding.edtConfirmNewPassword.text.toString()) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
-                binding.edtConfirmNewPassword.requestFocus()
-                binding.edtConfirmNewPassword.error = "Passwords do not match"
-            } else {
-                setNewPassword()
-            }
+            validationsForPassword()
         }
     }
 
+
+    private fun validationsForPassword(){
+        if (binding.edtEnterNewPassword.text.toString().isEmpty()) {
+            binding.edtEnterNewPassword.requestFocus()
+            binding.edtEnterNewPassword.error = "Please add password"
+        } else if (!isValidPassword(password = binding.edtEnterNewPassword.text.toString())) {
+            binding.edtEnterNewPassword.requestFocus()
+            binding.edtEnterNewPassword.error =
+                "Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character"
+        } else if (binding.edtConfirmNewPassword.text.toString().isEmpty()) {
+            binding.edtConfirmNewPassword.requestFocus()
+            binding.edtConfirmNewPassword.error = "Confirm your password"
+        } else if (binding.edtEnterNewPassword.text.toString() != binding.edtConfirmNewPassword.text.toString()) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            binding.edtConfirmNewPassword.requestFocus()
+            binding.edtConfirmNewPassword.error = "Passwords do not match"
+        } else {
+            setNewPassword()
+            finish()
+        }
+    }
 
     private fun getOtp() {
         var email = binding.edtForgotPasswordEmail.text.toString()
@@ -95,18 +99,15 @@ class ForgetPasswordActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<ResponseBody> {
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@ForgetPasswordActivity, "Sub", Toast.LENGTH_SHORT)
-                        .show()
+
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@ForgetPasswordActivity, "Error", Toast.LENGTH_SHORT)
-                        .show()
+
                 }
 
                 override fun onComplete() {
-                    Toast.makeText(this@ForgetPasswordActivity, "Complete", Toast.LENGTH_SHORT)
-                        .show()
+
                 }
 
                 override fun onNext(t: ResponseBody) {
@@ -189,10 +190,10 @@ class ForgetPasswordActivity : AppCompatActivity() {
     private fun showPasswordFields() {
         binding.btnSendOtp.visibility = View.GONE
         binding.btnVerifyOtp.visibility = View.GONE
-        binding.edtEnterOtp.visibility = View.GONE
-        binding.btnSetPassword.visibility = View.VISIBLE
-        binding.edtEnterNewPassword.visibility = View.VISIBLE
-        binding.edtConfirmNewPassword.visibility = View.VISIBLE
+        binding.enterOtpField.visibility = View.GONE
+        binding.edtForgotPasswordMobile.isEnabled = false
+        binding.edtForgotPasswordEmail.isEnabled = false
+        binding.llPasswordFields.visibility = View.VISIBLE
     }
 
     private fun isValidPassword(password: String): Boolean {
@@ -202,7 +203,30 @@ class ForgetPasswordActivity : AppCompatActivity() {
         return passwordPattern.matcher(password).matches()
     }
 
-    private fun setNewPassword(){
+    private fun setNewPassword() {
+        var email = binding.edtForgotPasswordEmail.text.toString()
+        val password = binding.edtEnterNewPassword.text.toString()
+
+        val apiService = RetrofitClient.getInstance(baseUrl)
+
+        apiService.updatePassword(email, password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<UpdatePasswordResponse>{
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onError(e: Throwable) {
+                    Toast.makeText(this@ForgetPasswordActivity, "error", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onComplete() {
+                }
+
+                override fun onNext(t: UpdatePasswordResponse) {
+                    Toast.makeText(this@ForgetPasswordActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+            })
 
     }
 }

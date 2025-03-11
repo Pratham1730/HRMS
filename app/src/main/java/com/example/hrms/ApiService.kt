@@ -10,6 +10,7 @@ import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.UpdateDataResponse
+import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.UserDataResponse
 import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.core.Observable
@@ -122,5 +123,11 @@ interface ApiService {
         @Field("otp_code") otp_code : Int
     ) : Observable<VerifyOtpResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/update_password.php")
+    fun updatePassword(
+        @Field("u_email") u_email: String,
+        @Field("new_password") new_password: String
+    ):Observable<UpdatePasswordResponse>
 
 }

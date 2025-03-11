@@ -180,11 +180,11 @@ class SignUpActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    if (position > 0) {  // Ensure a department is selected
+                    if (position > 0) {
                         department = departmentArray[position]
                         departmentId =
                             departmentList[position - 1]?.deptId.toString().toInt()
-                        callPosition()  // Fetch positions based on selected department
+                        callPosition()
                     } else {
                         departmentId = -1
                     }

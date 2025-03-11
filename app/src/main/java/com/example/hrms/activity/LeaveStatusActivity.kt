@@ -32,6 +32,7 @@ class LeaveStatusActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this)
 
+        callLeaveList()
         binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         adapter = LeaveStatusRvAdapter(this, leaveList) { leaveItem ->
             deleteLeave(leaveItem)
@@ -46,7 +47,6 @@ class LeaveStatusActivity : AppCompatActivity() {
             finish()
         }
 
-        callLeaveList()
     }
 
     private fun callLeaveList() {
@@ -83,6 +83,8 @@ class LeaveStatusActivity : AppCompatActivity() {
         val userId = preferenceManager.getUserId()
 
         leaveItem.l_id?.let {
+            //Toast.makeText(this, leaveItem.l_id.toString() , Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it.toString() , Toast.LENGTH_SHORT).show()
             apiService.deleteLeave("delete", it, userId, companyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -90,7 +92,7 @@ class LeaveStatusActivity : AppCompatActivity() {
                     override fun onSubscribe(d: Disposable) {}
 
                     override fun onNext(response: LeaveDeteleResponse) {
-                        Toast.makeText(this@LeaveStatusActivity, "Leave Deleted Successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LeaveStatusActivity, response.message.toString(), Toast.LENGTH_SHORT).show()
                         callLeaveList()
                     }
 

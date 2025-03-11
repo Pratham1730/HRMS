@@ -2,6 +2,7 @@ package com.example.hrms.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.hrms.responses.DepartmentsItem
 
 class PreferenceManager(context: Context) {
 
@@ -66,6 +67,7 @@ class PreferenceManager(context: Context) {
     fun getIsPrevSignIn() : Boolean{
         return sharedPreferences.getBoolean("IS_PREV_SIGN_IN" , false)
     }
+
 
     fun logout() {
         editor.clear()

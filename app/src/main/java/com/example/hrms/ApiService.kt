@@ -3,6 +3,7 @@ package com.example.hrms
 import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.CompanyResponse
+import com.example.hrms.responses.DepartmentEmployeeResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.LeaveDeteleResponse
 import com.example.hrms.responses.LeaveListResponse
@@ -139,5 +140,13 @@ interface ApiService {
         @Field("u_id") u_id : Int,
         @Field("company_id") company_id : Int
     ) : Observable<LeaveDeteleResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/select_user_by_company.php")
+    fun departmentEmployee(
+        @Field("method") method : String,
+        @Field("dept_id") dept_id : Int,
+        @Field("company_id") company_id : Int
+    ) : Observable<DepartmentEmployeeResponse>
 
 }

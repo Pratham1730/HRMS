@@ -13,9 +13,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/hrms"
+        android:icon="@drawable/synchr"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/hrms"
+        android:roundIcon="@drawable/synchr"
         android:supportsRtl="true"
         android:theme="@style/Theme.HRMS"
         android:usesCleartextTraffic="true"
@@ -50,19 +50,20 @@
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SignUpActivity"
-            android:exported="false"
-            tools:ignore="MissingClass" />
-        <activity
-            android:name=".activity.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".activity.SignInActivity"
+            android:exported="false">
         </activity>
 
 

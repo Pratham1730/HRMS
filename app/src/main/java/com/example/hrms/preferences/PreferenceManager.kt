@@ -10,6 +10,7 @@ class PreferenceManager(context: Context) {
     private val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
 
+
     fun saveUserId(userId : Int){
         sharedPreferences.edit().putInt("USER_ID" , userId).apply()
     }

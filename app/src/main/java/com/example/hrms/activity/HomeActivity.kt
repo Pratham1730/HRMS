@@ -76,6 +76,10 @@ class HomeActivity : AppCompatActivity() {
         binding.departmentCard.setOnClickListener {
             startActivity(Intent(this, DepartmentActivity::class.java))
         }
+
+        binding.publicHolidaysCard.setOnClickListener {
+            startActivity(Intent(this, HolidayActivity::class.java))
+        }
     }
 
 

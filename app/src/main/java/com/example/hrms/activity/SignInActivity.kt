@@ -77,7 +77,6 @@ class SignInActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<LoginResponse> {
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@SignInActivity, "Subscribe", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {}

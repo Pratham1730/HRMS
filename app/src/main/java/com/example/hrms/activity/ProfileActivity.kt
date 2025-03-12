@@ -2,9 +2,16 @@ package com.example.hrms.activity
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.hrms.responses.UserDataResponse
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityProfileBinding
@@ -13,6 +20,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -20,6 +28,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var email : String
     private lateinit var preferenceManager: PreferenceManager
     private val baseUrl = "http://192.168.4.140/"
+    private lateinit var imageUri: Uri
+
 
 
 
@@ -60,6 +70,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnProfileUpdate.setOnClickListener {
             startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
         }
+        binding.imgProfile.setOnClickListener {
+            showImagePickerDialog()
+        }
 
     }
 
@@ -92,7 +105,12 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfileJoiningDate.text = t.user?.u_joining_Date.toString()
                     binding.txtProfileDepartment.text = t.user?.dept_name.toString()
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
-                    binding.txtProfileGender.text = t.user?.u_gender.toString()
+                    if (t.user?.u_gender.toString().toInt() == 1){
+                        binding.txtProfileGender.text = "Male"
+                    }
+                    else{
+                        binding.txtProfileGender.text = "Female"
+                    }
                     binding.txtProfileSalary.text = t.user?.u_salary.toString()
 
                     preferenceManager.saveUserName(t.user?.u_name.toString())
@@ -102,5 +120,58 @@ class ProfileActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { binding.imgProfile.setImageURI(it) }
+        }
+
+    private val captureImageLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+            if (success) {
+                binding.imgProfile.setImageURI(imageUri)
+            }
+        }
+
+    private fun pickImageFromGallery() {
+        pickImageLauncher.launch("image/*")
+    }
+
+    private fun captureImageFromCamera() {
+        val file = File(this@ProfileActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photo.jpg")
+        imageUri = FileProvider.getUriForFile(this@ProfileActivity, "${this@ProfileActivity.packageName}.fileprovider", file)
+        captureImageLauncher.launch(imageUri)
+    }
+
+    private fun showImagePickerDialog() {
+        val options = arrayOf("Take Photo", "Choose from Gallery")
+        val builder = android.app.AlertDialog.Builder(this@ProfileActivity)
+        builder.setTitle("Select Image")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> checkPermissionsAndOpenCamera()
+                1 -> pickImageFromGallery()
+            }
+        }
+        builder.show()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                captureImageFromCamera()
+            } else {
+                Toast.makeText(this@ProfileActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun checkPermissionsAndOpenCamera() {
+        if (ContextCompat.checkSelfPermission(this@ProfileActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            captureImageFromCamera()
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
     }
 }

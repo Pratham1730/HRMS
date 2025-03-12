@@ -1,14 +1,16 @@
 package com.example.hrms.responses
 
+import java.io.Serializable
+
 data class DepartmentEmployeeResponse(
 	val employees: List<EmployeesItem?>? = null,
 	val message: String? = null,
 	val status: Int? = null
-)
+): Serializable
 
 data class EmployeesItem(
-	val userId: String? = null,
-	val userName: String? = null,
-	val userPosition: String? = null
-)
+	val user_id: String? = null,
+	val user_name: String? = null,
+	val user_position: String? = null
+): Serializable
 

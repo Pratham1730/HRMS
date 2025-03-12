@@ -11,7 +11,6 @@ import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
-import com.example.hrms.responses.PublicHolidaysResponse
 import com.example.hrms.responses.UpdateDataResponse
 import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.UserDataResponse
@@ -150,6 +149,17 @@ interface ApiService {
         @Field("dept_id") dept_id : Int,
         @Field("company_id") company_id : Int
     ) : Observable<DepartmentEmployeeResponse>
+
+//    @FormUrlEncoded
+//    @POST("HMRS/insert_attendace.php")
+//    fun inserAttendance(
+//        @Field("insert") insert : String,
+//        @Field("u_id") u_id : Int,
+//        @Field("a_punch_in_time") ina_punch_in_timesert : String,
+//        @Field("a_punch_out_time") a_punch_out_time : String,
+//        @Field("a_date") a_date : String
+//    ) : Observable<InsertAttendanceResponse>
+//
 
     @FormUrlEncoded
     @POST("HMRS/select_holidays")

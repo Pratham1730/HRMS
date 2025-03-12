@@ -2,20 +2,29 @@ package com.example.hrms.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.hrms.databinding.ActivityHomeBinding
 import com.example.hrms.preferences.PreferenceManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityHomeBinding
     private lateinit var preferenceManager: PreferenceManager
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var isPunchIn = false
     private var punchInTime: Long = 0
@@ -36,8 +45,12 @@ class HomeActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this@HomeActivity)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         loadPunchStatus()
         updateDate()
+
+        checkLocationPermission()
 
         listeners()
 
@@ -65,23 +78,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
-//    private fun togglePunchStatus() {
-//        isPunchIn = !isPunchIn
-//
-//        if (isPunchIn) {
-//            punchInTime = System.currentTimeMillis()
-//            sharedPreferences.edit().putLong("PUNCH_IN_TIME", punchInTime).apply()
-//            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", true).apply()
-//            binding.btnPunch.text = "Punch Out"
-//            handler.post(updateTimerRunnable)
-//        } else {
-//            Toast.makeText(this@HomeActivity, binding.tvTimer.text.toString(), Toast.LENGTH_SHORT).show()
-//            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", false).apply()
-//            binding.btnPunch.text = "Punch In"
-//            handler.removeCallbacks(updateTimerRunnable)
-//        }
-//    }
 
 
     private fun togglePunchStatus() {
@@ -142,5 +138,38 @@ class HomeActivity : AppCompatActivity() {
     private fun updateDate() {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         binding.tvDate.text = dateFormat.format(Date())
+    }
+
+    fun checkLocationPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        } else {
+            getLastLocation()
+        }
+    }
+
+    private fun getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val a = it.latitude
+                val b = it.longitude
+                Toast.makeText(this@HomeActivity,it.longitude.toString() , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@HomeActivity,it.latitude.toString() , Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getLastLocation()
+        }
     }
 }

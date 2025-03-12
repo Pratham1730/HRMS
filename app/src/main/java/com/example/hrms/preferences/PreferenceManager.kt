@@ -68,6 +68,25 @@ class PreferenceManager(context: Context) {
         return sharedPreferences.getBoolean("IS_PREV_SIGN_IN" , false)
     }
 
+    fun isPunchIn(isPunchIn : Boolean){
+        sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", isPunchIn).apply()
+    }
+    fun getIsPunchIn() : Boolean{
+        return sharedPreferences.getBoolean("IS_PUNCHED_IN" , false)
+    }
+    fun savePunchInTime(punchInTime: Long){
+        sharedPreferences.edit().putLong("PUNCH_IN_TIME", punchInTime).apply()
+    }
+    fun getPunchInTime() : Long{
+        return sharedPreferences.getLong("PUNCH_IN_TIME" , 0L)
+    }
+    fun removePunchInTime(){
+        sharedPreferences.edit().remove("PUNCH_IN_TIME").apply()
+    }
+
+            /*
+            sharedPreferences.edit().remove("PUNCH_IN_TIME").apply()
+            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", false).apply()*/
 
     fun logout() {
         editor.clear()

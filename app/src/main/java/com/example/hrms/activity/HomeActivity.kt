@@ -5,15 +5,17 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.databinding.ActivityHomeBinding
+import com.example.hrms.preferences.PreferenceManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var preferenceManager: PreferenceManager
 
     private var isPunchIn = false
     private var punchInTime: Long = 0
@@ -32,11 +34,16 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = getSharedPreferences("HRMS_APP", MODE_PRIVATE)
+        preferenceManager = PreferenceManager(this@HomeActivity)
 
         loadPunchStatus()
         updateDate()
 
+        listeners()
+
+    }
+
+    private fun listeners(){
         binding.btnPunch.setOnClickListener {
             togglePunchStatus()
         }
@@ -59,28 +66,52 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
+//    private fun togglePunchStatus() {
+//        isPunchIn = !isPunchIn
+//
+//        if (isPunchIn) {
+//            punchInTime = System.currentTimeMillis()
+//            sharedPreferences.edit().putLong("PUNCH_IN_TIME", punchInTime).apply()
+//            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", true).apply()
+//            binding.btnPunch.text = "Punch Out"
+//            handler.post(updateTimerRunnable)
+//        } else {
+//            Toast.makeText(this@HomeActivity, binding.tvTimer.text.toString(), Toast.LENGTH_SHORT).show()
+//            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", false).apply()
+//            binding.btnPunch.text = "Punch In"
+//            handler.removeCallbacks(updateTimerRunnable)
+//        }
+//    }
+
+
     private fun togglePunchStatus() {
         isPunchIn = !isPunchIn
 
         if (isPunchIn) {
-
             punchInTime = System.currentTimeMillis()
-            sharedPreferences.edit().putLong("PUNCH_IN_TIME", punchInTime).apply()
-            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", true).apply()
-
+            Toast.makeText(this@HomeActivity,punchInTime.toString(), Toast.LENGTH_SHORT).show()
+            preferenceManager.savePunchInTime(punchInTime)
+            preferenceManager.isPunchIn(true)
             binding.btnPunch.text = "Punch Out"
             handler.post(updateTimerRunnable)
         } else {
-            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", false).apply()
+            Toast.makeText(this@HomeActivity, binding.tvTimer.text.toString(), Toast.LENGTH_SHORT).show()
 
+            punchInTime = 0
+            preferenceManager.removePunchInTime()
+            preferenceManager.isPunchIn(false)
             binding.btnPunch.text = "Punch In"
+            binding.tvTimer.text = "00:00:00"
+            binding.progressCircular.progress = 0
+
             handler.removeCallbacks(updateTimerRunnable)
         }
     }
 
+
     private fun loadPunchStatus() {
-        isPunchIn = sharedPreferences.getBoolean("IS_PUNCHED_IN", false)
-        punchInTime = sharedPreferences.getLong("PUNCH_IN_TIME", 0)
+        isPunchIn = preferenceManager.getIsPunchIn()
+        punchInTime = preferenceManager.getPunchInTime()
 
         if (isPunchIn && punchInTime != 0L) {
             binding.btnPunch.text = "Punch Out"

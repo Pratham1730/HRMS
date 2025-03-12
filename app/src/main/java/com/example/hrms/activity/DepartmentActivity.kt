@@ -28,6 +28,7 @@ class DepartmentActivity : AppCompatActivity() {
     private var companyId = 0
     private var department: String = "Department"
     private lateinit var departmentList: List<DepartmentsItem?>
+    private var isDeptSelected = false
     private var departmentId = -1
     private val baseUrl = "http://192.168.4.140/"
 
@@ -38,15 +39,17 @@ class DepartmentActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this@DepartmentActivity)
 
-        binding.btnDepartmentBack.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-        }
-
+        listeners()
 
         binding.rvEmployees.layoutManager = LinearLayoutManager(this)
 
-        // Call department API
         callDept()
+    }
+
+    private fun listeners(){
+        binding.btnDepartmentBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun departmentSpinner() {
@@ -74,10 +77,12 @@ class DepartmentActivity : AppCompatActivity() {
                     if (position > 0) {
                         department = departmentArray[position]
                         departmentId = departmentList[position - 1]?.deptId.toString().toInt()
-
-
+                        isDeptSelected = true
                         callDeptEmployees()
                     } else {
+                        if (isDeptSelected){
+                            Toast.makeText(this@DepartmentActivity, "Select a valid department", Toast.LENGTH_SHORT).show()
+                        }
                         departmentId = -1
                         binding.rvEmployees.adapter =
                             null
@@ -149,7 +154,7 @@ class DepartmentActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(response: DepartmentEmployeeResponse) {
-                    if (response.status == 1 && !response.employees.isNullOrEmpty()) {
+                    if (!response.employees.isNullOrEmpty()) {
                         setupEmployeeRecyclerView(response.employees)
                     } else {
                         Toast.makeText(

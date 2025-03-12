@@ -11,6 +11,7 @@ import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PositionResponse
+import com.example.hrms.responses.PublicHolidaysResponse
 import com.example.hrms.responses.UpdateDataResponse
 import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.UserDataResponse
@@ -167,5 +168,6 @@ interface ApiService {
         @Field("method") method : String,
         @Field("company_id") company_id : Int
     ) : Observable<PublicHolidaysResponse>
+
 
 }

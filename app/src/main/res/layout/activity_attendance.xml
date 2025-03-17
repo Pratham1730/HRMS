@@ -83,6 +83,8 @@
 
                 </LinearLayout>
 
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,13 +94,64 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Leaves : "
+                        android:text="Half Days : "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtAttendanceHalfDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Paid Leaves : "
                         android:textColor="@color/black"
                         android:textSize="@dimen/_16ssp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txtAttendanceLeaves"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Unpaid Leaves : "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txtAttendanceUnpaidLeaves"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_4sdp"

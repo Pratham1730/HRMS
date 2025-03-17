@@ -86,14 +86,18 @@ class AttendanceActivity : AppCompatActivity() {
                     if (t.status!!.toInt() == 200){
                         binding.txtAttendancePresentDays.text = t.present_days.toString()
                         binding.txtAttendanceSalary.text = t.final_salary.toString()
-                        binding.txtAttendanceLeaves.text = t.leave_days.toString()
+                        binding.txtAttendanceLeaves.text = t.paid_leave_days.toString()
+                        binding.txtAttendanceHalfDays.text = t.half_days.toString()
+                        binding.txtAttendanceUnpaidLeaves.text = t.unpaidLeaveDays.toString()
                         binding.txtAttendanceAbsentDays.text = t.absent_days.toString()
                     }
                     else{
                         binding.txtAttendancePresentDays.text = "0"
                         binding.txtAttendanceSalary.text = "0"
                         binding.txtAttendanceLeaves.text = "0"
-                        binding.txtAttendanceAbsentDays.text = " "
+                        binding.txtAttendanceAbsentDays.text = "0"
+                        binding.txtAttendanceUnpaidLeaves.text = "0"
+                        binding.txtAttendanceHalfDays.text = "0"
                     }
                 }
             })

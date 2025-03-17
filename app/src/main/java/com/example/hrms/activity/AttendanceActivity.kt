@@ -44,10 +44,12 @@ class AttendanceActivity : AppCompatActivity() {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         preferenceManager = PreferenceManager(this@AttendanceActivity)
 
+        getAttendance()
+
         setupRecyclerView()
         setupListeners()
 
-        getAttendance()
+
 
 
         binding.btnSalaryBreakdown.setOnClickListener {
@@ -105,11 +107,17 @@ class AttendanceActivity : AppCompatActivity() {
 
                 override fun onNext(t: AttendanceResponse) {
                     if (t.status!!.toInt() == 200) {
+                        val a = t.present_days
                         binding.txtAttendancePresentDays.text = t.present_days.toString()
                         binding.txtAttendanceLeaves.text = t.paid_leave_days.toString()
                         binding.txtAttendanceHalfDays.text = t.half_days.toString()
                         binding.txtAttendanceUnpaidLeaves.text = t.unpaidLeaveDays.toString()
                         binding.txtAttendanceAbsentDays.text = t.absent_days.toString()
+
+                        binding.llSalary.visibility = View.VISIBLE
+                        binding.txtAttendanceSalary.text = t.final_salary.toString()
+
+
                         if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
                             binding.llSalary.visibility = View.VISIBLE
                             binding.txtAttendanceSalary.text = t.final_salary.toString()

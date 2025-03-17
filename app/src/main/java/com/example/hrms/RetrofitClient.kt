@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://192.168.4.233/"
+    private const val BASE_URL = "http://192.168.4.140/"
     fun getInstance(): ApiService {
         // Create logging interceptor to log request and response details
         val loggingInterceptor = HttpLoggingInterceptor().apply {

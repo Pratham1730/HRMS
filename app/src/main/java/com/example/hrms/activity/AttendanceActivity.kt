@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Toast
@@ -43,13 +44,20 @@ class AttendanceActivity : AppCompatActivity() {
 
         getAttendance()
 
+
+        binding.btnSalaryBreakdown.setOnClickListener {
+            val intent = Intent(this, SalaryBreakdownActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerAttendance.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        adapter = MonthRVAdapter(this,monthList)
+        binding.recyclerAttendance.layoutManager =
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        adapter = MonthRVAdapter(this, monthList)
         binding.recyclerAttendance.adapter = adapter
-        adapter.setUpInterface(object : MonthRVAdapter.OnMonthClickListener{
+        adapter.setUpInterface(object : MonthRVAdapter.OnMonthClickListener {
             override fun onClicked(position: Int) {
                 monthNumber = position
                 getAttendance()
@@ -63,13 +71,13 @@ class AttendanceActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAttendance(){
+    private fun getAttendance() {
         var userId = preferenceManager.getUserId()
         val apiService = RetrofitClient.getInstance()
-        apiService.getAttendance(userId , monthNumber, year)
+        apiService.getAttendance(userId, monthNumber, year)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<AttendanceResponse>{
+            .subscribe(object : Observer<AttendanceResponse> {
                 override fun onSubscribe(d: Disposable) {
 
                 }
@@ -83,15 +91,14 @@ class AttendanceActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: AttendanceResponse) {
-                    if (t.status!!.toInt() == 200){
+                    if (t.status!!.toInt() == 200) {
                         binding.txtAttendancePresentDays.text = t.present_days.toString()
                         binding.txtAttendanceSalary.text = t.final_salary.toString()
                         binding.txtAttendanceLeaves.text = t.paid_leave_days.toString()
                         binding.txtAttendanceHalfDays.text = t.half_days.toString()
                         binding.txtAttendanceUnpaidLeaves.text = t.unpaidLeaveDays.toString()
                         binding.txtAttendanceAbsentDays.text = t.absent_days.toString()
-                    }
-                    else{
+                    } else {
                         binding.txtAttendancePresentDays.text = "0"
                         binding.txtAttendanceSalary.text = "0"
                         binding.txtAttendanceLeaves.text = "0"

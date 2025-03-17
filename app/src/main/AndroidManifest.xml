@@ -25,6 +25,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.SalaryBreakdownActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.HolidayActivity"
             android:exported="false" />
         <activity
@@ -69,7 +72,7 @@
             tools:ignore="MissingClass" />
         <activity
             android:name=".activity.SignInActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

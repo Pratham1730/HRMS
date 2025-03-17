@@ -3,6 +3,7 @@ package com.example.hrms.activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.Manifest
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.location.Location
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.hrms.MyReachability
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityHomeBinding
 import com.example.hrms.preferences.PreferenceManager
@@ -23,6 +26,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -33,6 +39,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var preferenceManager: PreferenceManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var isServerConnected = true
 
     private var isPunchIn = false
     private var punchInTime: Long = 0
@@ -48,7 +56,7 @@ class HomeActivity : AppCompatActivity() {
         override fun run() {
             updateTimerText()
             updateProgress()
-            handler.postDelayed(this, 1000) // Update every second
+            handler.postDelayed(this, 1000)
         }
     }
 
@@ -58,6 +66,9 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         preferenceManager = PreferenceManager(this@HomeActivity)
+
+        isConnected()
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -72,27 +83,52 @@ class HomeActivity : AppCompatActivity() {
 
     private fun listeners() {
         binding.btnPunch.setOnClickListener {
-            punchStatus()
+            if (isServerConnected) {
+                punchStatus()
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.leaveCard.setOnClickListener {
-            startActivity(Intent(this, LeaveStatusActivity::class.java))
+            if (isServerConnected) {
+                startActivity(Intent(this, LeaveStatusActivity::class.java))
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.profileimage.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            if (isServerConnected) {
+                startActivity(Intent(this, ProfileActivity::class.java))
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.attendanceCard.setOnClickListener {
-            startActivity(Intent(this, AttendanceActivity::class.java))
+            if (isServerConnected) {
+                startActivity(Intent(this, AttendanceActivity::class.java))
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.employeeListCard.setOnClickListener {
-            startActivity(Intent(this, DepartmentActivity::class.java))
+            if (isServerConnected) {
+                startActivity(Intent(this, DepartmentActivity::class.java))
+
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.publicHolidaysCard.setOnClickListener {
-            startActivity(Intent(this, HolidayActivity::class.java))
+            if (isServerConnected) {
+                startActivity(Intent(this, HolidayActivity::class.java))
+            } else {
+                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -226,8 +262,7 @@ class HomeActivity : AppCompatActivity() {
                         binding.btnPunch.text = "Punch Out"
                         handler.post(updateTimerRunnable)
 
-                    }
-                    else if(t.message == "Punch-out recorded successfully!"){
+                    } else if (t.message == "Punch-out recorded successfully!") {
                         punchInTime = 0
                         preferenceManager.removePunchInTime()
                         preferenceManager.isPunchIn(false)
@@ -241,6 +276,15 @@ class HomeActivity : AppCompatActivity() {
                         .show()
                 }
             })
+    }
+
+    private fun isConnected() {
+        lifecycleScope.launch {
+            val isServerReachable = withContext(Dispatchers.IO) {
+                MyReachability.hasServerConnected(this@HomeActivity)
+            }
+            isServerConnected = isServerReachable
+        }
     }
 
 }

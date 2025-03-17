@@ -11,6 +11,16 @@ import com.example.hrms.R
 class MonthRVAdapter(private val context: Context,private var list: List<String>) : RecyclerView.Adapter<MonthRVAdapter.ViewHolder>() {
 
 
+    private var onMonthClickListener : OnMonthClickListener ?= null
+
+    interface OnMonthClickListener{
+        fun onClicked(position: Int)
+    }
+
+    fun setUpInterface(onMonthClickListener: OnMonthClickListener){
+        this.onMonthClickListener = onMonthClickListener
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val btnMonth: Button = itemView.findViewById(R.id.btnMonth)
     }
@@ -26,5 +36,9 @@ class MonthRVAdapter(private val context: Context,private var list: List<String>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.btnMonth.text = list[position]
+
+        holder.btnMonth.setOnClickListener {
+            onMonthClickListener?.onClicked(position + 1)
+        }
     }
 }

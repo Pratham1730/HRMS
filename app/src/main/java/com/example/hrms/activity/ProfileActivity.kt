@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProfileBinding
     private lateinit var email : String
     private lateinit var preferenceManager: PreferenceManager
-    private val baseUrl = "http://192.168.4.140/"
     private lateinit var imageUri: Uri
 
 
@@ -37,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         preferenceManager = PreferenceManager(this@ProfileActivity)
 
         setUserData()
@@ -58,7 +58,6 @@ class ProfileActivity : AppCompatActivity() {
                     preferenceManager.logout()
                     val intent = Intent(this, SignInActivity::class.java)
                     startActivity(intent)
-                    finish()
                 }
                 .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
                 .show()
@@ -78,7 +77,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setUserData(){
         email = preferenceManager.getUserEmail().toString()
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.getUserData("get_user_by_email" , email)
             .subscribeOn(Schedulers.io())

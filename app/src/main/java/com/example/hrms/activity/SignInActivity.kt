@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.hrms.responses.LoginResponse
@@ -19,9 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
-    private val baseUrl = "http://192.168.4.140/"
     private lateinit var preferenceManager: PreferenceManager
-    private var message: String = ""
     private var email: String = ""
     private var userId: Int = -1
     private var companyId: Int = 0
@@ -40,11 +40,11 @@ class SignInActivity : AppCompatActivity() {
 
         if (preferenceManager.getIsPrevSignIn() == true){
             startActivity(Intent(this@SignInActivity , HomeActivity::class.java))
+            finish()
         }
 
+
         listeners()
-
-
 
     }
 
@@ -66,7 +66,7 @@ class SignInActivity : AppCompatActivity() {
 
 
     private fun callSignIn() {
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         email = binding.edtSignInEmail.text?.trim().toString()
         val password = binding.edtSignInPassword.text?.trim().toString()
@@ -84,10 +84,9 @@ class SignInActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: LoginResponse) {
-                    message = t.message.toString()
                     Toast.makeText(this@SignInActivity, t.message.toString(), Toast.LENGTH_SHORT)
                         .show()
-                    if (message == "Login successful") {
+                    if (t.status!!.toInt() == 200) {
                         userId = t.user?.u_id!!.toInt()
                         companyId = t.user.company_id!!.toInt()
                         moveToMainPage()
@@ -105,5 +104,11 @@ class SignInActivity : AppCompatActivity() {
         binding.edtSignInEmail.text?.clear()
         binding.edtSignInPassword.text?.clear()
         startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+        finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 }

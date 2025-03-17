@@ -2,9 +2,11 @@ package com.example.hrms
 
 import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
+import com.example.hrms.responses.AttendanceResponse
 import com.example.hrms.responses.CompanyResponse
 import com.example.hrms.responses.DepartmentEmployeeResponse
 import com.example.hrms.responses.DepartmentModel
+import com.example.hrms.responses.EnterAttendanceResponse
 import com.example.hrms.responses.LeaveDeteleResponse
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
@@ -77,7 +79,6 @@ interface ApiService {
         @Field("u_email") u_email: String
     ): Observable<UserDataResponse>
 
-    @FormUrlEncoded
     @POST("HMRS/update_user.php")
     fun updateUser(@Body model: UpdateDataModel): Observable<UpdateDataResponse>
 
@@ -151,23 +152,30 @@ interface ApiService {
         @Field("company_id") company_id : Int
     ) : Observable<DepartmentEmployeeResponse>
 
-//    @FormUrlEncoded
-//    @POST("HMRS/insert_attendace.php")
-//    fun inserAttendance(
-//        @Field("insert") insert : String,
-//        @Field("u_id") u_id : Int,
-//        @Field("a_punch_in_time") ina_punch_in_timesert : String,
-//        @Field("a_punch_out_time") a_punch_out_time : String,
-//        @Field("a_date") a_date : String
-//    ) : Observable<InsertAttendanceResponse>
-//
-
     @FormUrlEncoded
-    @POST("HMRS/select_holidays")
+    @POST("HMRS/select_holidays.php")
     fun getHolidays(
         @Field("method") method : String,
         @Field("company_id") company_id : Int
     ) : Observable<PublicHolidaysResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/insert_attendace.php")
+    fun insertAttendance(
+        @Field("user_id") user_id : Int,
+        @Field("a_date") a_date : String,
+        @Field("a_punch_time") a_punch_time : String,
+        @Field("company_id") company_id : Int,
+        @Field("action") action : String,
+        @Field("latitude") latitude : Double,
+        @Field("longitude") longitude : Double
+    ) : Observable<EnterAttendanceResponse>
 
+    @FormUrlEncoded
+    @POST("HMRS/attendance_data_month.php")
+    fun getAttendance(
+        @Field("u_id") u_id : Int,
+        @Field("month") month : Int,
+        @Field("year") year : Int
+    ) : Observable<AttendanceResponse>
 }

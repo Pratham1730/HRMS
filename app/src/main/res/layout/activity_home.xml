@@ -53,7 +53,6 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/_12sdp"
         android:paddingEnd="@dimen/_12sdp"
-        android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintTop_toBottomOf="@id/homePageToolBar">
 
         <LinearLayout
@@ -147,7 +146,7 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnPunch"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/_75sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:backgroundTint="#94bbe9"
@@ -157,16 +156,6 @@
                             android:textStyle="bold"
                             app:cornerRadius="@dimen/_10sdp" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnMyTimecard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="#94bbe9"
-                            android:padding="@dimen/_6sdp"
-                            android:text="Timecard"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            app:cornerRadius="@dimen/_10sdp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -277,7 +266,7 @@
 
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/departmentCard"
+                        android:id="@+id/employeeListCard"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_130sdp"
                         android:layout_margin="@dimen/_8sdp"
@@ -290,7 +279,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/_10sdp"
-                            android:text="Your Department"
+                            android:text="Employee List"
                             android:textStyle="bold" />
 
                         <ImageView

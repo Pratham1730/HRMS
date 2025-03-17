@@ -7,17 +7,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrms.R
+import com.example.hrms.adapter.LeaveStatusRvAdapter.ViewHolder
+import com.example.hrms.databinding.ItemPublicHolidaysBinding
+import com.example.hrms.responses.HolidaysItem
+import com.example.hrms.responses.LeaveDataItem
 
 
-class HolidaysAdapter(private var context: Context, private var list: List<String>) : RecyclerView.Adapter<HolidaysAdapter.ViewHolder>() {
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
-        val txtDate: TextView = itemView.findViewById(R.id.txtDateHoliday)
-        val txtFest: TextView = itemView.findViewById(R.id.txtFestHolidays)
+class HolidaysAdapter(private var context: Context, private var list: List<HolidaysItem?>) : RecyclerView.Adapter<HolidaysAdapter.ViewHolder>() {
+
+
+    fun updateList(updatedList: List<HolidaysItem?>) {
+        this.list = updatedList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_public_holidays, parent, false)
-        return ViewHolder(view)
+        val binding = ItemPublicHolidaysBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ViewHolder(binding)
+
     }
 
     override fun getItemCount(): Int {
@@ -25,7 +32,11 @@ class HolidaysAdapter(private var context: Context, private var list: List<Strin
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txtDate.text = list[position]
-        holder.txtFest.text = list[position]
+        val item: HolidaysItem? = list[position]
+
+        holder.b.txtHolidayName.text = (item?.holiday_name).toString()
+        holder.b.txtDateHoliday.text = (item?.holiday_date).toString()
     }
+
+    class ViewHolder(var b: ItemPublicHolidaysBinding) : RecyclerView.ViewHolder(b.root)
 }

@@ -1,6 +1,7 @@
 package com.example.hrms.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -23,15 +24,13 @@ import java.util.regex.Pattern
 class ForgetPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgetPasswordBinding
-    private var baseUrl = "http://192.168.4.140/"
     private var otpMessage = ""
-    private var otpVerifyMessage = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         listeners()
 
 
@@ -92,7 +91,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
     private fun getOtp() {
         var email = binding.edtForgotPasswordEmail.text.toString()
         var phone = binding.edtForgotPasswordMobile.text.toString().toBigInteger()
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.getOtp("generateotp", email, phone)
             .subscribeOn(Schedulers.io())
@@ -157,7 +156,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
         var email = binding.edtForgotPasswordEmail.text.toString()
         var otp = binding.edtEnterOtp.text.toString().toInt()
 
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.verifyOtp(email, otp)
             .subscribeOn(Schedulers.io())
@@ -174,13 +173,12 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: VerifyOtpResponse) {
-                    otpVerifyMessage = t.message.toString()
                     Toast.makeText(
                         this@ForgetPasswordActivity,
                         t.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
-                    if (otpVerifyMessage == "OTP Verified Successfully!") {
+                    if (t.status!!.toInt() == 200) {
                         showPasswordFields()
                     }
                 }
@@ -207,7 +205,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
         var email = binding.edtForgotPasswordEmail.text.toString()
         val password = binding.edtEnterNewPassword.text.toString()
 
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.updatePassword(email, password)
             .subscribeOn(Schedulers.io())

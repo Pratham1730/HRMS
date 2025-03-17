@@ -2,6 +2,7 @@ package com.example.hrms.activity
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.TextView
@@ -22,7 +23,6 @@ import java.util.Locale
 class UpdateDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUpdateDetailsBinding
-    private val baseUrl = "http://192.168.4.140/"
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private lateinit var preferenceManager: PreferenceManager
     private var userId : Int = -1
@@ -31,6 +31,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         preferenceManager = PreferenceManager(this@UpdateDetailsActivity)
 
@@ -44,9 +45,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
             onClickDateDOB()
         }
         binding.btnUpdatePageUpdate.setOnClickListener {
-            updatedData()
-            startActivity(Intent(this@UpdateDetailsActivity , ProfileActivity::class.java))
-            finish()
+            validations()
         }
         binding.imgUpdateProfileBack.setOnClickListener {
             finish()
@@ -60,6 +59,31 @@ class UpdateDetailsActivity : AppCompatActivity() {
         (binding.edtUpdateProfilePhone as TextView).text = preferenceManager.getUserPhone().toString()
     }
 
+    private fun validations(){
+
+        if (binding.edtUpdateProfileName.text.toString().isEmpty()) {
+            binding.edtUpdateProfileName.requestFocus()
+            binding.edtUpdateProfileName.error = "Please add full name"
+        }
+        else if (binding.edtUpdateProfilePhone.text.toString().isEmpty()) {
+            binding.edtUpdateProfilePhone.requestFocus()
+            binding.edtUpdateProfilePhone.error = "Please add phone number"
+        }
+        else if(binding.edtUpdateProfilePhone.text.toString().length < 10){
+            binding.edtUpdateProfilePhone.requestFocus()
+            binding.edtUpdateProfilePhone.error = "Phone number can't be less tha 10 digits"
+        }
+        else if (binding.edtUpdateProfileDOB.text.toString().isEmpty()) {
+            binding.edtUpdateProfileDOB.requestFocus()
+            binding.edtUpdateProfileDOB.error = "Please add birth date"
+        }
+        else{
+            updatedData()
+            startActivity(Intent(this@UpdateDetailsActivity , ProfileActivity::class.java))
+
+        }
+    }
+
     private fun updatedData(){
         val method  = "update_user"
         val name = binding.edtUpdateProfileName.text.toString()
@@ -68,7 +92,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
 
         val model = UpdateDataModel(method , userId , name , phone.toBigInteger() , dob )
 
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.updateUser(model)
             .subscribeOn(Schedulers.io())
@@ -106,9 +130,14 @@ class UpdateDetailsActivity : AppCompatActivity() {
             binding.edtUpdateProfileDOB.setText(tDate)
         }
 
-        DatePickerDialog(
+        val datePickerDialog = DatePickerDialog(
             this, dateSetListener,
             c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        )
+
+        datePickerDialog.datePicker.maxDate = c.timeInMillis
+
+        datePickerDialog.show()
     }
+
 }

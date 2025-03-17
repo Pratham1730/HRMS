@@ -2,6 +2,7 @@ package com.example.hrms.activity
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -33,7 +34,6 @@ class LeaveActivity : AppCompatActivity() {
     private var leaveType = ""
     private var leaveTypeId = 0
     private lateinit var preferenceManager: PreferenceManager
-    private val baseUrl = "http://192.168.4.140/"
     private var weekend = false
     private lateinit var leaveList : List<LeaveTypesItem?>
 
@@ -42,7 +42,7 @@ class LeaveActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLeaveBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         binding.imgLeaveBack.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -64,18 +64,30 @@ class LeaveActivity : AppCompatActivity() {
             showDatePicker()
         }
         binding.btnSubmit.setOnClickListener {
-            if (leaveTypeId == 0){
-                Toast.makeText(this@LeaveActivity, "Enter Correct Leave Type", Toast.LENGTH_SHORT).show()
+            validations()
+        }
+    }
+
+    private fun validations(){
+        if (leaveTypeId == 0){
+            Toast.makeText(this@LeaveActivity, "Enter Correct Leave Type", Toast.LENGTH_SHORT).show()
+        }
+        else if (binding.etFromDate.text.toString().isEmpty()){
+            binding.etFromDate.requestFocus()
+            binding.etFromDate.error = "Please add date"
+        }
+        else if(binding.etReason.text.toString().isEmpty()){
+            binding.etReason.requestFocus()
+            binding.etReason.error = "Please add reason"
+        }
+        else{
+            if (!weekend){
+                callApplyLeave()
+                startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
+                finish()
             }
             else{
-                if (!weekend){
-                    callApplyLeave()
-                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
-                    finish()
-                }
-                else{
-                    Toast.makeText(this@LeaveActivity, "The Date You Are Selecting Is Official Holiday", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this@LeaveActivity, "The Date You Are Selecting is Weekend", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -114,7 +126,7 @@ class LeaveActivity : AppCompatActivity() {
     }
 
     private fun callLeaveType(){
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.leaveType("select_leave")
             .subscribeOn(Schedulers.io())
@@ -142,7 +154,7 @@ class LeaveActivity : AppCompatActivity() {
         val userId = preferenceManager.getUserId()
         val companyId = preferenceManager.getCompanyId()
 
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
         apiService.applyLeave("true" , companyId , userId , leaveTypeId , reason , date)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -179,6 +191,7 @@ class LeaveActivity : AppCompatActivity() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
+        datePicker.datePicker.minDate = calendar.timeInMillis
         datePicker.show()
     }
 

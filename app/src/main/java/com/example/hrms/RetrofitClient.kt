@@ -8,7 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    fun getInstance(baseUrl: String): ApiService {
+
+    private const val BASE_URL = "http://192.168.4.233/"
+    fun getInstance(): ApiService {
         // Create logging interceptor to log request and response details
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY  // Log request and response bodies
@@ -33,7 +35,7 @@ object RetrofitClient {
 
         // Build Retrofit instance with the custom OkHttpClient
         val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .client(client)  // Use OkHttpClient with logging and interceptors
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

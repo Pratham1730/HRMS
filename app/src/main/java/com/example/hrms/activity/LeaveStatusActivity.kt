@@ -1,7 +1,9 @@
 package com.example.hrms.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
@@ -22,16 +24,16 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class LeaveStatusActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLeaveStatusBinding
-    private var baseUrl = "http://192.168.4.140/"
     private lateinit var preferenceManager: PreferenceManager
     private var leaveList: List<LeaveDataItem?> = emptyList()
+    private var status = -1
     private lateinit var adapter: LeaveStatusRvAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLeaveStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         preferenceManager = PreferenceManager(this)
 
         binding.recyclerLeaveTracker.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -59,7 +61,7 @@ class LeaveStatusActivity : AppCompatActivity() {
     }
 
     private fun callLeaveList() {
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
         val userId = preferenceManager.getUserId()
 
         apiService.selectLeave("select_leave", userId)
@@ -73,8 +75,12 @@ class LeaveStatusActivity : AppCompatActivity() {
                     if (newList.isNotEmpty()) {
                         leaveList = newList
                         adapter.updateList(leaveList)
+                        status = response.status!!.toInt()
+                        showLayout()
                     } else {
-                        Toast.makeText(this@LeaveStatusActivity, "No Leave Record Found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LeaveStatusActivity, response.message.toString(), Toast.LENGTH_SHORT).show()
+                        status = -1
+                        showLayout()
                     }
                 }
 
@@ -87,7 +93,7 @@ class LeaveStatusActivity : AppCompatActivity() {
     }
 
     private fun deleteLeave(leaveItem: LeaveDataItem) {
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
         val companyId = preferenceManager.getCompanyId()
         val userId = preferenceManager.getUserId()
 
@@ -102,6 +108,7 @@ class LeaveStatusActivity : AppCompatActivity() {
                         leaveList = leaveList.filter { it?.l_id != leaveItem.l_id }
                         adapter.updateList(leaveList)
                         callLeaveList()
+                        showLayout()
                     }
 
                     override fun onError(e: Throwable) {
@@ -111,6 +118,18 @@ class LeaveStatusActivity : AppCompatActivity() {
                     override fun onComplete() {}
                 })
         }
+    }
+
+    fun showLayout(){
+        if (status == 200){
+            binding.noDataLayout.visibility = View.GONE
+            binding.recyclerLeaveTracker.visibility = View.VISIBLE
+        }
+        else{
+            binding.noDataLayout.visibility = View.VISIBLE
+            binding.recyclerLeaveTracker.visibility = View.GONE
+        }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.hrms.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -26,13 +27,13 @@ class SelectCompanyActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySelectCompanyBinding
     private lateinit var companyList: List<CompanyItem?>
     private var companyId = -1
-    private val baseUrl = "http://192.168.4.140/"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectCompanyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         callCompany()
         listener()
@@ -83,7 +84,7 @@ class SelectCompanyActivity : AppCompatActivity() {
     }
 
     private fun callCompany(){
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.selectCompany("select_company")
             .subscribeOn(Schedulers.io())

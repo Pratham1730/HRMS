@@ -3,6 +3,7 @@ package com.example.hrms.activity
 import android.app.DatePickerDialog
 import com.example.hrms.adapter.CustomSpinnerAdapter
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Patterns
@@ -38,7 +39,6 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
-    private val baseUrl = "http://192.168.4.140/"
     private lateinit var departmentList: List<DepartmentsItem?>
     private lateinit var positionList: List<PositionsItem?>
 
@@ -48,6 +48,7 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         listeners()
 
@@ -93,7 +94,12 @@ class SignUpActivity : AppCompatActivity() {
         } else if (binding.edtSignUpPhoneNumber.text.toString().isEmpty()) {
             binding.edtSignUpPhoneNumber.requestFocus()
             binding.edtSignUpPhoneNumber.error = "Please add phone number"
-        } else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
+        }
+        else if(binding.edtSignUpPhoneNumber.text.toString().length < 10){
+            binding.edtSignUpPhoneNumber.requestFocus()
+            binding.edtSignUpPhoneNumber.error = "Phone number can't be less tha 10 digits"
+        }
+        else if (binding.edtSignUpDOB.text.toString().isEmpty()) {
             binding.edtSignUpDOB.requestFocus()
             binding.edtSignUpDOB.error = "Please add birth date"
         } else if (binding.edtSignUpJoiningDate.text.toString().isEmpty()) {
@@ -240,10 +246,15 @@ class SignUpActivity : AppCompatActivity() {
             binding.edtSignUpDOB.setText(tDate)
         }
 
-        DatePickerDialog(
+        val datePickerDialog = DatePickerDialog(
             this, dateSetListener,
             c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        )
+
+        datePickerDialog.datePicker.maxDate = c.timeInMillis
+
+        datePickerDialog.show()
+
     }
 
     private fun onClickDateJoining() {
@@ -269,7 +280,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun callDept() {
         companyId = intent.getIntExtra("COMPANY_ID", 0)
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.setDept("select_dept", companyId)
             .subscribeOn(Schedulers.io())
@@ -306,7 +317,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun callPosition() {
         if (departmentId == -1) return
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         val a = departmentId
         apiService.getPosition("select", departmentId)
@@ -351,7 +362,7 @@ class SignUpActivity : AppCompatActivity() {
 
         val companyId = 1
 
-        val apiService = RetrofitClient.getInstance(baseUrl)
+        val apiService = RetrofitClient.getInstance()
 
         apiService.signUpUser(
             insert,

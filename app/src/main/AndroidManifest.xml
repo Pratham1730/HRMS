@@ -69,7 +69,7 @@
             tools:ignore="MissingClass" />
         <activity
             android:name=".activity.SignInActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

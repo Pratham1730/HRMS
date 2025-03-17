@@ -37,6 +37,7 @@ class MonthRVAdapter(private val context: Context,private var list: List<String>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.btnMonth.text = list[position]
 
+
         holder.btnMonth.setOnClickListener {
             onMonthClickListener?.onClicked(position + 1)
         }

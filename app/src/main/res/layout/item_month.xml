@@ -12,6 +12,7 @@
         android:text="January"
         android:backgroundTint="@color/primary"
         android:orientation="horizontal"
+        android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

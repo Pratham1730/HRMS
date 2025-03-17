@@ -27,6 +27,10 @@ class AttendanceActivity : AppCompatActivity() {
     private var year = Calendar.getInstance().get(Calendar.YEAR)
     private lateinit var preferenceManager: PreferenceManager
 
+    private var finalSalary = ""
+    private var originalSalary = ""
+    private var totalDeduction = ""
+
     private val monthList = listOf(
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -50,6 +54,8 @@ class AttendanceActivity : AppCompatActivity() {
             if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
                 val intent = Intent(this, SalaryBreakdownActivity::class.java)
                 intent.putExtra("final_salary", binding.txtAttendanceSalary.text.toString())
+                intent.putExtra("original_salary", binding.txtAttendanceSalary.text.toString())
+                intent.putExtra("deductions", binding.txtAttendanceSalary.text.toString())
                 startActivity(intent)
             }
             else{
@@ -107,6 +113,11 @@ class AttendanceActivity : AppCompatActivity() {
                         if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
                             binding.llSalary.visibility = View.VISIBLE
                             binding.txtAttendanceSalary.text = t.final_salary.toString()
+
+                            finalSalary = t.final_salary.toString()
+                            originalSalary = t.original_salary.toString()
+                            totalDeduction = t.total_deduction.toString()
+
                         }
                         else{
                             binding.llSalary.visibility = View.GONE

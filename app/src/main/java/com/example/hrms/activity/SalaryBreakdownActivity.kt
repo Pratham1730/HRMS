@@ -13,13 +13,14 @@ class SalaryBreakdownActivity : AppCompatActivity() {
         binding = ActivitySalaryBreakdownBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrieve salary values from Intent
-        val finalSalary = intent.getStringExtra("final_salary") ?: "0"
+        val finalSalary = intent.getStringExtra("final_salary")
+        val originalSalary = intent.getStringExtra("original_salary")
+        val deductions = intent.getStringExtra("deductions")
 
-        // Set salary values in UI
-        binding.txtFinalSalary.text = "₹$finalSalary"
+        binding.txtFinalSalary.text = finalSalary
+        binding.txtOriginalSalary.text = originalSalary
+        binding.txtDeduction.text = deductions
 
-        // Back button functionality
         binding.imgLeaveStatusBack.setOnClickListener {
             finish()
         }

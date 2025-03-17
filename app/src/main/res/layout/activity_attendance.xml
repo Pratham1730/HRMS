@@ -186,12 +186,12 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
+                    android:id="@+id/llSalary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textview.MaterialTextView
@@ -218,6 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:padding="@dimen/_12sdp"
                     android:text="View Detailed Salary Breakdown"
                     android:textSize="@dimen/_12ssp" />

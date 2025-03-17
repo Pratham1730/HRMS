@@ -3,6 +3,7 @@ package com.example.hrms.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,8 +47,13 @@ class AttendanceActivity : AppCompatActivity() {
 
 
         binding.btnSalaryBreakdown.setOnClickListener {
-            val intent = Intent(this, SalaryBreakdownActivity::class.java)
-            startActivity(intent)
+            if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
+                val intent = Intent(this, SalaryBreakdownActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(this@AttendanceActivity, "You Can Only See The Salary Breakdown Of The Previous Months", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -93,18 +99,30 @@ class AttendanceActivity : AppCompatActivity() {
                 override fun onNext(t: AttendanceResponse) {
                     if (t.status!!.toInt() == 200) {
                         binding.txtAttendancePresentDays.text = t.present_days.toString()
-                        binding.txtAttendanceSalary.text = t.final_salary.toString()
                         binding.txtAttendanceLeaves.text = t.paid_leave_days.toString()
                         binding.txtAttendanceHalfDays.text = t.half_days.toString()
                         binding.txtAttendanceUnpaidLeaves.text = t.unpaidLeaveDays.toString()
                         binding.txtAttendanceAbsentDays.text = t.absent_days.toString()
+                        if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
+                            binding.llSalary.visibility = View.VISIBLE
+                            binding.txtAttendanceSalary.text = t.final_salary.toString()
+                        }
+                        else{
+                            binding.llSalary.visibility = View.GONE
+                        }
                     } else {
                         binding.txtAttendancePresentDays.text = "0"
-                        binding.txtAttendanceSalary.text = "0"
                         binding.txtAttendanceLeaves.text = "0"
                         binding.txtAttendanceAbsentDays.text = "0"
                         binding.txtAttendanceUnpaidLeaves.text = "0"
                         binding.txtAttendanceHalfDays.text = "0"
+                        if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
+                            binding.llSalary.visibility = View.VISIBLE
+                            binding.txtAttendanceSalary.text = "0"
+                        }
+                        else{
+                            binding.llSalary.visibility = View.GONE
+                        }
                     }
                 }
             })

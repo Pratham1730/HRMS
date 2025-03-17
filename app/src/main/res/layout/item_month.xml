@@ -5,15 +5,17 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_8sdp">
 
-    <com.google.android.material.button.MaterialButton
+    <TextView
         android:id="@+id/btnMonth"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
         android:text="January"
-        android:backgroundTint="@color/primary"
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14ssp"
         android:orientation="horizontal"
         android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,18 +13,18 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/_8sdp">
+            android:layout_marginBottom="8dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgLeaveStatusBack"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@drawable/baseline_arrow_back_24_bing" />
-
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
@@ -35,7 +35,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
 
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:orientation="horizontal"
-
             android:padding="8dp">
 
             <TextView
@@ -82,38 +80,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/_8sdp">
-
-            <TextView
-                android:id="@+id/txtComponentName"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Original Salary"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
+                android:orientation="horizontal"
+                android:padding="8dp">
 
+                <TextView
+                    android:id="@+id/txtComponentName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Original Salary"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/txtAmount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="₹8,50,000.00"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtOriginalSalary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="₹0.00"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/_8sdp">
+                android:padding="8dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -123,25 +119,17 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-
                 <TextView
+                    android:id="@+id/txtFinalSalary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="₹8,50,000.00"
+                    android:text="₹0.00"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
-
             </LinearLayout>
 
         </LinearLayout>
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
 
         <TextView
             android:layout_width="match_parent"
@@ -162,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/_8sdp">
+                android:padding="8dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -172,22 +160,21 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-
                 <TextView
+                    android:id="@+id/txtHalfDaysDeduction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="₹8,50,000.00"
+                    android:text="₹0.00"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/_8sdp">
+                android:padding="8dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -197,25 +184,17 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-
                 <TextView
+                    android:id="@+id/txtLeaveDeduction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="₹8,50,000.00"
+                    android:text="₹0.00"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
-
             </LinearLayout>
 
         </LinearLayout>
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
-<!--        <include layout="@layout/item_salary_component" />-->
-
 
     </LinearLayout>
 </ScrollView>

@@ -9,7 +9,7 @@ import java.net.URL
 
 object Constants {
     const val REACHABILITY_SERVER = "https://www.google.com" // or any endpoint you want to ping
-    const val LANDING_SERVER = "http://192.168.4.233/" // replace with your server URL
+    const val LANDING_SERVER = "http://192.168.4.140/" // replace with your server URL
 }
 
 object MyReachability {

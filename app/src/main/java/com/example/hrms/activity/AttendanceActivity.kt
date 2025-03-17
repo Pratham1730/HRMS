@@ -49,6 +49,7 @@ class AttendanceActivity : AppCompatActivity() {
         binding.btnSalaryBreakdown.setOnClickListener {
             if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
                 val intent = Intent(this, SalaryBreakdownActivity::class.java)
+                intent.putExtra("final_salary", binding.txtAttendanceSalary.text.toString())
                 startActivity(intent)
             }
             else{

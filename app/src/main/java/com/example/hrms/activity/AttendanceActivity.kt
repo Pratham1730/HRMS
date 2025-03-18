@@ -141,4 +141,10 @@ class AttendanceActivity : AppCompatActivity() {
                 }
             })
     }
+
+    fun insertAbsent(){
+        var apiService = RetrofitClient.getInstance()
+
+        //apiService.getAttendance()
+    }
 }

@@ -191,4 +191,12 @@ interface ApiService {
         @Field("month") month : Int,
         @Field("year") year : Int
     ) : Observable<AttendanceResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/insert_absent.php")
+    fun insertAbsent(
+        @Field("user_id") user_id : Int,
+        @Field("month") month : Int,
+        @Field("year") year : Int
+    )
 }

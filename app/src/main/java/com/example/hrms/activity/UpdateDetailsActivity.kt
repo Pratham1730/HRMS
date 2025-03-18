@@ -132,9 +132,9 @@ class UpdateDetailsActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: UpdateDataResponse) {
-                    preferenceManager.saveUserEmail(namePart.toString())
-                    preferenceManager.saveUserPhone(phonePart.toString())
-                    preferenceManager.saveUserDOB(dobPart.toString())
+                    preferenceManager.saveUserName(binding.edtUpdateProfileName.text.toString())
+                    preferenceManager.saveUserPhone(binding.edtUpdateProfilePhone.text.toString())
+                    preferenceManager.saveUserDOB(binding.edtUpdateProfileDOB.text.toString())
                     Toast.makeText(this@UpdateDetailsActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             })

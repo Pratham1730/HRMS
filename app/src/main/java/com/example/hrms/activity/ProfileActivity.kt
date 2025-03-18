@@ -68,6 +68,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun listener(){
         binding.btnProfileUpdate.setOnClickListener {
             startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
+            finish()
         }
 
     }

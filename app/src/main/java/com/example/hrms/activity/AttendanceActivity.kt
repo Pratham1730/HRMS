@@ -107,11 +107,12 @@ class AttendanceActivity : AppCompatActivity() {
 
                 override fun onNext(t: AttendanceResponse) {
                     if (t.status!!.toInt() == 200) {
-                        val a = t.present_days
+                        binding.attendanceScrollView.visibility = View.VISIBLE
+                        binding.noDataLayoutAttendance.visibility = View.GONE
                         binding.txtAttendancePresentDays.text = t.present_days.toString()
                         binding.txtAttendanceLeaves.text = t.paid_leave_days.toString()
                         binding.txtAttendanceHalfDays.text = t.half_days.toString()
-                        binding.txtAttendanceUnpaidLeaves.text = t.unpaidLeaveDays.toString()
+                        binding.txtAttendanceUnpaidLeaves.text = t.unpaid_leave_days.toString()
                         binding.txtAttendanceAbsentDays.text = t.absent_days.toString()
 
                         binding.llSalary.visibility = View.VISIBLE
@@ -131,18 +132,8 @@ class AttendanceActivity : AppCompatActivity() {
                             binding.llSalary.visibility = View.GONE
                         }
                     } else {
-                        binding.txtAttendancePresentDays.text = "0"
-                        binding.txtAttendanceLeaves.text = "0"
-                        binding.txtAttendanceAbsentDays.text = "0"
-                        binding.txtAttendanceUnpaidLeaves.text = "0"
-                        binding.txtAttendanceHalfDays.text = "0"
-                        if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
-                            binding.llSalary.visibility = View.VISIBLE
-                            binding.txtAttendanceSalary.text = "0"
-                        }
-                        else{
-                            binding.llSalary.visibility = View.GONE
-                        }
+                        binding.attendanceScrollView.visibility = View.GONE
+                        binding.noDataLayoutAttendance.visibility = View.VISIBLE
                     }
                 }
             })

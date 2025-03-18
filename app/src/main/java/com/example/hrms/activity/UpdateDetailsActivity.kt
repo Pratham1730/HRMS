@@ -39,7 +39,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private lateinit var preferenceManager: PreferenceManager
     private var userId : Int = -1
-    private lateinit var imageUri: Uri
+    private  var imageUri: Uri ?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,11 +110,11 @@ class UpdateDetailsActivity : AppCompatActivity() {
         val phonePart = createPartFromString(binding.edtUpdateProfilePhone.text.toString())
         val dobPart = createPartFromString(binding.edtUpdateProfileDOB.text.toString())
 
-        // imageUri might be null if user doesn't select image
-        val imagePart = if (::imageUri.isInitialized) {
-            prepareImagePart(imageUri)
-        } else {
-            null // send null if image not selected
+        val imagePart = if (imageUri != null) {
+            prepareImagePart(imageUri!!)
+        }
+        else {
+            null
         }
 
         val apiService = RetrofitClient.getInstance()
@@ -185,12 +185,15 @@ class UpdateDetailsActivity : AppCompatActivity() {
 
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let { binding.imgUpdateProfile.setImageURI(it) }
+            uri?.let {
+                imageUri = it
+                binding.imgUpdateProfile.setImageURI(it)
+            }
         }
 
     private val captureImageLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-            if (success) {
+            if (success && imageUri != null) {
                 binding.imgUpdateProfile.setImageURI(imageUri)
             }
         }
@@ -202,7 +205,7 @@ class UpdateDetailsActivity : AppCompatActivity() {
     private fun captureImageFromCamera() {
         val file = File(this@UpdateDetailsActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photo.jpg")
         imageUri = FileProvider.getUriForFile(this@UpdateDetailsActivity, "${this@UpdateDetailsActivity.packageName}.fileprovider", file)
-        captureImageLauncher.launch(imageUri)
+        captureImageLauncher.launch(imageUri!!)
     }
 
     private fun showImagePickerDialog() {

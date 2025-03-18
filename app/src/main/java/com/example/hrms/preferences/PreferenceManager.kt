@@ -83,11 +83,12 @@ class PreferenceManager(context: Context) {
     fun removePunchInTime(){
         sharedPreferences.edit().remove("PUNCH_IN_TIME").apply()
     }
-
-            /*
-            sharedPreferences.edit().remove("PUNCH_IN_TIME").apply()
-            sharedPreferences.edit().putBoolean("IS_PUNCHED_IN", false).apply()*/
-
+    fun saveUserImageUrl(url: String) {
+        sharedPreferences.edit().putString("USER_IMAGE_URL", url).apply()
+    }
+    fun getUserImageUrl() : String? {
+        return sharedPreferences.getString("USER_IMAGE_URL" , "")
+    }
     fun logout() {
         editor.clear()
         editor.apply()

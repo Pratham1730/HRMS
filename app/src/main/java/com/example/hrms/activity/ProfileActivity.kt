@@ -103,7 +103,6 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfileDepartment.text = t.user?.dept_name.toString()
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
 
-//                    val a = path
 
                     val rawUrl = t.user!!.u_img
                     val fixedUrl = rawUrl?.replace("\\", "") // removes backslashes

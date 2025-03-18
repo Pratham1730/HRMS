@@ -19,12 +19,17 @@ import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.UserDataResponse
 import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.MultipartBody
+import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import java.math.BigInteger
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -79,8 +84,16 @@ interface ApiService {
         @Field("u_email") u_email: String
     ): Observable<UserDataResponse>
 
+    @Multipart
     @POST("HMRS/update_user.php")
-    fun updateUser(@Body model: UpdateDataModel): Observable<UpdateDataResponse>
+    fun updateUser(
+        @Part("method") method : RequestBody,
+        @Part("u_id") u_id : RequestBody,
+        @Part("u_name") u_name : RequestBody,
+        @Part("u_phone") u_phone : RequestBody,
+        @Part("u_dob") u_dob : RequestBody,
+        @Part user_img : MultipartBody.Part?
+    ): Observable<UpdateDataResponse>
 
     @FormUrlEncoded
     @POST("HMRS/select_leave_type.php")

@@ -13,10 +13,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.hrms.responses.UserDataResponse
+import com.bumptech.glide.Glide
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityProfileBinding
 import com.example.hrms.preferences.PreferenceManager
+import com.example.hrms.responses.UserDataResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -101,12 +102,18 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfileJoiningDate.text = t.user?.u_joining_Date.toString()
                     binding.txtProfileDepartment.text = t.user?.dept_name.toString()
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
-                    if (t.user?.u_gender.toString().toInt() == 1){
-                        binding.txtProfileGender.text = "Male"
-                    }
-                    else{
-                        binding.txtProfileGender.text = "Female"
-                    }
+
+
+                    Glide.with(this@ProfileActivity)
+                        .load(t.user?.u_img)
+                        .into(binding.imgProfile);
+
+//                    if (t.user?.u_gender.toString().toInt() == 1){
+//                        binding.txtProfileGender.text = "Male"
+//                    }
+//                    else{
+//                        binding.txtProfileGender.text = "Female"
+//                    }
                     binding.txtProfileSalary.text = t.user?.u_salary.toString()
 
                     preferenceManager.saveUserName(t.user?.u_name.toString())

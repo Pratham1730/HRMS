@@ -4,15 +4,16 @@ import java.io.Serializable
 
 data class UserDataResponse(
 	val message: String? = null,
-	val user: UserDetails? = null,
+	val user: UserData? = null,
 	val status: Int? = null
 ) : Serializable
 
-data class UserDetails(
+data class UserData(
 	val u_name: String? = null,
 	val u_modified_by: String? = null,
 	val u_is_delete: String? = null,
 	val company_id: String? = null,
+	val u_img: String? = null,
 	val u_email: String? = null,
 	val position_name: String? = null,
 	val dept_name: String? = null,

@@ -24,6 +24,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -92,42 +97,66 @@ class UpdateDetailsActivity : AppCompatActivity() {
         }
         else{
             updatedData()
-            startActivity(Intent(this@UpdateDetailsActivity , UpdateDetailsActivity::class.java))
+            startActivity(Intent(this@UpdateDetailsActivity , ProfileActivity::class.java))
+            finish()
 
         }
     }
 
-    private fun updatedData(){
-        val method  = "update_user"
-        val name = binding.edtUpdateProfileName.text.toString()
-        val phone = binding.edtUpdateProfilePhone.text.toString()
-        val dob = binding.edtUpdateProfileDOB.text.toString()
+    private fun updatedData() {
+        val method = createPartFromString("update_user")
+        val uIdPart = createPartFromString(userId.toString())
+        val namePart = createPartFromString(binding.edtUpdateProfileName.text.toString())
+        val phonePart = createPartFromString(binding.edtUpdateProfilePhone.text.toString())
+        val dobPart = createPartFromString(binding.edtUpdateProfileDOB.text.toString())
 
-        val model = UpdateDataModel(method , userId , name , phone.toBigInteger() , dob )
+        // imageUri might be null if user doesn't select image
+        val imagePart = if (::imageUri.isInitialized) {
+            prepareImagePart(imageUri)
+        } else {
+            null // send null if image not selected
+        }
 
         val apiService = RetrofitClient.getInstance()
 
-        apiService.updateUser(model)
+        apiService.updateUser(method, uIdPart, namePart, phonePart, dobPart, imagePart)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<UpdateDataResponse>{
-                override fun onSubscribe(d: Disposable) {
-                }
+            .subscribe(object : Observer<UpdateDataResponse> {
+                override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
+                    Toast.makeText(this@UpdateDetailsActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onComplete() {
-                }
+                override fun onComplete() {}
 
                 override fun onNext(t: UpdateDataResponse) {
-                    preferenceManager.saveUserEmail(name)
-                    preferenceManager.saveUserPhone(phone)
-                    preferenceManager.saveUserDOB(dob)
+                    preferenceManager.saveUserEmail(namePart.toString())
+                    preferenceManager.saveUserPhone(phonePart.toString())
+                    preferenceManager.saveUserDOB(dobPart.toString())
                     Toast.makeText(this@UpdateDetailsActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             })
     }
+
+    private fun createPartFromString(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    private fun prepareImagePart(uri: Uri): MultipartBody.Part {
+        val inputStream = contentResolver.openInputStream(uri)
+        val file = File(cacheDir, "upload_${System.currentTimeMillis()}.jpg")
+        inputStream?.use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        val reqFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("user_img", file.name, reqFile)
+    }
+
 
 
     private fun onClickDateDOB() {

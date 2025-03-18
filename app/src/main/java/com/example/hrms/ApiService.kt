@@ -1,12 +1,12 @@
 package com.example.hrms
 
-import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.AttendanceResponse
 import com.example.hrms.responses.CompanyResponse
 import com.example.hrms.responses.DepartmentEmployeeResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.EnterAttendanceResponse
+import com.example.hrms.responses.InsertAbsentResponse
 import com.example.hrms.responses.LeaveDeteleResponse
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
@@ -198,5 +198,5 @@ interface ApiService {
         @Field("user_id") user_id : Int,
         @Field("month") month : Int,
         @Field("year") year : Int
-    )
+    ) : Observable<InsertAbsentResponse>
 }

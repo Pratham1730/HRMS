@@ -3,6 +3,7 @@ package com.example.hrms.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.databinding.ActivitySalaryBreakdownBinding
+import com.example.hrms.models.SalaryModel
 
 class SalaryBreakdownActivity : AppCompatActivity() {
 
@@ -13,13 +14,11 @@ class SalaryBreakdownActivity : AppCompatActivity() {
         binding = ActivitySalaryBreakdownBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val finalSalary = intent.getStringExtra("final_salary")
-        val originalSalary = intent.getStringExtra("original_salary")
-        val deductions = intent.getStringExtra("deductions")
+        val model = intent.getSerializableExtra("Salary") as SalaryModel
 
-        binding.txtFinalSalary.text = finalSalary
-        binding.txtOriginalSalary.text = originalSalary
-        binding.txtDeduction.text = deductions
+        binding.txtFinalSalary.text = model.finalSalary
+        binding.txtOriginalSalary.text = model.originalSalary
+        binding.txtDeduction.text = model.totalDeduction
 
         binding.imgLeaveStatusBack.setOnClickListener {
             finish()

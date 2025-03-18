@@ -5,20 +5,49 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/theme"
     android:orientation="vertical"
     android:padding="@dimen/_8sdp"
-    android:background="@drawable/theme"
     tools:context=".activity.UpdateDetailsActivity">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/updateDetailsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="@dimen/_12sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgUpdateProfileBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_arrow_back_24_bing" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Update User Details"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/updateDetailsToolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,29 +56,24 @@
             android:padding="@dimen/_8sdp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgUpdateProfileBack"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:src="@drawable/baseline_arrow_back_24" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:gravity="center_horizontal"
-                android:text="Update User Details"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/_24sdp"
-                android:textStyle="bold" />
+                android:id="@+id/imgUpdateProfile"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="@dimen/_85sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
+                app:strokeColor="@color/black"
+                app:strokeWidth="2dp" />
 
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/black"
-                android:layout_marginTop="@dimen/_2sdp"
                 app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,10 +100,10 @@
                     android:id="@+id/edtUpdateProfileDOB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Update Date Of Birth"
-                    android:padding="@dimen/_12sdp"
                     android:clickable="true"
                     android:focusable="false"
+                    android:hint="Update Date Of Birth"
+                    android:padding="@dimen/_12sdp"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,8 +123,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Update Phone"
-                    android:maxLength="10"
                     android:inputType="phone"
+                    android:maxLength="10"
                     android:padding="@dimen/_12sdp"
                     android:textColor="@color/black" />
 
@@ -113,15 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:padding="@dimen/_8sdp"
-                android:text="Update"/>
+                android:text="Update" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-
-
-
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

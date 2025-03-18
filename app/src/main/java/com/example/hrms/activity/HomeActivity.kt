@@ -3,6 +3,7 @@ package com.example.hrms.activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -65,10 +66,9 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
+
         preferenceManager = PreferenceManager(this@HomeActivity)
-
-        isConnected()
-
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -83,52 +83,32 @@ class HomeActivity : AppCompatActivity() {
 
     private fun listeners() {
         binding.btnPunch.setOnClickListener {
-            if (isServerConnected) {
-                punchStatus()
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+            punchStatus()
         }
 
         binding.leaveCard.setOnClickListener {
-            if (isServerConnected) {
-                startActivity(Intent(this, LeaveStatusActivity::class.java))
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent(this, LeaveStatusActivity::class.java))
+
         }
 
         binding.profileimage.setOnClickListener {
-            if (isServerConnected) {
-                startActivity(Intent(this, ProfileActivity::class.java))
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent(this, ProfileActivity::class.java))
+
         }
 
         binding.attendanceCard.setOnClickListener {
-            if (isServerConnected) {
-                startActivity(Intent(this, AttendanceActivity::class.java))
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent(this, AttendanceActivity::class.java))
         }
 
         binding.employeeListCard.setOnClickListener {
-            if (isServerConnected) {
-                startActivity(Intent(this, DepartmentActivity::class.java))
+            startActivity(Intent(this, DepartmentActivity::class.java))
 
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         binding.publicHolidaysCard.setOnClickListener {
-            if (isServerConnected) {
-                startActivity(Intent(this, HolidayActivity::class.java))
-            } else {
-                Toast.makeText(this@HomeActivity, "Server Not Connected", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent(this, HolidayActivity::class.java))
+
         }
     }
 
@@ -278,13 +258,5 @@ class HomeActivity : AppCompatActivity() {
             })
     }
 
-    private fun isConnected() {
-        lifecycleScope.launch {
-            val isServerReachable = withContext(Dispatchers.IO) {
-                MyReachability.hasServerConnected(this@HomeActivity)
-            }
-            isServerConnected = isServerReachable
-        }
-    }
 
 }

@@ -30,6 +30,7 @@ class AttendanceActivity : AppCompatActivity() {
     private var finalSalary = ""
     private var originalSalary = ""
     private var totalDeduction = ""
+    private var statusA = -1
 
     private val monthList = listOf(
         "January", "February", "March", "April", "May", "June",
@@ -53,7 +54,7 @@ class AttendanceActivity : AppCompatActivity() {
 
 
         binding.btnSalaryBreakdown.setOnClickListener {
-            if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
+            if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1 && statusA == 200){
                 val intent = Intent(this, SalaryBreakdownActivity::class.java)
                 intent.putExtra("final_salary", binding.txtAttendanceSalary.text.toString())
                 intent.putExtra("original_salary", binding.txtAttendanceSalary.text.toString())
@@ -61,7 +62,7 @@ class AttendanceActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             else{
-                Toast.makeText(this@AttendanceActivity, "You Can Only See The Salary Breakdown Of The Previous Months", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AttendanceActivity, "You Cannot See Salary Of Selected Month", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -117,6 +118,7 @@ class AttendanceActivity : AppCompatActivity() {
 
                         binding.llSalary.visibility = View.VISIBLE
                         binding.txtAttendanceSalary.text = t.final_salary.toString()
+                        statusA = 200
 
 
                         if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
@@ -134,6 +136,7 @@ class AttendanceActivity : AppCompatActivity() {
                     } else {
                         binding.attendanceScrollView.visibility = View.GONE
                         binding.noDataLayoutAttendance.visibility = View.VISIBLE
+                        statusA = 201
                     }
                 }
             })

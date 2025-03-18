@@ -69,9 +69,6 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnProfileUpdate.setOnClickListener {
             startActivity(Intent(this@ProfileActivity , UpdateDetailsActivity::class.java))
         }
-        binding.imgProfile.setOnClickListener {
-            showImagePickerDialog()
-        }
 
     }
 
@@ -122,55 +119,5 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 
-    private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let { binding.imgProfile.setImageURI(it) }
-        }
 
-    private val captureImageLauncher =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-            if (success) {
-                binding.imgProfile.setImageURI(imageUri)
-            }
-        }
-
-    private fun pickImageFromGallery() {
-        pickImageLauncher.launch("image/*")
-    }
-
-    private fun captureImageFromCamera() {
-        val file = File(this@ProfileActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photo.jpg")
-        imageUri = FileProvider.getUriForFile(this@ProfileActivity, "${this@ProfileActivity.packageName}.fileprovider", file)
-        captureImageLauncher.launch(imageUri)
-    }
-
-    private fun showImagePickerDialog() {
-        val options = arrayOf("Take Photo", "Choose from Gallery")
-        val builder = android.app.AlertDialog.Builder(this@ProfileActivity)
-        builder.setTitle("Select Image")
-        builder.setItems(options) { _, which ->
-            when (which) {
-                0 -> checkPermissionsAndOpenCamera()
-                1 -> pickImageFromGallery()
-            }
-        }
-        builder.show()
-    }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                captureImageFromCamera()
-            } else {
-                Toast.makeText(this@ProfileActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    private fun checkPermissionsAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(this@ProfileActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            captureImageFromCamera()
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-        }
-    }
 }

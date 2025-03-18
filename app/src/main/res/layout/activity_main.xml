@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
         android:src="@drawable/synchr"
         android:contentDescription="SyncHR"/>
 

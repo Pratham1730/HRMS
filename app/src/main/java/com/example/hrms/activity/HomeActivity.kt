@@ -164,7 +164,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun updateProgress() {
-        val maxTime = 8 * 3600
+        val maxTime = 10 * 3600
         val elapsedTime = (System.currentTimeMillis() - punchInTime) / 1000
         val progress = (elapsedTime.toFloat() / maxTime) * 100
         binding.progressCircular.progress = progress.toInt()

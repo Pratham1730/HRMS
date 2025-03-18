@@ -154,18 +154,15 @@ class AttendanceActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<InsertAbsentResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@AttendanceActivity, "Sub", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@AttendanceActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
                 }
 
                 override fun onNext(t: InsertAbsentResponse) {
-                    Toast.makeText(this@AttendanceActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             })
     }

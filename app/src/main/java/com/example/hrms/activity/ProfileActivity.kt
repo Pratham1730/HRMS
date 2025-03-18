@@ -82,19 +82,16 @@ class ProfileActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object  : Observer<UserDataResponse>{
                 override fun onSubscribe(d: Disposable) {
-                    Toast.makeText(this@ProfileActivity, "Sub", Toast.LENGTH_SHORT).show()
 
                 }
 
                 override fun onError(e: Throwable) {
-                    Toast.makeText(this@ProfileActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onComplete() {
                 }
 
                 override fun onNext(t: UserDataResponse) {
-                    Toast.makeText(this@ProfileActivity, "Success", Toast.LENGTH_SHORT).show()
                     binding.txtProfileName.text = t.user?.u_name.toString()
                     binding.txtProfilePhone.text = t.user?.u_phone.toString()
                     binding.txtProfileEmail.text = t.user?.u_email.toString()
@@ -103,9 +100,9 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfileDepartment.text = t.user?.dept_name.toString()
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
 
-
                     val rawUrl = t.user!!.u_img
-                    val fixedUrl = rawUrl?.replace("\\", "") // removes backslashes
+                    val fixedUrl = rawUrl?.replace("\\", "")
+                    preferenceManager.saveUserImageUrl(fixedUrl!!)
 
 
                     Glide.with(this@ProfileActivity)

@@ -15,6 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
+import com.example.hrms.R
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityUpdateDetailsBinding
 import com.example.hrms.preferences.PreferenceManager
@@ -74,8 +76,16 @@ class UpdateDetailsActivity : AppCompatActivity() {
         (binding.edtUpdateProfileName as TextView).text  = preferenceManager.getUserName().toString()
         (binding.edtUpdateProfileDOB as TextView).text = preferenceManager.getUserDOB().toString()
         (binding.edtUpdateProfilePhone as TextView).text = preferenceManager.getUserPhone().toString()
-    }
 
+        val savedImageUrl = preferenceManager.getUserImageUrl()
+        if (!savedImageUrl.isNullOrEmpty()) {
+            Glide.with(this@UpdateDetailsActivity)
+                .load(savedImageUrl)
+                .placeholder(R.drawable.placeholder)
+                .into(binding.imgUpdateProfile )
+
+        }
+}
     private fun validations(){
 
         if (binding.edtUpdateProfileName.text.toString().isEmpty()) {

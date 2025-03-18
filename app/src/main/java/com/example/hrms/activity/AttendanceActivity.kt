@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hrms.RetrofitClient
 import com.example.hrms.adapter.MonthRVAdapter
 import com.example.hrms.databinding.ActivityAttendanceBinding
+import com.example.hrms.models.SalaryModel
 import com.example.hrms.preferences.PreferenceManager
 import com.example.hrms.responses.AttendanceResponse
+import com.example.hrms.responses.InsertAbsentResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -54,11 +56,10 @@ class AttendanceActivity : AppCompatActivity() {
 
 
         binding.btnSalaryBreakdown.setOnClickListener {
-            if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1 && statusA == 200){
+            if (monthNumber <= Calendar.getInstance().get(Calendar.MONTH) + 1 && statusA == 200){
+                val model = SalaryModel(finalSalary , originalSalary, totalDeduction)
                 val intent = Intent(this, SalaryBreakdownActivity::class.java)
-                intent.putExtra("final_salary", binding.txtAttendanceSalary.text.toString())
-                intent.putExtra("original_salary", binding.txtAttendanceSalary.text.toString())
-                intent.putExtra("deductions", binding.txtAttendanceSalary.text.toString())
+                intent.putExtra("Salary" , model)
                 startActivity(intent)
             }
             else{
@@ -121,7 +122,9 @@ class AttendanceActivity : AppCompatActivity() {
                         statusA = 200
 
 
-                        if (monthNumber < Calendar.getInstance().get(Calendar.MONTH) + 1){
+                        insertAbsent()
+
+                        if (monthNumber <= Calendar.getInstance().get(Calendar.MONTH) + 1){
                             binding.llSalary.visibility = View.VISIBLE
                             binding.txtAttendanceSalary.text = t.final_salary.toString()
 
@@ -143,8 +146,24 @@ class AttendanceActivity : AppCompatActivity() {
     }
 
     fun insertAbsent(){
+        var userId = preferenceManager.getUserId()
         var apiService = RetrofitClient.getInstance()
 
-        //apiService.getAttendance()
+        apiService.insertAbsent(userId , monthNumber, year)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<InsertAbsentResponse>{
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+                override fun onComplete() {
+                }
+
+                override fun onNext(t: InsertAbsentResponse) {
+                }
+            })
     }
 }

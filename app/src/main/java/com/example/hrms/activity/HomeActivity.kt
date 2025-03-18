@@ -1,10 +1,8 @@
 package com.example.hrms.activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.location.Location
@@ -15,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import com.example.hrms.MyReachability
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityHomeBinding
 import com.example.hrms.preferences.PreferenceManager
@@ -27,9 +23,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -41,14 +34,11 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var preferenceManager: PreferenceManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var isServerConnected = true
-
     private var isPunchIn = false
     private var punchInTime: Long = 0
     private val handler = Handler(Looper.getMainLooper())
 
     private var action = "punch_in"
-
 
     private var longitude: Double = -1.0
     private var latitude: Double = -1.0
@@ -67,51 +57,35 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-
         preferenceManager = PreferenceManager(this@HomeActivity)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         loadPunchStatus()
         updateDate()
-
         checkLocationPermission()
-
         listeners()
-
     }
 
     private fun listeners() {
         binding.btnPunch.setOnClickListener {
             punchStatus()
         }
-
         binding.leaveCard.setOnClickListener {
             startActivity(Intent(this, LeaveStatusActivity::class.java))
-
         }
-
         binding.profileimage.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
-
         }
-
         binding.attendanceCard.setOnClickListener {
             startActivity(Intent(this, AttendanceActivity::class.java))
         }
-
         binding.employeeListCard.setOnClickListener {
             startActivity(Intent(this, DepartmentActivity::class.java))
-
-
         }
-
         binding.publicHolidaysCard.setOnClickListener {
             startActivity(Intent(this, HolidayActivity::class.java))
-
         }
     }
-
 
     private fun punchStatus() {
         isPunchIn = !isPunchIn
@@ -119,27 +93,32 @@ class HomeActivity : AppCompatActivity() {
         insertAttendance()
     }
 
-
     private fun loadPunchStatus() {
         isPunchIn = preferenceManager.getIsPunchIn()
         punchInTime = preferenceManager.getPunchInTime()
 
         if (isPunchIn && punchInTime != 0L) {
+            // User is already punched in
             binding.btnPunch.text = "Punch Out"
             handler.post(updateTimerRunnable)
         } else {
+            // Reset if user not punched in
             binding.btnPunch.text = "Punch In"
+            preferenceManager.isPunchIn(false)
+            preferenceManager.removePunchInTime()
+            punchInTime = 0
+            binding.tvTimer.text = "00:00:00"
+            binding.progressCircular.progress = 0
         }
     }
 
+
     private fun updateTimerText() {
         if (punchInTime == 0L) return
-
         val elapsedTime = (System.currentTimeMillis() - punchInTime) / 1000
         val hours = elapsedTime / 3600
         val minutes = (elapsedTime % 3600) / 60
         val seconds = elapsedTime % 60
-
         binding.tvTimer.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
@@ -203,11 +182,8 @@ class HomeActivity : AppCompatActivity() {
     private fun insertAttendance() {
         val userId = preferenceManager.getUserId()
         val companyId = preferenceManager.getCompanyId()
-
         val punchInTimeFormat = Calendar.getInstance().time
-        val formattedTime =
-            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(punchInTimeFormat)
-
+        val formattedTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(punchInTimeFormat)
         val punchInDate = binding.tvDate.text
 
         val apiService = RetrofitClient.getInstance()
@@ -224,25 +200,24 @@ class HomeActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<EnterAttendanceResponse> {
-                override fun onSubscribe(d: Disposable) {
-                }
+                override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
                     Toast.makeText(this@HomeActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
-                override fun onComplete() {
-                }
+                override fun onComplete() {}
 
                 override fun onNext(t: EnterAttendanceResponse) {
-                    if (t.message == "Punch-in recorded successfully!") {
+                    if (action == "punch_in") {
+                        // Save punch-in time
                         punchInTime = System.currentTimeMillis()
                         preferenceManager.savePunchInTime(punchInTime)
                         preferenceManager.isPunchIn(true)
                         binding.btnPunch.text = "Punch Out"
                         handler.post(updateTimerRunnable)
-
                     } else if (t.message == "Punch-out recorded successfully!") {
+                        // Reset on punch-out
                         punchInTime = 0
                         preferenceManager.removePunchInTime()
                         preferenceManager.isPunchIn(false)
@@ -250,13 +225,9 @@ class HomeActivity : AppCompatActivity() {
                         binding.tvTimer.text = "00:00:00"
                         binding.progressCircular.progress = 0
                         handler.removeCallbacks(updateTimerRunnable)
-
                     }
-                    Toast.makeText(this@HomeActivity, t.message.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this@HomeActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             })
     }
-
-
 }

@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityUpdateDetailsBinding
-import com.example.hrms.models.UpdateDataModel
 import com.example.hrms.preferences.PreferenceManager
 import com.example.hrms.responses.UpdateDataResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

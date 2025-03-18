@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.example.hrms.R
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityProfileBinding
 import com.example.hrms.preferences.PreferenceManager
@@ -29,7 +30,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProfileBinding
     private lateinit var email : String
     private lateinit var preferenceManager: PreferenceManager
-    private lateinit var imageUri: Uri
 
 
 
@@ -46,8 +46,7 @@ class ProfileActivity : AppCompatActivity() {
         listener()
 
         binding.imgProfileBack.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
 
@@ -103,17 +102,22 @@ class ProfileActivity : AppCompatActivity() {
                     binding.txtProfileDepartment.text = t.user?.dept_name.toString()
                     binding.txtProfilePosition.text = t.user?.position_name.toString()
 
+//                    val a = path
+
+                    val rawUrl = t.user!!.u_img
+                    val fixedUrl = rawUrl?.replace("\\", "") // removes backslashes
+
 
                     Glide.with(this@ProfileActivity)
-                        .load(t.user?.u_img)
-                        .into(binding.imgProfile);
-
-//                    if (t.user?.u_gender.toString().toInt() == 1){
-//                        binding.txtProfileGender.text = "Male"
-//                    }
-//                    else{
-//                        binding.txtProfileGender.text = "Female"
-//                    }
+                        .load(fixedUrl)
+                        .placeholder(R.drawable.placeholder)
+                        .into(binding.imgProfile)
+                    if (t.user?.u_gender.toString().toInt() == 1){
+                        binding.txtProfileGender.text = "Male"
+                    }
+                    else{
+                        binding.txtProfileGender.text = "Female"
+                    }
                     binding.txtProfileSalary.text = t.user?.u_salary.toString()
 
                     preferenceManager.saveUserName(t.user?.u_name.toString())

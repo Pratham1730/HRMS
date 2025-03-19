@@ -226,6 +226,7 @@ class HomeActivity : AppCompatActivity() {
                             sdf.timeZone = TimeZone.getDefault()
                             if (punchOutTime == null){
                                 try {
+
                                     val today = Calendar.getInstance()
                                     val punchInCalendar = Calendar.getInstance()
                                     val punchInDate = sdf.parse(timeStr)

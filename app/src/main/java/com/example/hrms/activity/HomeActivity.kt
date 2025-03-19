@@ -1,8 +1,8 @@
 package com.example.hrms.activity
 
-import android.content.Intent
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.location.Location
@@ -25,9 +25,7 @@ import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,7 +45,6 @@ class HomeActivity : AppCompatActivity() {
     private val updateTimerRunnable = object : Runnable {
         override fun run() {
             updateTimerText()
-            updateProgress()
             handler.postDelayed(this, 1000)
         }
     }
@@ -61,7 +58,6 @@ class HomeActivity : AppCompatActivity() {
         preferenceManager = PreferenceManager(this@HomeActivity)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        loadPunchStatus()
         updateDate()
         checkLocationPermission()
         listeners()
@@ -90,30 +86,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun punchStatus() {
-        isPunchIn = !isPunchIn
-        action = if (isPunchIn) "punch_in" else "punch_out"
+        action = if (!isPunchIn) "punch_in" else "punch_out"
         insertAttendance()
     }
-
-    private fun loadPunchStatus() {
-        isPunchIn = preferenceManager.getIsPunchIn()
-        punchInTime = preferenceManager.getPunchInTime()
-
-        if (isPunchIn && punchInTime != 0L) {
-            // User is already punched in
-            binding.btnPunch.text = "Punch Out"
-            handler.post(updateTimerRunnable)
-        } else {
-            // Reset if user not punched in
-            binding.btnPunch.text = "Punch In"
-            preferenceManager.isPunchIn(false)
-            preferenceManager.removePunchInTime()
-            punchInTime = 0
-            binding.tvTimer.text = "00:00:00"
-            binding.progressCircular.progress = 0
-        }
-    }
-
 
     private fun updateTimerText() {
         if (punchInTime == 0L) return
@@ -122,13 +97,6 @@ class HomeActivity : AppCompatActivity() {
         val minutes = (elapsedTime % 3600) / 60
         val seconds = elapsedTime % 60
         binding.tvTimer.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-    }
-
-    private fun updateProgress() {
-        val maxTime = 10 * 3600
-        val elapsedTime = (System.currentTimeMillis() - punchInTime) / 1000
-        val progress = (elapsedTime.toFloat() / maxTime) * 100
-        binding.progressCircular.progress = progress.toInt()
     }
 
     private fun updateDate() {
@@ -206,18 +174,14 @@ class HomeActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: EnterAttendanceResponse) {
-                    if (action == "punch_in") {
-                        // Save punch-in time
+                    if (action == "punch_in" && t.message == "Punch-in recorded successfully!") {
                         punchInTime = System.currentTimeMillis()
-                        preferenceManager.savePunchInTime(punchInTime)
-                        preferenceManager.isPunchIn(true)
+                        isPunchIn = true
                         binding.btnPunch.text = "Punch Out"
                         handler.post(updateTimerRunnable)
-                    } else if (t.message == "Punch-out recorded successfully!") {
-                        // Reset on punch-out
+                    } else if (action == "punch_out" && t.message == "Punch-out recorded successfully!") {
                         punchInTime = 0
-                        preferenceManager.removePunchInTime()
-                        preferenceManager.isPunchIn(false)
+                        isPunchIn = false
                         binding.btnPunch.text = "Punch In"
                         binding.tvTimer.text = "00:00:00"
                         binding.progressCircular.progress = 0
@@ -229,38 +193,59 @@ class HomeActivity : AppCompatActivity() {
             })
     }
 
-
     private fun dashboard() {
         val userId = preferenceManager.getUserId()
-        val select = preferenceManager.getUserEmail()
         val apiService = RetrofitClient.getInstance()
 
-        if (select != null) {
-            apiService.dashboard(select, userId.toString()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<DashboardResponse> {
-                    override fun onSubscribe(d: Disposable) {
-                    }
+        apiService.dashboard("select", userId.toString())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<DashboardResponse> {
+                override fun onSubscribe(d: Disposable) {}
 
-                    override fun onError(e: Throwable) {
-                        Toast.makeText(
-                            this@HomeActivity, "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                override fun onError(e: Throwable) {
+                    Toast.makeText(this@HomeActivity, "Error", Toast.LENGTH_SHORT).show()
+                }
 
-                    override fun onComplete() {}
+                override fun onComplete() {}
 
-                    override fun onNext(t: DashboardResponse) {
-                        t.attendance?.let { attendanceList ->
-                            if (attendanceList.isNotEmpty()) {
+                override fun onNext(t: DashboardResponse) {
+                    if (t.message == "No attendance record found for today") {
+                        isPunchIn = false
+                        punchInTime = 0
+                        binding.btnPunch.text = "Punch In"
+                        binding.tvTimer.text = "00:00:00"
+                        binding.progressCircular.progress = 0
+                        handler.removeCallbacks(updateTimerRunnable)
+                    } else {
+                        val punchInTimeString = t.attendance?.get(0)?.a_punch_in_time
 
+                        punchInTimeString?.let { timeStr ->
+                            val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                            sdf.timeZone = TimeZone.getDefault()
+
+                            try {
+                                val today = Calendar.getInstance()
+                                val punchInCalendar = Calendar.getInstance()
+                                val punchInDate = sdf.parse(timeStr)
+
+                                punchInCalendar.time = punchInDate!!
+                                punchInCalendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
+                                punchInCalendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
+                                punchInCalendar.set(Calendar.DAY_OF_MONTH, today.get(Calendar.DAY_OF_MONTH))
+
+                                punchInTime = punchInCalendar.timeInMillis
+                                isPunchIn = true
+                                binding.btnPunch.text = "Punch Out"
+                                handler.post(updateTimerRunnable)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                        } ?: run { Toast.makeText(this@HomeActivity, "No attendance data available", Toast.LENGTH_SHORT).show()
                         }
                     }
 
-
-                })
-        }
+                }
+            })
     }
+
 }

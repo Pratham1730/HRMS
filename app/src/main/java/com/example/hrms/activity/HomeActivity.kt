@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityHomeBinding
 import com.example.hrms.preferences.PreferenceManager
+import com.example.hrms.responses.DashboardResponse
 import com.example.hrms.responses.EnterAttendanceResponse
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -64,6 +65,7 @@ class HomeActivity : AppCompatActivity() {
         updateDate()
         checkLocationPermission()
         listeners()
+        dashboard()
     }
 
     private fun listeners() {
@@ -135,12 +137,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
             )
         } else {
             getLastLocation()
@@ -149,12 +152,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
@@ -169,9 +169,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -183,7 +181,8 @@ class HomeActivity : AppCompatActivity() {
         val userId = preferenceManager.getUserId()
         val companyId = preferenceManager.getCompanyId()
         val punchInTimeFormat = Calendar.getInstance().time
-        val formattedTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(punchInTimeFormat)
+        val formattedTime =
+            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(punchInTimeFormat)
         val punchInDate = binding.tvDate.text
 
         val apiService = RetrofitClient.getInstance()
@@ -196,9 +195,7 @@ class HomeActivity : AppCompatActivity() {
             action,
             latitude,
             longitude
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<EnterAttendanceResponse> {
                 override fun onSubscribe(d: Disposable) {}
 
@@ -226,8 +223,44 @@ class HomeActivity : AppCompatActivity() {
                         binding.progressCircular.progress = 0
                         handler.removeCallbacks(updateTimerRunnable)
                     }
-                    Toast.makeText(this@HomeActivity, t.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@HomeActivity, t.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
                 }
             })
+    }
+
+
+    private fun dashboard() {
+        val userId = preferenceManager.getUserId()
+        val select = preferenceManager.getUserEmail()
+        val apiService = RetrofitClient.getInstance()
+
+        if (select != null) {
+            apiService.dashboard(select, userId.toString()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<DashboardResponse> {
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Toast.makeText(
+                            this@HomeActivity, "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun onComplete() {}
+
+                    override fun onNext(t: DashboardResponse) {
+                        t.attendance?.let { attendanceList ->
+                            if (attendanceList.isNotEmpty()) {
+
+                            }
+                        } ?: run { Toast.makeText(this@HomeActivity, "No attendance data available", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+
+                })
+        }
     }
 }

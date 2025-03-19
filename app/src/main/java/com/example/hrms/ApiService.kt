@@ -3,6 +3,7 @@ package com.example.hrms
 import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.AttendanceResponse
 import com.example.hrms.responses.CompanyResponse
+import com.example.hrms.responses.DashboardResponse
 import com.example.hrms.responses.DepartmentEmployeeResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.EnterAttendanceResponse
@@ -199,4 +200,12 @@ interface ApiService {
         @Field("month") month : Int,
         @Field("year") year : Int
     ) : Observable<InsertAbsentResponse>
+
+
+    @FormUrlEncoded
+    @POST("HMRS/select_dashboard.php")
+    fun dashboard(
+        @Field("method") method : String,
+        @Field("u_id") u_id :String
+    ) : Observable<DashboardResponse>
 }

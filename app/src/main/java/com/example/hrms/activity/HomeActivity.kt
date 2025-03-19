@@ -210,7 +210,7 @@ class HomeActivity : AppCompatActivity() {
                 override fun onComplete() {}
 
                 override fun onNext(t: DashboardResponse) {
-                    if (t.message == "No attendance record found for today") {
+                    if (t.status!!.toInt() == 201) {
                         isPunchIn = false
                         punchInTime = 0
                         binding.btnPunch.text = "Punch In"
@@ -219,27 +219,29 @@ class HomeActivity : AppCompatActivity() {
                         handler.removeCallbacks(updateTimerRunnable)
                     } else {
                         val punchInTimeString = t.attendance?.get(0)?.a_punch_in_time
+                        val punchOutTime = t.attendance?.get(0)?.a_punch_out_time
 
                         punchInTimeString?.let { timeStr ->
                             val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                             sdf.timeZone = TimeZone.getDefault()
+                            if (punchOutTime == null){
+                                try {
+                                    val today = Calendar.getInstance()
+                                    val punchInCalendar = Calendar.getInstance()
+                                    val punchInDate = sdf.parse(timeStr)
 
-                            try {
-                                val today = Calendar.getInstance()
-                                val punchInCalendar = Calendar.getInstance()
-                                val punchInDate = sdf.parse(timeStr)
+                                    punchInCalendar.time = punchInDate!!
+                                    punchInCalendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
+                                    punchInCalendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
+                                    punchInCalendar.set(Calendar.DAY_OF_MONTH, today.get(Calendar.DAY_OF_MONTH))
 
-                                punchInCalendar.time = punchInDate!!
-                                punchInCalendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
-                                punchInCalendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
-                                punchInCalendar.set(Calendar.DAY_OF_MONTH, today.get(Calendar.DAY_OF_MONTH))
-
-                                punchInTime = punchInCalendar.timeInMillis
-                                isPunchIn = true
-                                binding.btnPunch.text = "Punch Out"
-                                handler.post(updateTimerRunnable)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                                    punchInTime = punchInCalendar.timeInMillis
+                                    isPunchIn = true
+                                    binding.btnPunch.text = "Punch Out"
+                                    handler.post(updateTimerRunnable)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         }
                     }

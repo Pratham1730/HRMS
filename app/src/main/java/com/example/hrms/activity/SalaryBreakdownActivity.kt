@@ -1,5 +1,6 @@
 package com.example.hrms.activity
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.databinding.ActivitySalaryBreakdownBinding
@@ -13,6 +14,8 @@ class SalaryBreakdownActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySalaryBreakdownBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         val model = intent.getSerializableExtra("Salary") as SalaryModel
 

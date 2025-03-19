@@ -76,8 +76,7 @@
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="Present Days : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendancePresentDays"
@@ -86,6 +85,7 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="1"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -104,8 +104,7 @@
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="Half Days : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendanceHalfDays"
@@ -114,6 +113,7 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="1"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -131,8 +131,7 @@
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="Paid Leaves : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendanceLeaves"
@@ -141,6 +140,7 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="1"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -159,8 +159,7 @@
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="Unpaid Leaves : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendanceUnpaidLeaves"
@@ -169,6 +168,7 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="1"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -187,8 +187,7 @@
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:text="Absent Days : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendanceAbsentDays"
@@ -197,6 +196,7 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="1"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -215,8 +215,7 @@
                     android:layout_height="wrap_content"
                     android:text="Salary : "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_16ssp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txtAttendanceSalary"
@@ -225,7 +224,8 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp" />
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
         </LinearLayout>

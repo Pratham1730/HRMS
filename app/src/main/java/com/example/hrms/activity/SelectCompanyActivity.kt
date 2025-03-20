@@ -42,7 +42,7 @@ class SelectCompanyActivity : AppCompatActivity() {
 
     private fun listener(){
         binding.btnSelectCompanyNext.setOnClickListener {
-            if (companyId == 0){
+            if (companyId == -1){
                 Toast.makeText(this@SelectCompanyActivity, "Enter Correct Company", Toast.LENGTH_SHORT).show()
             }
             else{
@@ -79,7 +79,9 @@ class SelectCompanyActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                companyId = -1
+            }
         }
     }
 

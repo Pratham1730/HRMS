@@ -36,6 +36,7 @@ class LeaveActivity : AppCompatActivity() {
     private lateinit var preferenceManager: PreferenceManager
     private var weekend = false
     private lateinit var leaveList : List<LeaveTypesItem?>
+    private var status = -1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,13 +82,10 @@ class LeaveActivity : AppCompatActivity() {
             binding.etReason.error = "Please add reason"
         }
         else{
-            if (!weekend){
-                callApplyLeave()
+            callApplyLeave()
+            if (status == 200){
                 startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
                 finish()
-            }
-            else{
-                Toast.makeText(this@LeaveActivity, "The Date You Are Selecting is Weekend", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -169,6 +167,7 @@ class LeaveActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: LeaveRequestResponse) {
+                    status = t.status!!.toInt()
                     Toast.makeText(this@LeaveActivity, t.message, Toast.LENGTH_SHORT).show()
                 }
             })

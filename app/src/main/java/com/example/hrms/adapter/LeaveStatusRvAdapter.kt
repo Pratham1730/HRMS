@@ -36,6 +36,15 @@ class LeaveStatusRvAdapter(
         holder.b.txtLeaveStatus.text = item?.leave_status
         holder.b.txtLeaveReason.text = item?.l_reason
 
+        if (holder.b.txtLeaveStatus.text.toString() == "Approved" || holder.b.txtLeaveStatus.text.toString() == "Rejected"){
+            holder.b.imgDelete.visibility = View.GONE
+            notifyDataSetChanged()
+        }
+        else{
+            holder.b.imgDelete.visibility = View.VISIBLE
+            notifyDataSetChanged()
+        }
+
         holder.b.imgDelete.setOnClickListener {
             item?.let { onDeleteClick(it) }
         }

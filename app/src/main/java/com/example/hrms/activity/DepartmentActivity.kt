@@ -77,12 +77,10 @@ class DepartmentActivity : AppCompatActivity() {
                     if (position > 0) {
                         department = departmentArray[position]
                         departmentId = departmentList[position - 1]?.deptId.toString().toInt()
-                        isDeptSelected = true
                         callDeptEmployees()
                     } else {
-                        if (isDeptSelected){
-                            Toast.makeText(this@DepartmentActivity, "Select a valid department", Toast.LENGTH_SHORT).show()
-                        }
+                        binding.noDataLayoutDept.visibility = View.VISIBLE
+                        binding.rvEmployees.visibility = View.GONE
                         departmentId = -1
                         binding.rvEmployees.adapter =
                             null
@@ -131,7 +129,6 @@ class DepartmentActivity : AppCompatActivity() {
 
     private fun callDeptEmployees() {
         if (departmentId == -1) {
-            Toast.makeText(this, "Please select a department", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -155,13 +152,12 @@ class DepartmentActivity : AppCompatActivity() {
 
                 override fun onNext(response: DepartmentEmployeeResponse) {
                     if (!response.employees.isNullOrEmpty()) {
+                        binding.rvEmployees.visibility = View.VISIBLE
+                        binding.noDataLayoutDept.visibility = View.GONE
                         setupEmployeeRecyclerView(response.employees)
                     } else {
-                        Toast.makeText(
-                            this@DepartmentActivity,
-                            response.message ?: "No employees found",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        binding.noDataLayoutDept.visibility = View.VISIBLE
+                        binding.rvEmployees.visibility = View.GONE
                         binding.rvEmployees.adapter = null
                     }
                 }

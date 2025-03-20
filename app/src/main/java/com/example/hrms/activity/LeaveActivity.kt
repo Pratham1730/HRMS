@@ -36,7 +36,6 @@ class LeaveActivity : AppCompatActivity() {
     private lateinit var preferenceManager: PreferenceManager
     private var weekend = false
     private lateinit var leaveList : List<LeaveTypesItem?>
-    private var status = -1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,10 +82,6 @@ class LeaveActivity : AppCompatActivity() {
         }
         else{
             callApplyLeave()
-            if (status == 200){
-                startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
-                finish()
-            }
         }
     }
 
@@ -167,8 +162,9 @@ class LeaveActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: LeaveRequestResponse) {
-                    status = t.status!!.toInt()
                     Toast.makeText(this@LeaveActivity, t.message, Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
+                    finish()
                 }
             })
     }

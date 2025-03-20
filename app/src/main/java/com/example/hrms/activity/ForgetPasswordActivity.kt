@@ -1,6 +1,5 @@
 package com.example.hrms.activity
 
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Patterns
@@ -9,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityForgetPasswordBinding
-import com.example.hrms.responses.ApiResponse
 import com.example.hrms.responses.ApiResponseOtp
 import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.responses.VerifyOtpResponse

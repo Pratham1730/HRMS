@@ -359,8 +359,6 @@ class SignUpActivity : AppCompatActivity() {
         val dobDate = dobFormat.parse(dobString)
         val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
 
-        val companyId = 1
-
         val apiService = RetrofitClient.getInstance()
 
         apiService.signUpUser(
@@ -390,8 +388,9 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onNext(t: ApiResponse) {
-                    Toast.makeText(this@SignUpActivity, t.message, Toast.LENGTH_SHORT).show()
-                    finish()
+                    if (t.status == 200){
+                        finish()
+                    }
                 }
             })
     }

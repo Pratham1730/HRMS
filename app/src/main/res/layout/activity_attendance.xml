@@ -270,7 +270,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
         android:background="@drawable/border"
-        android:padding="@dimen/_12sdp"
+        android:padding="15dp"
         android:text="View Detailed Salary Breakdown"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintBottom_toBottomOf="parent"

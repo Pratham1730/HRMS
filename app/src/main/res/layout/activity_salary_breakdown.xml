@@ -71,8 +71,8 @@
             android:paddingTop="@dimen/_8sdp"
             android:paddingBottom="@dimen/_4sdp"
             android:text="Earnings"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Original Salary"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
 
                 <TextView
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="₹0.00"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
             </LinearLayout>
 
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Final Salary"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
 
                 <TextView
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="₹0.00"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
             </LinearLayout>
 
@@ -137,7 +137,7 @@
             android:paddingTop="@dimen/_8sdp"
             android:paddingBottom="@dimen/_4sdp"
             android:text="Deductions"
-            android:textColor="@color/primary"
+            android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
             android:textStyle="bold" />
 
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Deductions"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="₹0.00"
-                    android:textColor="@android:color/black"
+                    android:textColor="#313131"
                     android:textSize="@dimen/_14ssp" />
             </LinearLayout>
 

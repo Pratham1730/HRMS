@@ -213,7 +213,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Salary : "
+                    android:text="Salary At Month End : "
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp" />
 
@@ -270,7 +270,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
         android:background="@drawable/border"
-        android:padding="@dimen/_12sdp"
+        android:padding="15dp"
         android:text="View Detailed Salary Breakdown"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintBottom_toBottomOf="parent"

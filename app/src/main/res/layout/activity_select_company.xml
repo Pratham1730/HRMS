@@ -64,9 +64,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Next"
-                android:padding="@dimen/_4sdp"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_16ssp"
+                android:backgroundTint="@color/primary"
                 android:textStyle="bold"
+                app:cornerRadius="15dp"
+                android:padding="@dimen/_8sdp"
                 android:layout_margin="@dimen/_8sdp"/>
 
 

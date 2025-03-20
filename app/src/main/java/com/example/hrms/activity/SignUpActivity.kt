@@ -202,9 +202,9 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun positionSpinner() {
-        if (positionList.isEmpty()) {
-            return
-        }
+//        if (positionList.isEmpty()) {
+//            return
+//        }
 
         val positionArray = Array(positionList.size + 1) { "" }
         positionArray[0] = "Position"  // Default value
@@ -319,7 +319,6 @@ class SignUpActivity : AppCompatActivity() {
         if (departmentId == -1) return
         val apiService = RetrofitClient.getInstance()
 
-        val a = departmentId
         apiService.getPosition("select", departmentId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

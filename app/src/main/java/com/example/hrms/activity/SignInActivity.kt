@@ -38,10 +38,10 @@ class SignInActivity : AppCompatActivity() {
 
         preferenceManager = PreferenceManager(this@SignInActivity)
 
-        if (preferenceManager.getIsPrevSignIn() == true){
-            startActivity(Intent(this@SignInActivity , HomeActivity::class.java))
-            finish()
-        }
+//        if (preferenceManager.getIsPrevSignIn() == true){
+//            startActivity(Intent(this@SignInActivity , HomeActivity::class.java))
+//            finish()
+//        }
 
 
         listeners()

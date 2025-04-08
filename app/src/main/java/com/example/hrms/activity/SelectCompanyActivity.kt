@@ -6,17 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.hrms.R
 import com.example.hrms.RetrofitClient
 import com.example.hrms.adapter.CustomSpinnerAdapter
 import com.example.hrms.databinding.ActivitySelectCompanyBinding
 import com.example.hrms.responses.CompanyItem
 import com.example.hrms.responses.CompanyResponse
-import com.example.hrms.responses.DepartmentsItem
+import com.example.hrms.signUpModule.presentation.SignUpActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -42,15 +38,17 @@ class SelectCompanyActivity : AppCompatActivity() {
 
     private fun listener(){
         binding.btnSelectCompanyNext.setOnClickListener {
-            if (companyId == -1){
-                Toast.makeText(this@SelectCompanyActivity, "Enter Correct Company", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                val intent = Intent(this@SelectCompanyActivity , SignUpActivity::class.java)
-                intent.putExtra("COMPANY_ID" , companyId)
-                startActivity(intent)
-                finish()
-            }
+//            if (companyId == -1){
+//                Toast.makeText(this@SelectCompanyActivity, "Enter Correct Company", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                val intent = Intent(this@SelectCompanyActivity , SignUpActivity::class.java)
+//                intent.putExtra("COMPANY_ID" , companyId)
+//                startActivity(intent)
+//                finish()
+//            }
+            val intent = Intent(this@SelectCompanyActivity , SignUpActivity::class.java)
+            startActivity(intent)
         }
         binding.btnSelectCompanyBack.setOnClickListener {
             finish()

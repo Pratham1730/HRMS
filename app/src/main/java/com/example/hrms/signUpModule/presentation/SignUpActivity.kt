@@ -1,4 +1,4 @@
-package com.example.hrms.activity
+package com.example.hrms.signUpModule.presentation
 
 import android.app.DatePickerDialog
 import com.example.hrms.adapter.CustomSpinnerAdapter
@@ -10,24 +10,22 @@ import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hrms.responses.ApiResponse
-import com.example.hrms.responses.DepartmentModel
-import com.example.hrms.responses.DepartmentsItem
-import com.example.hrms.responses.PositionResponse
-import com.example.hrms.responses.PositionsItem
 import com.example.hrms.databinding.ActivitySignUpBinding
-import com.example.hrms.RetrofitClient
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.internal.format
+import com.example.hrms.activity.SignInActivity
+import com.example.hrms.common.ApiResultState
+import com.example.hrms.signUpModule.domain.model.DepartmentsDomainItem
+import com.example.hrms.signUpModule.domain.model.PositionsDomainItem
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class SignUpActivity : AppCompatActivity() {
+
+    private val viewModel : SignUpViewModel by viewModels()
 
     private var department: String = "Department"
     private var position: String = "Position"
@@ -39,8 +37,8 @@ class SignUpActivity : AppCompatActivity() {
     private var selectedCalendarDOB: Calendar = Calendar.getInstance()
     private var selectedCalendarJoiningDate: Calendar = Calendar.getInstance()
 
-    private lateinit var departmentList: List<DepartmentsItem?>
-    private lateinit var positionList: List<PositionsItem?>
+    private lateinit var departmentList: List<DepartmentsDomainItem?>
+    private lateinit var positionList: List<PositionsDomainItem?>
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -52,7 +50,9 @@ class SignUpActivity : AppCompatActivity() {
 
         listeners()
 
-        callDept()
+        getDept()
+        observePositionList()
+        observeDeptList()
         genderSpinner()
 
     }
@@ -131,7 +131,7 @@ class SignUpActivity : AppCompatActivity() {
         } else if (positionId == -1) {
             Toast.makeText(this@SignUpActivity, "Enter Correct Position", Toast.LENGTH_SHORT).show()
         } else {
-            signUpUser()
+            //signUpUser()
         }
     }
 
@@ -164,6 +164,63 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
+    fun getDept(){
+        viewModel.loadDept("select_dept" , 1)
+    }
+
+    fun getPosition(){
+        viewModel.loadPositions("select" , departmentId)
+    }
+
+
+    private fun observeDeptList() {
+        viewModel.deptList.observe(this) { result  ->
+            when (result ) {
+                is ApiResultState.Loading -> {
+                    // Optional: Show loading UI
+                }
+                is ApiResultState.Success -> {
+                    viewModel.departments.observe(this){ deptItem ->
+                        departmentList = deptItem
+                        departmentSpinner()
+                    }
+                }
+                is ApiResultState.ApiError -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ApiResultState.ServerError -> {
+
+                }
+            }
+        }
+    }
+
+    private fun observePositionList(){
+        viewModel.position.observe(this){result ->
+            when (result ) {
+                is ApiResultState.Loading -> {
+                    // Optional: Show loading UI
+                }
+                is ApiResultState.Success -> {
+                    viewModel.positionsList.observe(this){ positionItem ->
+                        positionList = positionItem
+                        positionSpinner()
+                    }
+                }
+                is ApiResultState.ApiError -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ApiResultState.ServerError -> {
+
+                }
+            }
+        }
+    }
+
+
+
     private fun departmentSpinner() {
         if (departmentList.isEmpty()) return
 
@@ -190,7 +247,7 @@ class SignUpActivity : AppCompatActivity() {
                         department = departmentArray[position]
                         departmentId =
                             departmentList[position - 1]?.deptId.toString().toInt()
-                        callPosition()
+                        getPosition()
                     } else {
                         departmentId = -1
                     }
@@ -278,122 +335,85 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    private fun callDept() {
-        companyId = intent.getIntExtra("COMPANY_ID", 0)
-        val apiService = RetrofitClient.getInstance()
-
-        apiService.setDept("select_dept", companyId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<DepartmentModel> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onComplete() {
-                }
-
-                override fun onNext(t: DepartmentModel) {
-
-                    val newList = t.departments ?: emptyList()
-
-                    if (newList.isNotEmpty()) {
-                        departmentList = newList
-                        departmentSpinner()
-                    }
-                    else {
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            t.message.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            })
-    }
+//    private fun callPosition() {
+//        if (departmentId == -1) return
+//        val apiService = RetrofitClient.getInstance()
+//
+//        apiService.getPosition("select", departmentId)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<PositionResponse> {
+//                override fun onSubscribe(d: Disposable) {}
+//
+//                override fun onError(e: Throwable) {
+//                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onComplete() {}
+//
+//                override fun onNext(response: PositionResponse) {
+//                    positionList = response.positions
+//                    positionSpinner()
+//                }
+//            })
+//    }
 
 
-    private fun callPosition() {
-        if (departmentId == -1) return
-        val apiService = RetrofitClient.getInstance()
-
-        apiService.getPosition("select", departmentId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<PositionResponse> {
-                override fun onSubscribe(d: Disposable) {}
-
-                override fun onError(e: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "Error", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onComplete() {}
-
-                override fun onNext(response: PositionResponse) {
-                    positionList = response.positions
-                    positionSpinner()
-                }
-            })
-    }
-
-
-    private fun signUpUser() {
-        val insert = "insert"
-        val name = binding.edtSignUpName.text.toString().trim()
-        val email = binding.edtSignUpEmail.text.toString().trim()
-        val password = binding.edtSignUpPassword.text.toString().trim()
-        val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
-        val deptId = departmentId
-        val positionId = positionId
-        val salary = 20000
-
-        val joiningString = binding.edtSignUpJoiningDate.text.toString().trim()
-        val joiningFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val joiningDateF = joiningFormat.parse(joiningString)
-        val formatedJoining = if (joiningDateF != null) joiningFormat.format(joiningDateF) else ""
-
-        val dobString = binding.edtSignUpDOB.text.toString().trim()
-        val dobFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val dobDate = dobFormat.parse(dobString)
-        val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
-
-        val apiService = RetrofitClient.getInstance()
-
-        apiService.signUpUser(
-            insert,
-            name,
-            email,
-            password,
-            phone,
-            genderId,
-            deptId,
-            positionId,
-            salary,
-            formatedJoining,
-            formatedDob,
-            companyId
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<ApiResponse> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onComplete() {
-                }
-
-                override fun onNext(t: ApiResponse) {
-                    if (t.status == 200){
-                        finish()
-                    }
-                }
-            })
-    }
+//    private fun signUpUser() {
+//        val insert = "insert"
+//        val name = binding.edtSignUpName.text.toString().trim()
+//        val email = binding.edtSignUpEmail.text.toString().trim()
+//        val password = binding.edtSignUpPassword.text.toString().trim()
+//        val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
+//        val deptId = departmentId
+//        val positionId = positionId
+//        val salary = 20000
+//
+//        val joiningString = binding.edtSignUpJoiningDate.text.toString().trim()
+//        val joiningFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//        val joiningDateF = joiningFormat.parse(joiningString)
+//        val formatedJoining = if (joiningDateF != null) joiningFormat.format(joiningDateF) else ""
+//
+//        val dobString = binding.edtSignUpDOB.text.toString().trim()
+//        val dobFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//        val dobDate = dobFormat.parse(dobString)
+//        val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
+//
+//        val apiService = RetrofitClient.getInstance()
+//
+//        apiService.signUpUser(
+//            insert,
+//            name,
+//            email,
+//            password,
+//            phone,
+//            genderId,
+//            deptId,
+//            positionId,
+//            salary,
+//            formatedJoining,
+//            formatedDob,
+//            companyId
+//        )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<ApiResponse> {
+//                override fun onSubscribe(d: Disposable) {
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                }
+//
+//                override fun onComplete() {
+//                }
+//
+//                override fun onNext(t: ApiResponse) {
+//                    if (t.status == 200){
+//                        finish()
+//                    }
+//                }
+//            })
+//    }
 
 
 }

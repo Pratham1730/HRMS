@@ -1,4 +1,4 @@
-package com.example.hrms.responses
+package com.example.hrms.signUpModule.data.model
 
 import com.google.gson.annotations.SerializedName
 

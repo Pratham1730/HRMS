@@ -1,7 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.jetbrains.kotlin.parcelize)
+    alias(libs.plugins.androidx.navigation.safeargs)// required for navigation component
+    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.com.google.dagger.hilt.android)
 }
 
 android {
@@ -38,6 +42,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
+    kapt {
+        correctErrorTypes = true
+    }
+
+
 }
 
 dependencies {
@@ -63,6 +77,32 @@ dependencies {
     implementation (libs.retrofit.v290)
     implementation (libs.converter.gson.v290)
     implementation (libs.retrofit2.adapter.rxjava3)
+
+    /////////////////////////
+    // For MVVM architecture
+    ////////////////////////
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Core & ViewModel & Livedata
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Dagger-2 for dependency injection
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+    implementation(libs.dagger.android)
+    kapt(libs.dagger.android.processor)
+
+    // Hilt for dependency injection
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    //////////////////////
+    implementation(libs.kotlinx.serialization.json)
 
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")

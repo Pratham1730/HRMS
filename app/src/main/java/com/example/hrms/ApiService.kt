@@ -13,7 +13,6 @@ import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
 import com.example.hrms.responses.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
-import com.example.hrms.responses.PositionResponse
 import com.example.hrms.responses.PublicHolidaysResponse
 import com.example.hrms.responses.UpdateDataResponse
 import com.example.hrms.responses.UpdatePasswordResponse
@@ -45,12 +44,7 @@ interface ApiService {
         @Field("company_id") company_id: Int
     ): Observable<DepartmentModel>
 
-    @FormUrlEncoded
-    @POST("HMRS/select_api_position.php")
-    fun getPosition(
-        @Field("method") method: String,
-        @Field("dept_id") dept_id: Int
-    ): Observable<PositionResponse>
+
 
     @FormUrlEncoded
     @POST("HMRS/login_check_api.php")

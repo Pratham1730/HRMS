@@ -1,4 +1,4 @@
-package com.example.hrms.activity
+package com.example.hrms.leaveModule.applyLeaveModule.presentation.activity
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -8,16 +8,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hrms.R
 import com.example.hrms.RetrofitClient
+import com.example.hrms.activity.HomeActivity
+import com.example.hrms.activity.LeaveStatusActivity
 import com.example.hrms.adapter.CustomSpinnerAdapter
+import com.example.hrms.common.ApiResultState
 import com.example.hrms.databinding.ActivityLeaveBinding
 import com.example.hrms.preferences.PreferenceManager
 import com.example.hrms.responses.LeaveRequestResponse
-import com.example.hrms.responses.LeaveTypeResponse
-import com.example.hrms.responses.LeaveTypesItem
+import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypeResponse
+import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypesItem
+import com.example.hrms.leaveModule.applyLeaveModule.domain.model.response.LeaveTypesDomainItem
+import com.example.hrms.leaveModule.applyLeaveModule.presentation.viewModels.LeaveViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -28,14 +34,18 @@ import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
 
+@AndroidEntryPoint
 class LeaveActivity : AppCompatActivity() {
+
+    private val viewModel : LeaveViewModel by viewModels()
+
     private lateinit var binding: ActivityLeaveBinding
     private val calendar = Calendar.getInstance()
     private var leaveType = ""
     private var leaveTypeId = 0
     private lateinit var preferenceManager: PreferenceManager
     private var weekend = false
-    private lateinit var leaveList : List<LeaveTypesItem?>
+    private lateinit var leaveList : List<LeaveTypesDomainItem?>
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +60,7 @@ class LeaveActivity : AppCompatActivity() {
         preferenceManager = PreferenceManager(this@LeaveActivity)
 
         callLeaveType()
+        observeLeaveType()
 
         listeners()
 
@@ -85,6 +96,33 @@ class LeaveActivity : AppCompatActivity() {
         }
     }
 
+    fun callLeaveType(){
+        viewModel.loadLeaveTypes("select_leave")
+    }
+
+    fun observeLeaveType(){
+        viewModel.leaveType.observe(this){result ->
+            when (result ) {
+                is ApiResultState.Loading -> {
+                    // Optional: Show loading UI
+                }
+                is ApiResultState.Success -> {
+                    viewModel.leaveTypeList.observe(this){ leaveItem ->
+                        leaveList = leaveItem
+                        leaveSpinner()
+                    }
+                }
+                is ApiResultState.ApiError -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ApiResultState.ServerError -> {
+
+                }
+            }
+        }
+    }
+
 
     private fun leaveSpinner(){
 
@@ -94,7 +132,7 @@ class LeaveActivity : AppCompatActivity() {
         leaveArray[0] = "Leave Type"
 
         for (i in leaveList.indices) {
-            leaveArray[i + 1] = leaveList[i]?.type_name ?: "Unknown"
+            leaveArray[i + 1] = leaveList[i]?.typeName ?: "Unknown"
         }
 
         val adapter = CustomSpinnerAdapter(this, leaveArray)
@@ -118,28 +156,28 @@ class LeaveActivity : AppCompatActivity() {
         }
     }
 
-    private fun callLeaveType(){
-        val apiService = RetrofitClient.getInstance()
-
-        apiService.leaveType("select_leave")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<LeaveTypeResponse>{
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onComplete() {
-                }
-
-                override fun onNext(t: LeaveTypeResponse) {
-                    leaveList = t.leave_types!!
-                    leaveSpinner()
-                }
-            })
-    }
+//    private fun callLeaveType(){
+//        val apiService = RetrofitClient.getInstance()
+//
+//        apiService.leaveType("select_leave")
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<LeaveTypeResponse>{
+//                override fun onSubscribe(d: Disposable) {
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                }
+//
+//                override fun onComplete() {
+//                }
+//
+//                override fun onNext(t: LeaveTypeResponse) {
+//                    leaveList = t.leave_types!!
+//                    leaveSpinner()
+//                }
+//            })
+//    }
 
     private fun callApplyLeave(){
         val date = binding.etFromDate.text.toString()

@@ -20,7 +20,8 @@ import com.example.hrms.R
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityUpdateDetailsBinding
 import com.example.hrms.preferences.PreferenceManager
-import com.example.hrms.responses.UpdateDataResponse
+import com.example.hrms.updateUserModule.data.model.UpdateDataResponse
+import com.example.hrms.userProfileModule.presentation.view.ProfileActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable

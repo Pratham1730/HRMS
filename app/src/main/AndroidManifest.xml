@@ -36,7 +36,7 @@
             android:name=".activity.DepartmentActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SelectCompanyActivity"
+            android:name=".signUpModule.presentation.view.SelectCompanyActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LeaveStatusActivity"
@@ -45,13 +45,13 @@
             android:name=".activity.AttendanceActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.LeaveActivity"
+            android:name=".leaveModule.applyLeaveModule.presentation.activity.LeaveActivity"
             android:exported="false" />
         <activity
             android:name=".activity.UpdateDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".userProfileModule.presentation.view.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activity.HomeActivity"
@@ -69,11 +69,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".signUpModule.presentation.SignUpActivity"
+            android:name=".signUpModule.presentation.view.SignUpActivity"
             android:exported="false"
             tools:ignore="MissingClass" />
         <activity
-            android:name=".activity.SignInActivity"
+            android:name=".signInModule.presentation.view.SignInActivity"
             android:exported="false" />
 
         <provider

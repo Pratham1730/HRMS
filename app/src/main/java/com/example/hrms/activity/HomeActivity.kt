@@ -1,7 +1,6 @@
 package com.example.hrms.activity
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -18,6 +17,7 @@ import com.example.hrms.databinding.ActivityHomeBinding
 import com.example.hrms.preferences.PreferenceManager
 import com.example.hrms.responses.DashboardResponse
 import com.example.hrms.responses.EnterAttendanceResponse
+import com.example.hrms.userProfileModule.presentation.view.ProfileActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

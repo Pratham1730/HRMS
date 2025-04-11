@@ -11,28 +11,23 @@ import com.example.hrms.responses.InsertAbsentResponse
 import com.example.hrms.responses.LeaveDeteleResponse
 import com.example.hrms.responses.LeaveListResponse
 import com.example.hrms.responses.LeaveRequestResponse
-import com.example.hrms.responses.LeaveTypeResponse
+import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
 import com.example.hrms.responses.PublicHolidaysResponse
-import com.example.hrms.responses.UpdateDataResponse
+import com.example.hrms.updateUserModule.data.model.UpdateDataResponse
 import com.example.hrms.responses.UpdatePasswordResponse
-import com.example.hrms.responses.UserDataResponse
+import com.example.hrms.userProfileModule.data.model.UserDataResponse
 import com.example.hrms.responses.VerifyOtpResponse
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.MultipartBody
-import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import java.math.BigInteger
-import java.sql.Date
-import java.text.SimpleDateFormat
 
 interface ApiService {
 

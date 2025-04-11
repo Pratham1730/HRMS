@@ -1,4 +1,4 @@
-package com.example.hrms.signUpModule.common.hilt
+package com.example.hrms.common.hilt
 
 import com.example.hrms.common.ApiService1
 import com.example.hrms.signUpModule.domain.mapper.UserMapper
@@ -44,9 +44,6 @@ object NetworkModule {
         return retrofit.create(ApiService1::class.java)
     }
 
-    @Provides
-    fun provideMapper(): UserMapper {
-        return UserMapper()
-    }
+
 
 }

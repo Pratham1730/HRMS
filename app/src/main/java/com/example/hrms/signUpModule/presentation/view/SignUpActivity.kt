@@ -1,4 +1,4 @@
-package com.example.hrms.signUpModule.presentation
+package com.example.hrms.signUpModule.presentation.view
 
 import android.app.DatePickerDialog
 import com.example.hrms.adapter.CustomSpinnerAdapter
@@ -13,10 +13,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hrms.databinding.ActivitySignUpBinding
-import com.example.hrms.activity.SignInActivity
+import com.example.hrms.signInModule.presentation.view.SignInActivity
 import com.example.hrms.common.ApiResultState
 import com.example.hrms.signUpModule.domain.model.DepartmentsDomainItem
 import com.example.hrms.signUpModule.domain.model.PositionsDomainItem
+import com.example.hrms.signUpModule.presentation.viewModel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -50,9 +51,12 @@ class SignUpActivity : AppCompatActivity() {
 
         listeners()
 
+        companyId = intent.getIntExtra("COMPANY_ID" , 0)
+
         getDept()
         observePositionList()
         observeDeptList()
+        observeSignUp()
         genderSpinner()
 
     }
@@ -131,7 +135,7 @@ class SignUpActivity : AppCompatActivity() {
         } else if (positionId == -1) {
             Toast.makeText(this@SignUpActivity, "Enter Correct Position", Toast.LENGTH_SHORT).show()
         } else {
-            //signUpUser()
+            signUpUser()
         }
     }
 
@@ -164,12 +168,36 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    fun getDept(){
-        viewModel.loadDept("select_dept" , 1)
+    private fun getDept(){
+        viewModel.loadDept("select_dept" , companyId)
     }
 
     fun getPosition(){
         viewModel.loadPositions("select" , departmentId)
+    }
+
+    private fun signUpUser(){
+        val insert = "insert"
+        val name = binding.edtSignUpName.text.toString().trim()
+        val email = binding.edtSignUpEmail.text.toString().trim()
+        val password = binding.edtSignUpPassword.text.toString().trim()
+        val phone = binding.edtSignUpPhoneNumber.text.toString().trim().toBigInteger()
+        val deptId = departmentId
+        val positionId = positionId
+        val salary = 20000
+
+        val joiningString = binding.edtSignUpJoiningDate.text.toString().trim()
+        val joiningFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val joiningDateF = joiningFormat.parse(joiningString)
+        val formatedJoining = if (joiningDateF != null) joiningFormat.format(joiningDateF) else ""
+
+        val dobString = binding.edtSignUpDOB.text.toString().trim()
+        val dobFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dobDate = dobFormat.parse(dobString)
+        val formatedDob = if (dobDate != null) dobFormat.format(dobDate) else ""
+
+
+        viewModel.signUpUser(insert , name , phone ,email , deptId , genderId , positionId , salary , formatedDob , formatedJoining , password , companyId)
     }
 
 
@@ -207,6 +235,27 @@ class SignUpActivity : AppCompatActivity() {
                         positionList = positionItem
                         positionSpinner()
                     }
+                }
+                is ApiResultState.ApiError -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ApiResultState.ServerError -> {
+
+                }
+            }
+        }
+    }
+
+    private fun observeSignUp(){
+        viewModel.signUpUser.observe(this){result ->
+            when (result ) {
+                is ApiResultState.Loading -> {
+                    // Optional: Show loading UI
+                }
+                is ApiResultState.Success -> {
+                    Toast.makeText(this, "Sign Up Success", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 is ApiResultState.ApiError -> {
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()

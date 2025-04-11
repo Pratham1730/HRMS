@@ -1,4 +1,4 @@
-package com.example.hrms.responses
+package com.example.hrms.holidaysModule.data.model
 
 data class PublicHolidaysResponse(
 	val holidays: List<HolidaysItem?>? = null,

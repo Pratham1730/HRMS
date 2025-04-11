@@ -1,4 +1,4 @@
-package com.example.hrms.adapter
+package com.example.hrms.leaveModule.displayLeaveModule.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hrms.databinding.ItemLeaveBinding
-import com.example.hrms.responses.LeaveDataItem
+import com.example.hrms.leaveModule.displayLeaveModule.data.model.LeaveDataItem
+import com.example.hrms.leaveModule.displayLeaveModule.domain.model.response.LeaveDataDomainItem
 
 class LeaveStatusRvAdapter(
     private var context: Context,
-    private var list: List<LeaveDataItem?>,
-    private val onDeleteClick: (LeaveDataItem) -> Unit
+    private var list: List<LeaveDataDomainItem?>,
+    private val onDeleteClick: (LeaveDataDomainItem) -> Unit
 ) : RecyclerView.Adapter<LeaveStatusRvAdapter.ViewHolder>() {
 
-    fun updateList(updatedList: List<LeaveDataItem?>) {
+    fun updateList(updatedList: List<LeaveDataDomainItem?>) {
         this.list = updatedList
         notifyDataSetChanged()
     }
@@ -29,12 +30,12 @@ class LeaveStatusRvAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: LeaveDataItem? = list[position]
+        val item: LeaveDataDomainItem? = list[position]
 
-        holder.b.txtLeaveDate.text = item?.l_start_date
-        holder.b.txtLeaveType.text = item?.leave_type
-        holder.b.txtLeaveStatus.text = item?.leave_status
-        holder.b.txtLeaveReason.text = item?.l_reason
+        holder.b.txtLeaveDate.text = item?.startDate
+        holder.b.txtLeaveType.text = item?.leaveType
+        holder.b.txtLeaveStatus.text = item?.leaveStatus
+        holder.b.txtLeaveReason.text = item?.reason
 
         if (holder.b.txtLeaveStatus.text.toString() == "Approved" || holder.b.txtLeaveStatus.text.toString() == "Rejected"){
             holder.b.imgDelete.visibility = View.GONE

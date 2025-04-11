@@ -11,23 +11,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hrms.RetrofitClient
 import com.example.hrms.activity.HomeActivity
-import com.example.hrms.activity.LeaveStatusActivity
+import com.example.hrms.leaveModule.displayLeaveModule.presentation.activity.LeaveStatusActivity
 import com.example.hrms.adapter.CustomSpinnerAdapter
 import com.example.hrms.common.ApiResultState
 import com.example.hrms.databinding.ActivityLeaveBinding
 import com.example.hrms.preferences.PreferenceManager
-import com.example.hrms.responses.LeaveRequestResponse
-import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypeResponse
-import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypesItem
 import com.example.hrms.leaveModule.applyLeaveModule.domain.model.response.LeaveTypesDomainItem
 import com.example.hrms.leaveModule.applyLeaveModule.presentation.viewModels.LeaveViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -61,6 +53,8 @@ class LeaveActivity : AppCompatActivity() {
 
         callLeaveType()
         observeLeaveType()
+
+        observeApplyLeave()
 
         listeners()
 
@@ -111,6 +105,37 @@ class LeaveActivity : AppCompatActivity() {
                         leaveList = leaveItem
                         leaveSpinner()
                     }
+                }
+                is ApiResultState.ApiError -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is ApiResultState.ServerError -> {
+
+                }
+            }
+        }
+    }
+
+    fun callApplyLeave(){
+
+        val date = binding.etFromDate.text.toString()
+        val reason = binding.etReason.text.toString()
+        val userId = preferenceManager.getUserId()
+        val companyId = preferenceManager.getCompanyId()
+        viewModel.applyLeave("true" , companyId , userId , leaveTypeId , reason, date)
+    }
+
+    fun observeApplyLeave(){
+        viewModel.applyLeaveResponse.observe(this){result ->
+            when (result ) {
+                is ApiResultState.Loading -> {
+                    // Optional: Show loading UI
+                }
+                is ApiResultState.Success -> {
+                    Toast.makeText(this@LeaveActivity, result.data.message, Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
+                    finish()
                 }
                 is ApiResultState.ApiError -> {
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
@@ -179,33 +204,33 @@ class LeaveActivity : AppCompatActivity() {
 //            })
 //    }
 
-    private fun callApplyLeave(){
-        val date = binding.etFromDate.text.toString()
-        val reason = binding.etReason.text.toString()
-        val userId = preferenceManager.getUserId()
-        val companyId = preferenceManager.getCompanyId()
-
-        val apiService = RetrofitClient.getInstance()
-        apiService.applyLeave("true" , companyId , userId , leaveTypeId , reason , date)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<LeaveRequestResponse>{
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-
-                override fun onComplete() {
-                }
-
-                override fun onNext(t: LeaveRequestResponse) {
-                    Toast.makeText(this@LeaveActivity, t.message, Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
-                    finish()
-                }
-            })
-    }
+//    private fun callApplyLeave(){
+//        val date = binding.etFromDate.text.toString()
+//        val reason = binding.etReason.text.toString()
+//        val userId = preferenceManager.getUserId()
+//        val companyId = preferenceManager.getCompanyId()
+//
+//        val apiService = RetrofitClient.getInstance()
+//        apiService.applyLeave("true" , companyId , userId , leaveTypeId , reason , date)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object : Observer<LeaveRequestResponse>{
+//                override fun onSubscribe(d: Disposable) {
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                }
+//
+//                override fun onComplete() {
+//                }
+//
+//                override fun onNext(t: LeaveRequestResponse) {
+//                    Toast.makeText(this@LeaveActivity, t.message, Toast.LENGTH_SHORT).show()
+//                    startActivity(Intent(this@LeaveActivity , LeaveStatusActivity::class.java))
+//                    finish()
+//                }
+//            })
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePicker() {

@@ -1,4 +1,4 @@
-package com.example.hrms.responses
+package com.example.hrms.leaveModule.displayLeaveModule.data.model
 
 import java.io.Serializable
 

@@ -8,12 +8,12 @@ import com.example.hrms.responses.DepartmentEmployeeResponse
 import com.example.hrms.responses.DepartmentModel
 import com.example.hrms.responses.EnterAttendanceResponse
 import com.example.hrms.responses.InsertAbsentResponse
-import com.example.hrms.responses.LeaveDeteleResponse
-import com.example.hrms.responses.LeaveListResponse
-import com.example.hrms.responses.LeaveRequestResponse
+import com.example.hrms.leaveModule.displayLeaveModule.data.model.LeaveDeteleResponse
+import com.example.hrms.leaveModule.displayLeaveModule.data.model.LeaveListResponse
+import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveRequestResponse
 import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypeResponse
 import com.example.hrms.responses.LoginResponse
-import com.example.hrms.responses.PublicHolidaysResponse
+import com.example.hrms.holidaysModule.data.model.PublicHolidaysResponse
 import com.example.hrms.updateUserModule.data.model.UpdateDataResponse
 import com.example.hrms.responses.UpdatePasswordResponse
 import com.example.hrms.userProfileModule.data.model.UserDataResponse

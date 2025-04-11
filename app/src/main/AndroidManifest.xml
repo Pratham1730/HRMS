@@ -30,7 +30,7 @@
             android:name=".activity.SalaryBreakdownActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.HolidayActivity"
+            android:name=".holidaysModule.presentation.activity.HolidayActivity"
             android:exported="false" />
         <activity
             android:name=".activity.DepartmentActivity"
@@ -39,7 +39,7 @@
             android:name=".signUpModule.presentation.view.SelectCompanyActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.LeaveStatusActivity"
+            android:name=".leaveModule.displayLeaveModule.presentation.activity.LeaveStatusActivity"
             android:exported="false" />
         <activity
             android:name=".activity.AttendanceActivity"

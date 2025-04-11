@@ -14,6 +14,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.hrms.RetrofitClient
 import com.example.hrms.databinding.ActivityHomeBinding
+import com.example.hrms.holidaysModule.presentation.activity.HolidayActivity
+import com.example.hrms.leaveModule.displayLeaveModule.presentation.activity.LeaveStatusActivity
 import com.example.hrms.preferences.PreferenceManager
 import com.example.hrms.responses.DashboardResponse
 import com.example.hrms.responses.EnterAttendanceResponse

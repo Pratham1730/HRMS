@@ -1,22 +1,18 @@
-package com.example.hrms.adapter
+package com.example.hrms.holidaysModule.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hrms.R
-import com.example.hrms.adapter.LeaveStatusRvAdapter.ViewHolder
 import com.example.hrms.databinding.ItemPublicHolidaysBinding
-import com.example.hrms.responses.HolidaysItem
-import com.example.hrms.responses.LeaveDataItem
+import com.example.hrms.holidaysModule.data.model.HolidaysItem
+import com.example.hrms.holidaysModule.domain.model.response.HolidaysDomainItem
 
 
-class HolidaysAdapter(private var context: Context, private var list: List<HolidaysItem?>) : RecyclerView.Adapter<HolidaysAdapter.ViewHolder>() {
+class HolidaysAdapter(private var context: Context, private var list: List<HolidaysDomainItem?>) : RecyclerView.Adapter<HolidaysAdapter.ViewHolder>() {
 
 
-    fun updateList(updatedList: List<HolidaysItem?>) {
+    fun updateList(updatedList: List<HolidaysDomainItem?>) {
         this.list = updatedList
         notifyDataSetChanged()
     }
@@ -32,10 +28,10 @@ class HolidaysAdapter(private var context: Context, private var list: List<Holid
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: HolidaysItem? = list[position]
+        val item: HolidaysDomainItem? = list[position]
 
-        holder.b.txtHolidayName.text = (item?.holiday_name).toString()
-        holder.b.txtDateHoliday.text = (item?.holiday_date).toString()
+        holder.b.txtHolidayName.text = (item?.holidayName).toString()
+        holder.b.txtDateHoliday.text = (item?.holidayDate).toString()
     }
 
     class ViewHolder(var b: ItemPublicHolidaysBinding) : RecyclerView.ViewHolder(b.root)

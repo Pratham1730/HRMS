@@ -1,6 +1,10 @@
 package com.example.hrms.common
 
+import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveRequestResponse
 import com.example.hrms.leaveModule.applyLeaveModule.data.model.LeaveTypeResponse
+import com.example.hrms.leaveModule.displayLeaveModule.data.model.LeaveListResponse
+import com.example.hrms.leaveModule.displayLeaveModule.data.model.LeaveDeteleResponse
+import com.example.hrms.holidaysModule.data.model.PublicHolidaysResponse
 import com.example.hrms.signInModule.data.model.LoginResponse
 import com.example.hrms.signUpModule.data.model.CompanyResponse
 import com.example.hrms.signUpModule.data.model.ApiResponse
@@ -72,4 +76,39 @@ interface ApiService1 {
     suspend fun leaveType(
         @Field("method") method: String
     ): Response<LeaveTypeResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/leave_request.php")
+    suspend fun applyLeave(
+        @Field("insert") insert: String,
+        @Field("company_id") company_id: Int,
+        @Field("u_id") u_id: Int,
+        @Field("leave_type_id") leave_type_id: Int,
+        @Field("l_reason") l_reason: String,
+        @Field("l_start_date") l_start_date: String
+
+    ): Response<LeaveRequestResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/select_leave_master.php")
+    suspend fun selectLeave(
+        @Field("method") method: String,
+        @Field("u_id") u_id :Int
+    ):Response<LeaveListResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/delete_leave.php")
+    suspend fun deleteLeave(
+        @Field("delete") delete : String,
+        @Field("l_id") l_id : Int,
+        @Field("u_id") u_id : Int,
+        @Field("company_id") company_id : Int
+    ) : Response<LeaveDeteleResponse>
+
+    @FormUrlEncoded
+    @POST("HMRS/select_holidays.php")
+    suspend fun getHolidays(
+        @Field("method") method : String,
+        @Field("company_id") company_id : Int
+    ) : Response<PublicHolidaysResponse>
 }
